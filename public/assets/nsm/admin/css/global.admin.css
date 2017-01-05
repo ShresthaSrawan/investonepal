@@ -1,0 +1,181 @@
+.page-content .row{
+    margin-top: 15px;
+}
+.actionbar{
+    width: 100%;
+    text-align: center;
+}
+.note-editor{
+    background-color: #fff;
+}
+.borderless td, .borderless th {
+    border: none !important;
+}
+
+.table tr td{
+	/*line-height: 2.5 !important;*/
+}
+.badge-2x{
+    font-size: 16px;
+}
+.table-nested > thead > tr > th,
+.table-nested > tbody > tr > th,
+.table-nested > tfoot > tr > th,
+.table-nested > thead > tr > td,
+.table-nested > tbody > tr > td,
+.table-nested > tfoot > tr > td{
+    padding: 0 5px;
+}
+
+.table-nested thead > tr > th{
+    padding-right: 0px !important;
+}
+.datatable tr{
+	background-color: rgba(0,0,0,0) !important;
+}
+.transparent-input{
+    background-color: rgba(0,0,0,0) !important;
+    border: noone;
+}
+.progress-striped .progress-bar-primary {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .75)   25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+}
+label.required:after{
+    content: ' * ';
+    color: red;
+}
+.box-header-create{
+    margin-top: 10px !important;
+}
+
+/*Form Validation*/
+.wizard > .content > .body label.error{
+    font-weight: normal;
+    font-style: italic;
+    margin-left: 0 !important;
+}
+
+/*alert validation*/
+.alert-validation {
+    background-color: #fff !important;
+    color: #E86C6C !important;
+    border-color: #E86C6C;
+}
+
+.callout-custom-info {
+    background-color: #fff !important;
+    color: #00C0EF !important;
+    border: 1px solid #00C0EF;
+}
+.callout a{
+    text-decoration: none;
+}
+
+/*spinner*/
+.sk-cube-grid {
+    width: 40px;
+    height: 40px;
+    margin: 100px auto;
+}
+
+.sk-cube-grid .sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: #6FD1BD;
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+}
+.sk-cube-grid .sk-cube1 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    } 35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+      }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+    0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+    } 35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+      }
+}
+.spinner{
+    min-height:400px;
+}
+
+.spinner>div>h5{
+    font-weight: 200;
+    color: #BDC3C3;
+    margin-left: -20px;
+    font-size: 24px;
+}
+.responsive-visibility() {
+  display: block !important;
+  tr& { display: table-row !important; }
+  th&,
+  td& { display: table-cell !important; }
+}
+
+.responsive-invisibility() {
+  display: none !important;
+  tr& { display: none !important; }
+  th&,
+  td& { display: none !important; }
+}
+/*Market Data(Bullion,Currency,Index,Energy) Create Form*/
+@media screen and (min-width: 480px) {
+    .md-date-label{
+		color:red;
+		font-size:30px;
+	}
+	.md-date-input{
+		zoom: 1.4;
+		width: 235px;
+		font-weight: bold;
+	}
+}
+@media screen and (max-width: 480px) {
+    .md-date-label{
+		color:red;
+		font-size:20px;
+	}
+	.md-date-input{
+		zoom: 1.1;
+		width: 235px;
+		font-weight: bold;
+	}
+}

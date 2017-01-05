@@ -1,0 +1,33 @@
+.chosen-container-multi .chosen-choices 
+{
+    padding: 3px 5px;
+}
+.commodity-type-selector {
+    padding: 10px 0 10px 0;
+}
+p.commodity-table{
+    font-size: 1.2em;
+    font-weight: 500;
+    border-bottom: 1px solid #ddd;
+}
+span.commodity-type{
+    font-weight: 600;
+}
+table{
+    background: #fff;
+}
+.gold, .GOLD{
+    background: -webkit-linear-gradient(#F2E700, #C59603);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.silver, .SILVER{
+    background: -webkit-linear-gradient(#c0c0c0, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.index-wrapper p{
+    color: #188811;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.5em;
+}

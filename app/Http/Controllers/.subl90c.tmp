@@ -1,0 +1,379 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use DB;
+use Auth;
+use App\Models\Announcement;
+use App\Models\AnnouncementType;
+use App\Models\Bullion;
+use App\Models\CompanyReview;
+use App\Models\BodPost;
+use App\Models\Energy;
+use App\Models\Currency;
+use App\Models\Company;
+use App\Models\IndexType;
+use App\Models\BullionType;
+use App\Models\EnergyType;
+use App\Models\CurrencyType;
+use App\Models\News;
+use App\Models\NewsCategory;
+use App\Models\Sector;
+use App\Models\TodaysPrice;
+use App\Models\InterviewArticle;
+use App\Models\Index;
+use App\Models\FiscalYear;
+use App\Models\EconomyValue;
+use App\Models\EconomyLabel;
+use App\Models\FinancialReport;
+use Carbon\Carbon;
+
+use App\Http\Requests;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class FrontController extends Controller
+{
+    public function __construct(){
+        $this->initialize();
+    }
+
+    public function index()
+    {
+        $lastDate = TodaysPrice::getLastTradedDate();
+
+        $bullion = Bullion::with('bullionPrice.type')->orderBy('date','desc')->first();
+
+        $energy = Energy::with('energyPrice.type')->orderBy('date','desc')->first();
+
+        $currency = Currency::with('currencyRate.type')->orderBy('date','desc')->first();
+
+        $news = News::with('imageNews','category')->orderBy('pub_date','desc')->limit(20)->get();
+        $newsCategories = NewsCategory::whereIn('label',['Stock','bullion','currency','Energy'])->get();
+
+        $index = Index::with('indexValue.type')->orderBy('date','desc')->first();
+        $filter = $this->filter;
+        $captionize = $this->captionize;
+        $announcements =
+            Announcement::with('type','subtype','company','issue.fiscalYear',
+                'issue.auction','agm','bonusDividend','bondDebenture',
+                'treasuryBill','financialHighlight')
+            ->orderBy('pub_date','desc')->where('pub_date','<',date('Y-m-d H:i:s'))->limit(12)->get();
+
+        return view('front.index',compact('lastDate','bullion','index','news','announcements','newsCategories','filter','captionize','energy','currency'));
+    }
+
+    public function getEvent(Request $request)
+    {
+        if($request->has('news') || $request->has('announcement')):
+            $start = Carbon::createFromTimestamp($request->start)->format('Y-m-d H:i:s');
+            $end = Carbon::createFromTimestamp($request->end)->format('Y-m-d H:i:s');
+
+            $reFormat = function($params,$route){
+                $result = [];
+                foreach($params as $param):
+                    $title = $param->title;
+                    $id = $param->id;
+                    $micro = $param->id.strtotime($param['created_at']);
+                    $temp['sn'] = $id;
+                    $temp['title'] = $title;
+                    $temp['details'] = mb_strimwidth(strip_tags($param->details),0,160,'...');
+                    $temp['image'] = $param->imageThumbnail(313,450);
+                    if($param->type):
+                        $start = $param->event_date;
+                        $time = ($param->agm) ? 'T'.$param->agm->time : null;
+                        $temp['start'] = $start.$time;
+                        $temp['link'] = route($route,[$param->type->label,$param->slug]);
+                    else:
+                        $temp['link'] = route($route,[strtolower($param->category->label),$param->slug]);
+                        $temp['start'] = $param->event_date;
+                    endif;
+
+                    $result[] = $temp;
+                endforeach;
+                return $result;
+            };
+            $response = false;
+
+            if($request->has('news')):
+                $response = $reFormat(News::with('category')->whereBetween('event_date',[$start,$end])->get(),'front.news.show');
+            elseif($request->has('announcement')):
+                $response = $reFormat(Announcement::with('agm','type','subtype')->whereBetween('event_date',[$start,$end])->get(),'front.announcement.show');
+            endif;
+
+            return $response;
+        endif;
+
+        return view('front.event.index');
+    }
+
+    public function getStock($category = "")
+    {
+        if ($category == "")
+            return view('front/stock');
+
+        $lastDate = TodaysPrice::getLastTradedDate();
+
+        $sectorList = Sector::lists('label', 'id')->toArray();
+        $companyList = Company::lists('name', 'id')->toArray();
+        $indexList = IndexType::lists('name')->toArray();
+
+        $lastWeek = Carbon::now()->subWeek()->format('Y-m-d');
+        $today = Carbon::now()->format('Y-m-d');
+
+        if (strcasecmp('index', $category) == 0) {
+            $indexTypes = IndexType::lists('name', 'id')->toArray();
+            return view('front/stock/indexes', compact('indexTypes', 'lastDate'));
+        } elseif (strcasecmp('today', $category) == 0) {
+            return view('front/stock/today', compact('lastDate', 'sectorList'));
+        } elseif (strcasecmp('floorsheet', $category) == 0) {
+            return view('front/stock/floorsheet', compact('lastDate'));
+        } elseif (strcasecmp('newhighlow', $category) == 0) {
+            return view('front/stock/newhighlow', compact('lastDate'));
+        } elseif (strcasecmp('advancedecline', $category) == 0) {
+            return view('front/stock/advancedecline', compact('lastDate'));
+        } elseif (strcasecmp('topperformers', $category) == 0) {
+            return view('front/stock/topperformers', compact('lastDate'));
+        } elseif (strcasecmp('lastprice', $category) == 0) {
+            return view('front/stock/lastprice', compact('lastDate', 'sectorList'));
+        } elseif (strcasecmp('averageprice', $category) == 0) {
+            return view('front/stock/average', compact('companyList', 'today', 'lastWeek'));
+        } elseif (strcasecmp('marketreport', $category) == 0) {
+            return view('front/stock/marketreport', compact('today', 'lastWeek', 'sectorList','indexList'));
+        } else {
+            return redirect()->route('stock');
+        }
+
+    }
+
+    public function getQuote($quote="")
+    {
+        
+        $company = Company::whereQuote($quote)->with(['details','bod'=>function($q){
+            $q->with(['bodPost','bodFiscalYear.fiscalYear']);
+        }])->first();
+
+        $newsList = News::where('company_id',$company->id)->orderBy('pub_date','desc')->limit(10)->take(10)->get();
+
+        $annList = Announcement::where('company_id',$company->id)->orderBy('pub_date','desc')->limit(10)->take(10)->get();
+
+        $financialReport = FinancialReport::where('company_id',$company->id)
+                                            ->with(['fiscalYear'=>function($q){
+                                                $q->orderBy('label','desc');
+                                                $q->limit(2);
+                                            }])->with('balanceSheet','profitLoss','principalIndicators','incomeStatement','consolidateRevenue')
+                                            ->get();
+
+        dd($financialReport);
+
+        $review = "";
+        if(Auth::check())
+        {
+            $today = Carbon::now()->format('Y-m-d');
+            $startOfthisMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
+            $personalReview = CompanyReview::whereBetween('date',[$startOfthisMonth,$today])->where('company_id',$company->id)->where('user_id',Auth::id())->first();
+        }
+
+        $lastDate = TodaysPrice::getLastTradedDate($company->id);
+        return view('front/quote/view',compact('company','lastDate','bodPost','newsList','annList','personalReview'));
+    }
+
+    public function newsIndex()
+    {
+        $filterHasMany = $this->filterIfHasManyRelationIsEmpty;
+        $categories = $filterHasMany(NewsCategory::all(),'recentNews',[5]);
+
+        return view('front/news/index',compact('categories'));
+    }
+
+    public function newsCategory($type=null)
+    {
+        //Here type refers to news categories.
+        $label=str_replace('-',' ',strtolower($type));
+        $category = NewsCategory::where('label','like',"%$label%")->first()->id;
+        $allCategories = NewsCategory::all();
+        $categoryNews = News::with('category','user')->where('category_id',$category)->orderBy('pub_date','desc')->limit(15)->take(15)->get();
+
+        $newsList = array();
+        foreach ($allCategories as $id => $cat) {
+            $newsList[$id]=News::getSortedNewsByCategory($id);
+        }
+        return view('front/news/category',compact('newsList','allCategories','categoryNews'));
+    }
+
+    public function newsShow($type,$slug)
+    {
+        $label = str_replace('-',' ',strtolower($type));
+
+        $category = NewsCategory::with(['news'=>function($query) use ($slug){
+            $query->with('imageNews')->where('slug',$slug)->limit(1);
+        }])->where('label',$label)->first();
+
+        if(is_null($category) || is_null($category->news->first())) abort('404');
+
+
+        $news = $category->news->first();
+
+        $newsList = News::with('category')->where('category_id',$news->category_id)->where('id','!=',$news->id)->orderBy('pub_date','desc')->take(12)->get();
+
+        return view('front/news/show',compact('news','newsList'));
+    }
+
+    public function announcementCategory($type=null)
+    {
+        //Here type refers to announcement category like ipo,fop etc.
+        $label=strtolower(str_replace('-', ' ', $type));
+        $type_id = AnnouncementType::where('label','like',"%$label%")->first()->id;
+        $allTypes = AnnouncementType::all();
+
+        $typeAnn = Announcement::with('type','subtype','company','issue.fiscalYear',
+                'issue.auction','agm','bonusDividend','bondDebenture',
+                'treasuryBill','financialHighlight')
+            ->where('type_id',$type_id)->orderBy('pub_date','desc')->where('pub_date','<',date('Y-m-d H:i:s'))->limit(15)->take(15)->get();
+
+        $annList = array();
+        foreach ($allTypes as $id => $type) {
+            $annList[$id]=Announcement::getSortedAnnouncementByType($id);
+        }
+
+        return view('front/announcement/type',compact('typeAnn','allTypes','annList'));
+    }
+
+    public function announcementShow($type,$slug)
+    {
+        $label = str_replace('-', ' ', strtolower($type));
+
+        $type = AnnouncementType::with(['announcement'=>function($q) use ($slug){
+            $q->with('issue.fiscalYear','issue.auction','agm','bonusDividend','bondDebenture','treasuryBill','financialHighlight.fiscalYear')
+                ->where('slug',$slug)->limit(1);
+        }])->where('label',$label)->first();
+
+        if(is_null($type) ||  is_null($type->announcement->first())) abort('404');
+
+        $announcement = $type->announcement->first();
+
+        $announcementList = Announcement::with('type')->where('type_id',$announcement->type_id)->where('id','!=',$announcement->id)->orderBy('pub_date','desc')->take(12)->get();
+
+        return view('front/announcement/show',compact('announcement','announcementList'));
+    }
+
+    public function interviewArticleIndex($type=null)
+    {
+        //Here type is whether interview or article
+        $type = strtolower($type);
+        if($type=="interview"):
+            $interviewList = InterviewArticle::with('featuredImage','category')
+                                                ->where('type',0)
+                                                ->orderBy('pub_date','desc')
+                                                ->limit(10)
+                                                ->get();
+
+            return view('front/interviewArticle/index',compact('interviewList','type'));
+        elseif($type=="article"):
+            $articleList = InterviewArticle::with('featuredImage','category')
+                                            ->where('type',1)
+                                            ->orderBy('pub_date','desc')
+                                            ->limit(10)
+                                            ->get();
+
+            return view('front/interviewArticle/index',compact('articleList','type'));
+        endif;
+    }
+
+    public function interviewArticleShow($type,$slug)
+    {
+        //Here type refers to category of interview or article
+        $label = str_replace('-',' ',strtolower($type));
+
+        $category = NewsCategory::with(['interviewArticle'=>function($query) use ($slug){
+            $query->with('featuredImage')->where('slug',$slug)->limit(1);
+        }])->where('label',$label)->first();
+
+        if(is_null($category) || is_null($category->interviewArticle->first())) abort('404');
+
+        $ia = $category->interviewArticle->first();
+
+        $iaList = InterviewArticle::with('category','user')->where('category_id',$ia->category_id)->where('id','!=',$ia->id)->orderBy('pub_date','desc')->limit(9)->take(9)->get();
+
+        return view('front/interviewArticle/show',compact('ia','iaList'));
+    }
+
+    public function getBullion($type=null)
+    {
+        $bullionID = BullionType::where('name','like',"%$type%")->first()->id;
+        $bullionTypes = BullionType::lists('name', 'id')->toArray();
+
+        $category = NewsCategory::where('label','like','%bullion%')->first()->id;
+        $newsList = News::with('category')->where('category_id',$category)->orderBy('pub_date','desc')->take(5)->get();
+
+        return view('front/bullion/index',compact('bullionTypes','bullionID','newsList'));
+    }
+
+    public function getEnergy($type=null)
+    {
+        $energyID = EnergyType::where('name','like',"%$type%")->first()->id;
+        $energyTypes = EnergyType::lists('name', 'id')->toArray();
+
+        $category = NewsCategory::where('label','like','%energy%')->first()->id;
+        $newsList = News::with('category')->where('category_id',$category)->orderBy('pub_date','desc')->take(5)->get();
+
+        return view('front/energy/index',compact('energyTypes','energyID','newsList'));
+    }
+
+    public function getCurrency($type=null)
+    {
+        $currencyID = CurrencyType::where('name','like',"%$type%")->first()->id;
+        $currencyTypes = CurrencyType::lists('country_name', 'id')->toArray();
+
+        $category = NewsCategory::where('label','like','%currency%')->first()->id;
+        $newsList = News::with('category')->where('category_id',$category)->orderBy('pub_date','desc')->take(5)->get();
+
+        return view('front/currency/index',compact('currencyTypes','currencyID','newsList'));
+    }
+
+    public function getPipeline()
+    {
+        $fiscalYear = FiscalYear::orderBy('id','desc')->lists('label','id')->toArray();
+
+        return view('front/ipoPipeline/index',compact('fiscalYear'));
+    }
+
+    public function getIssueManager()
+    {
+        return view('front/issueManager/index');
+    }
+
+    public function getBrokerageFirm()
+    {
+        return view('front/brokerageFirm/index');
+    }
+
+    public function getBasePrice()
+    {
+        $fiscalYear = FiscalYear::orderBy('id','desc')->lists('label','id')->toArray();
+
+        return view('front/basePrice/index',compact('fiscalYear'));
+    }
+
+    public function getIpoResult()
+    {
+        return view('front/ipoResult/index');
+    }
+
+    public function getBudget()
+    {
+        $fiscalYear = FiscalYear::has('budget')->lists('label','id');
+
+        return view('front/budget/index',compact('fiscalYear'));
+    }
+
+    public function getEconomy()
+    {
+        
+        $label = EconomyLabel::all();
+        $filtered = $this->filterIfHasManyRelationIsEmpty;
+        $filteredLabel = $filtered($label,'getRecentEconomyValue');
+
+        return view('front/economy/index',compact('filteredLabel'));
+    }
+}

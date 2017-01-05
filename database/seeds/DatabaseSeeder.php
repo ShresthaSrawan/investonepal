@@ -1,0 +1,10976 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\UserType;
+use App\Models\UserInfo;
+use App\Models\NewsCategory;
+use App\Models\BullionType;
+use App\Models\CurrencyType;
+use App\Models\EnergyType;
+use App\Models\IndexType;
+use App\Models\AnnouncementType;
+use App\Models\AnnouncementSubType;
+use App\Models\FiscalYear;
+use App\Models\Quarter;
+use App\Models\Month;
+use App\Models\BodPost;
+use App\Models\Company;
+use App\Models\CompanyDetail;
+
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
+        Model::unguard();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // $this->call('FiscalYearSeeder');
+        // $this->call('QuarterSeeder');
+        // $this->call('UserTableSeeder');
+        // $this->call('SectorSeeder');
+        $this->call('CompanySeeder');
+        // $this->call('AnnouncementSeeder');
+        // $this->call('NewsCategorySeeder');
+        // $this->call('BullionEnergyCurrencyIndexTypeSeeder');
+        // $this->call('BodPostSeeder');
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        Model::reguard();
+    }
+}
+
+class UserTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('user_type')->truncate();
+        $usertype = new UserType;
+        $usertype->label = 'super';
+        $usertype->news_rights = '1111';
+        $usertype->portfolio_rights = '1111';
+        $usertype->data_rights = '1111';
+        $usertype->user_rights = '1111';
+        $usertype->crawl_rights = '1111';
+        $usertype->save();
+
+        DB::table('user_info')->truncate();
+        $userinfo = new UserInfo;
+        $userinfo->first_name = 'Ad';
+        $userinfo->last_name = 'min';
+        $userinfo->address = 'Internet';
+        $userinfo->dob = '1990-01-01';
+        $userinfo->phone = '69';
+        $userinfo->save();
+
+        DB::table('user')->truncate();
+        $user = new User;
+        $user->info_id = $userinfo->id;
+        $user->type_id = $usertype->id;
+        $user->username = 'admin';
+        $user->password = Hash::make('admin');
+        $user->email = 'super@admin.com';
+        $user->status = '1';
+        $user->profile_picture = '';
+        $user->save();
+
+    }
+
+}
+
+class BodPostSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('bod_post')->truncate();
+        $bodpost1 = new BodPost;
+        $bodpost1->label = 'Chairman';
+        $bodpost1->type = '1';
+        $bodpost1->save();
+
+        $bodpost2 = new BodPost;
+        $bodpost2->label = 'CEO';
+        $bodpost2->type = '1';
+        $bodpost2->save();
+
+        $bodpost3 = new BodPost;
+        $bodpost3->label = 'Manager';
+        $bodpost3->type = '0';
+        $bodpost3->save();
+
+        $bodpost4 = new BodPost;
+        $bodpost4->label = 'HR';
+        $bodpost4->type = '0';
+        $bodpost4->save();
+    }
+}
+
+class FiscalYearSeeder extends Seeder 
+{
+
+    public function run()
+    {
+        DB::table('fiscal_year')->truncate();
+        $fiscal1 = new FiscalYear;
+        $fiscal1->label = '2065/066';
+        $fiscal1->save();
+
+        $fiscal2 = new FiscalYear;
+        $fiscal2->label = '2066/067';
+        $fiscal2->save();
+
+        $fiscal3 = new FiscalYear;
+        $fiscal3->label = '2067/068';
+        $fiscal3->save();
+
+        $fiscal4 = new FiscalYear;
+        $fiscal4->label = '2068/069';
+        $fiscal4->save();
+
+        $fiscal5 = new FiscalYear;
+        $fiscal5->label = '2069/070';
+        $fiscal5->save();
+
+        $fiscal6 = new FiscalYear;
+        $fiscal6->label = '2070/071';
+        $fiscal6->save();
+
+        $fiscal7 = new FiscalYear;
+        $fiscal7->label = '2071/072';
+        $fiscal7->save();
+
+        $fiscal8 = new FiscalYear;
+        $fiscal8->label = '2072/073';
+        $fiscal8->save();
+
+        $fiscal9 = new FiscalYear;
+        $fiscal9->label = '2074/075';
+        $fiscal9->save();
+    }
+}
+class QuarterSeeder extends Seeder 
+{
+
+    public function run()
+    {
+        DB::table('quarter')->truncate();
+        $quarter1 = new Quarter;
+        $quarter1->id = '1';
+        $quarter1->label = '1st Quarter';
+        $quarter1->save();
+
+        $quarter2 = new Quarter;
+        $quarter2->id = '2';
+        $quarter2->label = '2nd Quarter';
+        $quarter2->save();
+
+        $quarter3 = new Quarter;
+        $quarter3->id = '3';
+        $quarter3->label = '3rd Quarter';
+        $quarter3->save();
+
+        $quarter4 = new Quarter;
+        $quarter4->id = '4';
+        $quarter4->label = '4th Quarter';
+        $quarter4->save();
+
+        $quarter5 = new Quarter;
+        $quarter5->id = '5';
+        $quarter5->label = 'Annual';
+        $quarter5->save();
+
+        DB::table('month')->truncate();
+        $month1 = new Month;
+        $month1->quarter_id = 1;
+        $month1->label = 'Shrawan';
+        $month1->save();
+
+        $month2 = new Month;
+        $month2->quarter_id = 1;
+        $month2->label = 'Bhadra';
+        $month2->save();
+
+        $month3 = new Month;
+        $month3->quarter_id = 1;
+        $month3->label = 'Aswin';
+        $month3->save();
+
+        $month4 = new Month;
+        $month4->quarter_id = 2;
+        $month4->label = 'Kartik';
+        $month4->save();
+
+        $month5 = new Month;
+        $month5->quarter_id = 2;
+        $month5->label = 'Mangshir';
+        $month5->save();
+
+        $month6 = new Month;
+        $month6->quarter_id = 2;
+        $month6->label = 'Poush';
+        $month6->save();
+
+        $month7 = new Month;
+        $month7->quarter_id = 3;
+        $month7->label = 'Margh';
+        $month7->save();
+
+        $month8 = new Month;
+        $month8->quarter_id = 3;
+        $month8->label = 'Falgun';
+        $month8->save();
+
+        $month9 = new Month;
+        $month9->quarter_id = 3;
+        $month9->label = 'Chitra';
+        $month9->save();
+
+        $month10 = new Month;
+        $month10->quarter_id = 4;
+        $month10->label = 'Baishak';
+        $month10->save();
+
+        $month11 = new Month;
+        $month11->quarter_id = 4;
+        $month11->label = 'Jestha';
+        $month11->save();
+
+        $month12 = new Month;
+        $month12->quarter_id = 4;
+        $month12->label = 'Ashad';
+        $month12->save();
+    }
+}
+// class SectorSeeder extends Seeder
+// {
+//     public function run()
+//     {
+//         DB::table('issue_manager')->truncate();
+//         $issuemanager = new IssueManager;
+//         $issuemanager->id = '1';
+//         $issuemanager->name = 'Matt Murdock';
+//         $issuemanager->company = 'Murdock and Nelson';
+//         $issuemanager->save();
+
+//         DB::table('sector')->truncate();
+//         $sector1 = new Sector;
+//         $sector1->id = '1';
+//         $sector1->label = 'Commercial Banks';
+//         $sector1->save();
+
+//         $sector2 = new Sector;
+//         $sector2->id = '2';
+//         $sector2->label = 'Development Bank Limited';
+//         $sector2->save();
+
+//         $sector3 = new Sector;
+//         $sector3->id = '3';
+//         $sector3->label = 'Finance';
+//         $sector3->save();
+
+//         $sector4 = new Sector;
+//         $sector4->id = '4';
+//         $sector4->label = 'Hotels';
+//         $sector4->save();
+
+//         $sector5 = new Sector;
+//         $sector5->id = '5';
+//         $sector5->label = 'Hydro Power';
+//         $sector5->save();
+
+//         $sector6 = new Sector;
+//         $sector6->id = '6';
+//         $sector6->label = 'Insurance';
+//         $sector6->save();
+
+//         $sector7 = new Sector;
+//         $sector7->id = '7';
+//         $sector7->label = 'Manufacture And Processing';
+//         $sector7->save();
+
+//         $sector8 = new Sector;
+//         $sector8->id = '8';
+//         $sector8->label = 'Mutual Fund';
+//         $sector8->save();
+
+//         $sector9 = new Sector;
+//         $sector9->id = '9';
+//         $sector9->label = 'Others';
+//         $sector9->save();
+
+//         $sector10 = new Sector;
+//         $sector10->id = '10';
+//         $sector10->label = 'Preferred Stock';
+//         $sector10->save();
+
+//         $sector11 = new Sector;
+//         $sector11->id = '11';
+//         $sector11->label = 'Promotor Share';
+//         $sector11->save();
+
+//         $sector12 = new Sector;
+//         $sector12->id = '12';
+//         $sector12->label = 'Tradings';
+//         $sector12->save();
+//     }
+// }
+
+class NewsCategorySeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('news_category')->truncate();
+        $newscategory1 = new NewsCategory;
+        $newscategory1->label = 'Stock';
+        $newscategory1->save();
+
+        $newscategory2 = new NewsCategory;
+        $newscategory2->label = 'Bullion';
+        $newscategory2->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Currency';
+        $newscategory3->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Energy';
+        $newscategory3->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Tourism';
+        $newscategory3->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Real Estate';
+        $newscategory3->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Agriculture';
+        $newscategory3->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Government';
+        $newscategory3->save();
+
+        $newscategory3 = new NewsCategory;
+        $newscategory3->label = 'Regulator Bodies';
+        $newscategory3->save();
+    }
+}
+
+class CompanySeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('company')->truncate();
+        DB::table('company_detail')->truncate();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@adbl.gov.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Ramshah Path, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.adbl.gov.np';
+        $companydetail->profile = 'With the main objective of providing institutional credit for enhancing the production and productivity of the agricultural sector in the country, the Agricultural Development Bank, Nepal was established in 1968 under the ADBN Act 1967, as successor to the cooperative Bank. The Land Reform Savings Corporation was merged with ADBN in 1973. Subsequent amendments to the Act empowered the bank to extend credit to small farmers under group liability and expand the scope of financing to promote cottage industries. The amendments also permitted the bank to engage in commercial banking activities for the mobilization of domestic resources. Agricultural Development Bank Limited (ADBL) is an autonomous organization largely owned by Government of Nepal. The bank has been working as a premier rural credit institution since the last three decades, contributing a more than 67 percent of institutional credit supply in the country. Hence, rural finance is the principal operational area of ADBL. Besides, it has also been executing Small Farmer Development Program (SFDP), the major poverty alleviation program launched in the country. Furthermore, the bank has also been involved in commercial banking operations since 1984. The enactment of Bank and Financial Institution Ordinance (BAFIO) in February 2004 abolished all Acts related to financial institutions including the ADBN Act, 1967. In line with the BAFIO, ADBL has been incorporated as a public limited company on July 14, 2005. Thus, ADBL operates as a ""A"" category financial Institution under the legal framework of BAFIO and the Company Act, 2053.';
+        $companydetail->phone = '977-1-4262885';
+        $companydetail->operation_date = '24858';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ADBL';
+        $company->name = 'Agriculture Development Bank Ltd.';
+        $company->listed_shares = '34165100';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'adbl.gif';
+        $company->total_paid_up_value = '3416510000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bok.com.np';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.bok.com.np';
+        $companydetail->profile = 'Bank of Kathmandu Limited has become a prominent name in the Nepalese banking sector. We would like to express our sincere gratitude to our customers, shareholders, employees and other stakeholders for their support and co-operation for leading the bank to the present height of achievements. We wish to reiterate here that whatever activity we undertake; we put in conscious efforts to glorify our corporate slogan, “We make your life easier”. also like to elucidate that Bank of Kathmandu is committed to delivering quality service to customers, generating good return to shareholders, providing attractive incentives to employees and serving the community through stronger corporate social responsibility e ank of Kathmandu Limited (BOK) has today become a landmark in the Nepalese banking sector by being among the few commercial banks which is entirely managed by Nepalese professionals and owned by the general OK started its operation in March 1995 with the objective to stimulate the Nepalese economy and take it to newer heights. BOK also aims to facilitate the nation’s economy and to become more competitive globally.';
+        $companydetail->phone = '977-1-4414541';
+        $companydetail->operation_date = '34770';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BOK';
+        $company->name = 'Bank of Kathmandu Ltd.';
+        $company->listed_shares = '21201064';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bok.gif';
+        $company->total_paid_up_value = '2120106400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@centurybank.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.centurybank.com.np';
+        $companydetail->profile = 'Century Commercial Bank Limited (CCBL) was established under Company Laws of Nepal, is a national level commercial bank having its head office at Putalisadak, Kathmandu, Nepal. It has obtained license from Nepal Rastra bank, the Central Bank of Nepal, on 23rd January 2011 to conduct business as a national level commercial bank as per Bank & Financial Institution Act, 2063.';
+        $companydetail->phone = '977-1-4420982';
+        $companydetail->operation_date = '40612';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CCBL';
+        $company->name = 'Century Commercial Bank Ltd.';
+        $company->listed_shares = '21200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ccbl.gif';
+        $company->total_paid_up_value = '2120000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ctznbank.com';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.ctznbank.com';
+        $companydetail->profile = 'Massive changes and developments have taken place during the past two decades in the financial sector. Amidst all these changes, for economic growth and development of New Nepal, Liberalization, Privatization and Globalization in this sector has given birth to the largest commercial bank, “Citizens Bank International Ltd”. The Bank is located at Sharada Sadan, Kamaladi, Kathmandu, the heart of financial sector of the country.It is promoted by eminent personalities/business and industrial houses and reputed individual having high social standing. It is managed by a team of experienced bankers and professionals.';
+        $companydetail->phone = '977-1-4262699';
+        $companydetail->operation_date = '39192';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CZBIL';
+        $company->name = 'Citizen Bank International Ltd.';
+        $company->listed_shares = '25543615';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'czbil.gif';
+        $company->total_paid_up_value = '2554361500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@civilbank.com.npi';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.civilbank.com.np';
+        $companydetail->profile = 'Founded by promoters coming from a diverse professional backgrounds (such as real-estate, manufacturing, trading, financial industry) with a vision to become a most trusted bank by providing dedicated service to all the clients/customer through thick and thin, Civil Bank envisions in becoming a dominant player in the banking industry of Nepal and firmly believes in contributing to its economic growth by rendering services to, and empowering all classes and sectors of society. Civil Bank is a policy driven Bank which functions with the principle of ""zero tolerance"" in terms of compliances with all the regulations, policy, manuals/guidelines and prudential banking norms and always believes and functions with ethical business values. Driven by the customer centered philosophy, Civil Bank Limited always endeavors to provide essential banking services and access to finance to Nepali denizens from all strata across the country through the support of sophisticated technology. To ensure the quality and efficiency in the service delivery to its customer/clients, Bank has adopted the latest technology with a view to establish it as a technology driven Bank. The Bank steadfastly endeavors to create value for all stakeholders including its promoters and shareholders in its wholehearted attempts to become "the Bank" of the people through sustainable earnings. Civil Bank has now substantially grown to become a bigger institution in terms of capital, asset size and business volumes. With the completion of merger with former Axis Development Bank Limited and former Civil Merchant Bittiya Sanstha Limited, Civil Bank now figures in the Top Seven Banks in terms of paid-up capital out of 30 commercial Banks in Nepal. Similarly, the total Asset Size, Deposit Portfolio and Risk Assets Portfolio of the Bank have grown exponentially to NPR 27.52 Billion, NPR 21.23 Billion and NPR 19.44 Billion (as of May end, 2014) respectively during last 3 ½ years of operations. In a short span of time, the total strength of the Bank’s workforce has also increased significantly to exceed 400 and its network of branches have reached 41 which has enabled the Bank to meet the demands and financial/banking requirements of the customer across the country more efficiently. With an array of techno-tailored products and services supported with the state-of-the art technology, Civil Bank has placed itself as one of the leading Banks in terms of technology driven products and services. The Bank follows prudent practices to conform to the central bank’s directives while ensuring constant adherence to its values, culture and traditions ingrained since inception. The Bank has been moving forward through strategic growth while being socially responsible.';
+        $companydetail->phone = '977-1-4255551';
+        $companydetail->operation_date = '40508';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CBL';
+        $company->name = 'Civil Bank Ltd.';
+        $company->listed_shares = '21400000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cbl.gif';
+        $company->total_paid_up_value = '2140000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@everstbankltd.com';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Lazimpat, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.everestbankltd.com';
+        $companydetail->profile = 'Catering to more than 6.5 lacs customers, Everest Bank Limited (EBL) is a name you can depend on for professionalized & efficient banking services. Founded in 1994, the Bank has been one of the leading banks of the country and has been catering its services to various segments of the society. With clients from all walks of life, the Bank has helped develop the nation corporately, agriculturally & industrially. Joint Venture Partner Punjab National Bank (PNB), our joint venture partner (holding 20% equity) is the largest nationalized bank in India having presence virtually in all important centers. Owing to its performance during the year 2012-13, the Bank earned many laurels & accolades in recognition to its service & overall performance. Recently, PNB was awarded with ""IDRBT Banking Technology Excellence Award"" under Customer Management & Intelligence Initiatives. The Bank also bagged ""Golden Peacock Business Excellence Award 2013"" by Institute of Directors. Similarly, the Bank was recognized as \'Best Public Sector Bank\' by CNBC TV 18. The bank has now more than 6,000 branches and 7000 ATMs spread all across the India. As a joint-venture partner, PNB has been providing top management support to EBL under Technical Service Agreement.';
+        $companydetail->phone = '977-1-4443377';
+        $companydetail->operation_date = '34625';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EBL';
+        $company->name = 'Everest Bank Ltd.';
+        $company->listed_shares = '19725876';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ebl.gif';
+        $company->total_paid_up_value = '1972587600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@gibl.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Panipokhari, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.globalimebank.com';
+        $companydetail->profile = 'Global IME Bank Ltd. (GIBL) emerged after successful merger of Global Bank Ltd (an “A” class commercial bank), IME Financial Institution (a “C” class finance company) and Lord Buddha Finance Ltd. (a “C” class finance company) in year 2012. Two more development banks (Social Development Bank and Gulmi Bikas Bank) merged with Global IME Bank Ltd in year 2013. Later, in the year 2014, Global IME Bank made another merger with Commerz and Trust Bank Nepal Ltd. (an “A” class commercial bank). Global Bank Limited (GBL) was established in 2007 as an ‘A’ class commercial bank in Nepal which provided entire commercial banking services. The bank was established with the largest capital base at the time with paid up capital of NPR 1.0 billion. The paid up capital of the bank has since been increased to NPR 5.01 billion. The bank\'s shares are publicly traded as an \'A\' category company in the Nepal Stock Exchange. It is in line with the aim of the bank to be “The Bank for All” by giving necessary impetus to the economy through world class banking service. For the day to day operations, the bank has been using the world renowned FINACLE software that provides real time access to customer database across all branches and corporate locations of the bank. This state of the art customer database has also been linked to a Management Information System that provides easy reach to all possible database information for balanced and informed decision making.  A disaster recovery system (DRS) of the Bank has also been established in the Western Region of Nepal (200 kms west of Kathmandu). The bank has been able to achieve excellent diversification of its assets. A well balanced distribution of exposure in areas of national interest has been possible through long term forecasting and timely strategic planning. The bank has diversified interests in hydro power, manufacturing, textiles, services industry, aviation, exports, trading and microfinance projects, just to mention a few. The exemplary performance of the bank in these last eight years has elevated it to a premier status in the industry. The bank has been handling government transactions and is officially among the only 7 banks in Nepal to do so. The bank has been able to earn the trust and confidence of the public, which is reflect- ed in the large and ever expanding customer base of the bank. Through all this the bank has been able to truly achieve its vision of being “The Bank for All”. Even with all this success, the bank remains internally focused towards manpower development, product innovation and process innovation etc, to have a strong and solid foundation, which are ongoing and continuous improvement initiatives undertaken by the management and staff alike.';
+        $companydetail->phone = '977-1-4002510';
+        $companydetail->operation_date = '39084';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GBIME';
+        $company->name = 'Global IME Bank Ltd.';
+        $company->listed_shares = '29259467';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gbime.gif';
+        $company->total_paid_up_value = '2925946700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@gbnl.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.grandbanknepal.com.np';
+        $companydetail->profile = 'Grand Bank Nepal Limited formerly identified as DCBL Bank Limited came into operation in 2001 as development bank backed by the expertise of the professional bankers, prominent industrialists, entrepreneurs, bureaucrats and career diplomats. The Bank has been providing diversified services to its clientele by offering its products in the form of Loans, Guarantees and Venture Capital etc. The bank has started its operation in the capacity of \'A\' class commercial bank since May 2008. We have, at present, total 21 branches including the Head Office at Kamaladi. The idea behind renaming is to purge the puzzlement in people\'s mind, giving them the clear view about us being the \'A\' class Commercial Bank, as it was observed that our clients were still in confusion, about us  being Commercial Bank. The policy of the Bank is to create a relationship with the customer based on shared vision and mutual understanding for mutual benefit. It focuses in providing qualitative and diversified banking services backed by efficient personal approach at desired level.';
+        $companydetail->phone = '977-1-4233151';
+        $companydetail->operation_date = '39593';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GRAND';
+        $company->name = 'Grand Bank Nepal Ltd.';
+        $company->listed_shares = '20000524';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'grand.gif';
+        $company->total_paid_up_value = '2000052400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@himalayanbank.com';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.himalayanbank.com';
+        $companydetail->profile = 'Himalayan Bank was established in 1993 in joint venture with Habib Bank Limited of Pakistan. Despite the cut-throat competition in the Nepalese Banking sector, Himalayan Bank has been able to maintain a lead in the primary banking activities- Loans and Deposits. Legacy of Himalayan lives on in an institution that\'s known throughout Nepal for its innovative approaches to merchandising and customer service. Products such as Premium Savings Account, HBL Proprietary Card and Millionaire Deposit Scheme besides services such as ATMs and Tele-banking were first introduced by HBL. Other financial institutions in the country have been following our lead by introducing similar products and services. Therefore, we stand for the innovations that we bring about in this country to help our Customers besides modernizing the banking sector. With the highest deposit base and loan portfolio amongst private sector banks and extending guarantees to correspondent banks covering exposure of other local banks under our credit standing with foreign correspondent banks, we believe we obviously lead the banking sector of Nepal. The most recent rating of HBL by Bankers’ Almanac as country’s number 1 Bank easily confirms our claim. All Branches of HBL are integrated into Globus (developed by Temenos), the single Banking software where the Bank has made substantial investments. This has helped the Bank provide services like ‘Any Branch Banking Facility’, Internet Banking and SMS Banking. Living up to the expectations and aspirations of the Customers and other stakeholders of being innovative, HBL introduced several new products and services. Millionaire Deposit Scheme, Small and Medium Enterprises Loan, Pre-paid Visa Card, International Travel Quota Credit Card, Consumer Finance through Credit Card and online TOEFL, SAT, IELTS, etc. fee payment facility are some of the products and services. HBL also has a dedicated offsite ‘Disaster Recovery Management System’. Looking at the number of Nepalese workers abroad and their need for formal money transfer channel; HBL has developed exclusive and proprietary online money transfer software- HimalRemitTM. By deputing our own staff with technical tie-ups with local exchange houses and banks, in the Middle East and Gulf region, HBL is the biggest inward remittance handling Bank in Nepal. All this only reflects that HBL has an outside-in rather than inside-out approach where Customers’ needs and wants stand first.';
+        $companydetail->phone = '977-1-4227749';
+        $companydetail->operation_date = '33987';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HBL';
+        $company->name = 'Himalayan Bank Ltd.';
+        $company->listed_shares = '33326999';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hbl.gif';
+        $company->total_paid_up_value = '3332699900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@janatabank.com.np';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'New Baneshwor, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.janatabank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4786100';
+        $companydetail->operation_date = '40273';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JBNL';
+        $company->name = 'Janata Bank Nepal Ltd.';
+        $company->listed_shares = '20600000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jbnl.gif';
+        $company->total_paid_up_value = '2060000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kumaribank.com';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Putalisadak, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.kumaribank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4232112';
+        $companydetail->operation_date = '36984';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KBL';
+        $company->name = 'Kumari Bank Ltd.';
+        $company->listed_shares = '24304628';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kbl.gif';
+        $company->total_paid_up_value = '2430462800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@laxmibank.com';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Hattisar, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.laxmibank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4444684';
+        $companydetail->operation_date = '37349';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LBL';
+        $company->name = 'Laxmi Bank Ltd.';
+        $company->listed_shares = '30391814';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'lbl.gif';
+        $company->total_paid_up_value = '3039181400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@lumbinibank.com';
+        $companydetail->issue_manager_id = '2';
+        $companydetail->address = 'Chitwan, Nepal';
+        $companydetail->web = 'http://www.lumbinibank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977 56 524150';
+        $companydetail->operation_date = '35993';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LUBL';
+        $company->name = 'Lumbini Bank Ltd.';
+        $company->listed_shares = '20008332';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'lubl.gif';
+        $company->total_paid_up_value = '2000833200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@machbank.com';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Pokhara, Nepal';
+        $companydetail->web = 'http://www.machbank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-61-530900';
+        $companydetail->operation_date = '36802';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MBL';
+        $company->name = 'Machhapuchhre Bank Ltd.';
+        $company->listed_shares = '33307645';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mbl.gif';
+        $company->total_paid_up_value = '3330764500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@megabanknepal.com';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Kantipath, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.megabanknepal.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4266599';
+        $companydetail->operation_date = '40382';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MEGA';
+        $company->name = 'Mega Bank Nepal Ltd.';
+        $company->listed_shares = '26096000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mega.gif';
+        $company->total_paid_up_value = '2609600000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nabilbank.com';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Kamaladi, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nabilbank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4430425';
+        $companydetail->operation_date = '30875';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NABIL';
+        $company->name = 'Nabil Bank Ltd.';
+        $company->listed_shares = '36552621';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nabil.gif';
+        $company->total_paid_up_value = '3655262100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nbbl.com.np';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Bagh Bazar, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nbbl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4783972';
+        $companydetail->operation_date = '34491';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBB';
+        $company->name = 'Nepal Bangladesh Bank Ltd.';
+        $company->listed_shares = '24325706';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbb.gif';
+        $company->total_paid_up_value = '2432570600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nepalbank.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Dharmapath, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nepalbank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4222397';
+        $companydetail->operation_date = '13834';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBL';
+        $company->name = 'Nepal Bank Ltd.';
+        $company->listed_shares = '40000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbl.gif';
+        $company->total_paid_up_value = '4000000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'ncc@info.com.np';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Bagh Bazar, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nccbank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4246991';
+        $companydetail->operation_date = '35352';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCCB';
+        $company->name = 'NCC Bank Ltd.';
+        $company->listed_shares = '20254411';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nccb.gif';
+        $company->total_paid_up_value = '2025441100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nibl.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Durbar Marg, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nibl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4228229';
+        $companydetail->operation_date = '31480';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NIB';
+        $company->name = 'Nepal Investment Bank Ltd.';
+        $company->listed_shares = '47665297';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nib.gif';
+        $company->total_paid_up_value = '4766529700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nsbl.com.np';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Hattisar, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nsbl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4435516';
+        $companydetail->operation_date = '34157';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBI';
+        $company->name = 'Nepal SBI Bank Ltd.';
+        $company->listed_shares = '30454892';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sbi.gif';
+        $company->total_paid_up_value = '3045489200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nicasiabank.com';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Thapathali, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nicasiabank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-5111177';
+        $companydetail->operation_date = '35997';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NICA';
+        $company->name = 'NIC Asia Bank Ltd.';
+        $company->listed_shares = '26582847';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nica.gif';
+        $company->total_paid_up_value = '2658284700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nmb.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Babarmahal, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nmb.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4246160';
+        $companydetail->operation_date = '39601';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NMB';
+        $company->name = 'NMB Bank Ltd.';
+        $company->listed_shares = '20000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nmb.gif';
+        $company->total_paid_up_value = '2000000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@prabhubank.com';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Anamnagar, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.prabhubank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4788500';
+        $companydetail->operation_date = '39940';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRVU';
+        $company->name = 'Prabhu Bank Ltd.';
+        $company->listed_shares = '32088850';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prvu.gif';
+        $company->total_paid_up_value = '3208885000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@pcbl.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'New Road, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.primebank.com.np';
+        $companydetail->profile = 'Prime Commercial Bank Ltd. was incorporated in September 2007 as the 21st commercial bank in Nepal. We are a Category ‘A’ Financial Institution registered under the “Banks and Financial Institutions Act” of Nepal. It has been established by prominent business personnel and professionals from diversified areas with a prime objective of providing \'Banking Services to Everyone\' in the country where still large number of population are deprived of Banking Services. The bank has established itself as an emerging player in financial sector with focus in customer service excellence maintaining excellent relationship with valued customers. It is counted among the top 10 commercial banks in Nepal by independent raters and publications in the country.';
+        $companydetail->phone = '977-1-4233388';
+        $companydetail->operation_date = '39349';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PCBL';
+        $company->name = 'Prime Commercial Bank Ltd.';
+        $company->listed_shares = '30635905';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pcbl.gif';
+        $company->total_paid_up_value = '3063590500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sanimabank.com';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Naxal, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.sanimabank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4428977';
+        $companydetail->operation_date = '40954';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SANIMA';
+        $company->name = 'Sanima Bank Ltd.';
+        $company->listed_shares = '25499681';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sanima.gif';
+        $company->total_paid_up_value = '2549968100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@siddharthabank.com';
+        $companydetail->issue_manager_id = '12';
+        $companydetail->address = 'Hattisar, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.siddharthabank.com';
+        $companydetail->profile = '7';
+        $companydetail->phone = '977-1-4442919';
+        $companydetail->operation_date = '37614';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBL';
+        $company->name = 'Siddhartha Bank Ltd.';
+        $company->listed_shares = '20311800';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sbl.gif';
+        $company->total_paid_up_value = '2031180000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'clientcarecentre.nepal@sc.com';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'New Baneshwor, Kathmandu, Nepal';
+        $companydetail->web = 'https://www.sc.com/np';
+        $companydetail->profile = 'Standard Chartered Bank Nepal Limited has been in operation in Nepal since 1987 when it was initially registered as a joint-venture operation. Today the Bank is an integral part of Standard Chartered Group having an ownership of 75% in the company with 25% shares owned by the Nepalese public. The Bank enjoys the status of the largest international bank currently operating in Nepal. Standard Chartered has a history of over 150 years in banking and operates in many of the world\'s fastest-growing markets with an extensive global network of over 1700 branches (including subsidiaries, associates and joint ventures) in over 70 countries in the Asia Pacific Region, South Asia, the Middle East, Africa, the United Kingdom and the Americas. As one of the world\'s most international banks, Standard Chartered employs almost 87,000 people, representing over 115 nationalities, worldwide. This diversity lies at the heart of the Bank\'s values and supports the Bank\'s growth as the world increasingly becomes one market. With 19 points of representation, 23 ATMs across the country and with more than 450 local staff, Standard Chartered Bank Nepal Ltd. is in a position to serve its clients and customers through an extensive domestic network. In addition, the global network of Standard Chartered Group gives the Bank a unique opportunity to provide truly international banking services in Nepal. Standard Chartered Bank Nepal Limited offers a full range of banking products and services to a wide range of clients and customers encompassing individuals, mid-market local corporate, multinationals, large public sector companies, government corporations, airlines, hotels as well as the DO segment comprising of embassies, aid agencies, NGOs and INGOs. The Bank has been the pioneer in introducing customer focused products and services in the country and aspires to continue to be a leader in introducing new products in delivering superior services. It is the first Bank in Nepal that has implemented the Anti-Money Laundering policy and applied the \'Know Your Customer\' procedure on all the customer accounts. Corporate Social Responsibility is an integral part of Standard Chartered\'s ambition to become the world\'s best international bank and is the mainstay of the Bank\'s values. The Bank believes in delivering shareholder value in a socially, ethically an environmentally responsible manner. Standard Chartered throughout its long history has played an active role in supporting those communities in which its customers and staff live. It concentrates on projects that assist children, particularly in the areas of health and education. Environmental projects are also occasionally considered. It supports non-governmental organisations involving charitable community activities The Group launched two major initiatives in 2003 under its \'Believing in Life\' campaign- \'Living with HIV/AIDS\' and \'Seeing is Believing\'.';
+        $companydetail->phone = '977-1-4781800';
+        $companydetail->operation_date = '31836';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SCB';
+        $company->name = 'Standard Chartered Bank Ltd.';
+        $company->listed_shares = '22432190';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'scb.gif';
+        $company->total_paid_up_value = '2243219000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sunrisebank.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Gairidhara, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.sunrisebank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4004560';
+        $companydetail->operation_date = '39367';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SRBL';
+        $company->name = 'Sunrise Bank Ltd.';
+        $company->listed_shares = '24603150';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'srbl.gif';
+        $company->total_paid_up_value = '2460315000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@rbb.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Singh Durbar Plaza, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.rbb.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '977-1-4252595';
+        $companydetail->operation_date = '24130';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RBBL';
+        $company->name = 'Rastriya Banijya Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='0';
+        $company->logo = 'rbbl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ace.com.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Naxal, KTM, Nepal';
+        $companydetail->web = 'www.ace.com.np';
+        $companydetail->profile = 'Ace Development Bank Ltd. has been a leading player in the financial market of Nepal. It was founded in August 1995 as Ace Finance Company Ltd. and was upgraded to Ace Development Bank Ltd., a full fledged category ""B"" development bank in 2007. Over the years, customers and regulators have been in appreciation of the many financial products and innovations developed by us. Our diversified risk asset portfolio has served the economy in every sector as have the wide choices of deposit account schemes. Our wholesale banking initiatives have assisted numerous commercial banks and private enterprises with risk management concerns such as debentures and rights. Our resolve to provide client-centric solutions and surpass the expectations of our stakeholders remains firm and unyielding. We are now in a position to provide various products to serve all our customers\' needs under one umbrella. We are now more competitive than ever with new products and innovations in the pipeline.';
+        $companydetail->phone = '01-4441110';
+        $companydetail->operation_date = '39309';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ACEDBL';
+        $company->name = 'Ace Development Bank Ltd.';
+        $company->listed_shares = '8853095';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'acedbl.gif';
+        $company->total_paid_up_value = '885309500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'alpineho@gmail.com';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Maniroad, Hetauda, Nepal';
+        $companydetail->web = 'http://www.alpinedevbank.com.np/';
+        $companydetail->profile = 'Alpine Development Bank Limited (ADBL), was established in 2007 and very quickly prolific to the rural and remote villages of Makwanpur, Chitwan and Kavra Palanchowk districts. Indroducing many innovative and accesable products and marketing concepts, the bank able to represente the market for its businesses. Now, the bank has been extensively recognized for its innovative products, accessable financial institution and better customer experience.';
+        $companydetail->phone = '057-524674';
+        $companydetail->operation_date = '39360';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ALDBL';
+        $company->name = 'Alpine Development Bank Ltd.';
+        $company->listed_shares = '1180000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aldbl.gif';
+        $company->total_paid_up_value = '118000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@apexbanknepal.com';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Hattisar, KTM, Nepal';
+        $companydetail->web = 'www.apexbanknepal.com';
+        $companydetail->profile = 'Apex Development Bank Ltd is a national level development bank, formed after merger of M/s Royal Merchant Banking & Finance Ltd., M/s Rara Bikas Bank Ltd. and M/s Api Finance Ltd. under the Bank & Financial Institution Act 2063 and Company Act 2063. The promoters of the company are the prominent and renowned leading industrialists, businessmen and bankers of Nepal.';
+        $companydetail->phone = '01-4429876';
+        $companydetail->operation_date = '41440';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'APEX';
+        $company->name = 'Apex Development Bank Ltd.';
+        $company->listed_shares = '6665596';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'apex.gif';
+        $company->total_paid_up_value = '666559600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'araniko@ntc.net.np';
+        $companydetail->issue_manager_id = '11';
+        $companydetail->address = 'Dhulikhel, Kavre, Nepal';
+        $companydetail->web = 'http://aranikobank.com/';
+        $companydetail->profile = 'Araniko Development Bank Ltd. was duly registered on 2062/10/27 with the office of the company registrar as per the company Ordinance 2062. Bank commenced its operation from Ashadh 22, 2063 B.S.( July 6, 2006) after obtaining license on 2063/3/16 from Nepal Rastra Bank, the central bank of Nepal at Dhulikhel as a regional level development. The bank is promoted by renowned personalities including bankers, professionals and businessman with their initial equity capital of 15.4 million. The bank is headed by a team of energetic professionals having extensive banking experience.In order to make a strong capital base of the bank the bank also added new promoters and increased its promoter equity shares & equity capital to 10.2 million. As per prudential norms of NRB, the bank raised rest of capital (49% of total paid up capital) through the IPO on 2067 Bhadra and also received a license from NRB for working at three districts namely Kavrepalanchowk, Sindhuli & Dhanusha. To increase the strength of the bank, Araniko Development Bank Ltd and Soorya Development Bank Ltd, having work station in Dolakha District, successfully merged each other after receiving permission from NRB and Company Registrar Office and commenced their business jointly from Ashad 30th, 2070 B.S. After merger, Araniko Development Bank received a license from NRB to increase their existing work station 3 to 10 districts i.e. Kavrepalanchowk, Sindhuli, Dhanusha, Dolakha, Makawanpur, Parsa, Mahottari, Udayapur, Morang & Sunsari. By now the bank has 215 promoters with their equity participation of NRs.12,03,30,000.00 and general public NRs.10,29,00,000.00, Araniko Development Bank Ltd is the first regional level development bank of Dhulikhel with its head office on this city and established as a pioneer development bank in Kavrepalanchowk district.';
+        $companydetail->phone = '011-490193';
+        $companydetail->operation_date = '38904';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ARDBL';
+        $company->name = 'Araniko Development Bank Ltd.';
+        $company->listed_shares = '2205000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ardbl.gif';
+        $company->total_paid_up_value = '220500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@axisbanknepal.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Hattisar Rd, KTM, Nepal';
+        $companydetail->web = 'www.axisbanknepal.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4421093';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AXIS';
+        $company->name = 'Axis Development Bank Ltd.';
+        $company->listed_shares = '7000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'axis.gif';
+        $company->total_paid_up_value = '700000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bhrikuteebank.com.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Butwal, Rupandehi, Nepal';
+        $companydetail->web = 'www.bhrikuteebank.com.np';
+        $companydetail->profile = 'The bank came into existence with effort of the promoters of Bhrikutee Cooperative Organization which was established 18 years earlier in Shankarnagar VDC, Rupandehi. The initial capital is also borrowed from the same cooperative organization. The bank is founded by people from wide range of professions like farming, agriculture, business, service, industrialist and so on. So, everyone has the equal access to the bank. Similarly the promoters of the bank have the equal financial contribution. Hence it is the model bank of Nepal established in the rural area by the local people"".';
+        $companydetail->phone = '071-544967';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BBBL';
+        $company->name = 'Bhrikuti Vikash Bank Ltd.';
+        $company->listed_shares = '4739319';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bbbl.gif';
+        $company->total_paid_up_value = '473931900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bgdbl.com';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Hariwahan , Sarlahi, Nepal';
+        $companydetail->web = 'www.bgdbl.com';
+        $companydetail->profile = 'BAGMATI DEVELOPMENT BANK. was founded on 2065/12/10 by a group of eminent businessmen from Kathmandu and Local persons of Sarlahi District. The Bank was under private ownership. Beginning with one office in Hariwon,Sarlahi District with a paid-up capital of Rs.14 million and 12 employees, the Bank has made a rapid growth over the years and blossomed into a mighty institution with a strong regional label presence and operations. In business volume, the Bank occupies a premier position among the regional label banks.';
+        $companydetail->phone = '046-530508 ';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BGDBL';
+        $company->name = 'Bagmati Development Bank Ltd.';
+        $company->listed_shares = '500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bgdbl.gif';
+        $company->total_paid_up_value = '50000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bhargavbank.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Nepalgunj, Banke, Nepal';
+        $companydetail->web = 'www.bhargavbank.com.np';
+        $companydetail->profile = 'Bhargav Bikash Bank limited (BBBL) is the one of the regional level Development Bank of Mid western region of Nepal established formally in the year 2064 which commenced operation on 13th Bhadra, 2064. The Bank has been established solely with the aim of getting exclusive confidence of Nepalese market by rendering global standards of services through professional & quality management. BBBL has been promoted as a dedicated bank with a primary focus in the development of industries, trades, services and agricultures sector in mid western regional of Nepal.';
+        $companydetail->phone = '081-521027';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BHBL';
+        $company->name = 'Bhargav Bikash Bank Ltd.';
+        $company->listed_shares = '944860';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bhbl.gif';
+        $company->total_paid_up_value = '94486000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@biratlaxmibank.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Biratnagar, Morang, Nepal';
+        $companydetail->web = 'www.biratlaxmibank.com.np';
+        $companydetail->profile = 'It is established under the company Act, 2063 and under Bank and Financial Institution Act, 2063 and licensed by Nepal Rastra Bank as “B” class financial institution or as a development bank. It is the first development bank of Eastern Development Region. Biratlaxmi Bikas Bank Ltd. has ten districts working area Ilam, Jhapa, Morang, Sunsari, Dhankuta, Bhojpur, Sankhuwasabha, Threhathum, Saptari and Udayapur of Koshi, Mechi and Sagarmatha zone. Its head office is at Biratnagar and branches are located at four districts of its operation. Now there are 17 offices including head office. It has been conducting financial activities as per the regulation of Nepal Rastra Bank like accepting deposit, providing credit, Remittance, and other banking activities. Biratlaxmi promises to increase new banking technologies in operation according to the demand of customers. After merger with Khandbari Dev. Bank, the bank has an authorized capital of Rs 300 million, issued paid up capital is 234.68 million and out of this, promoters paid of capital 61.61% and 38.39% raised from public shareholders.';
+        $companydetail->phone = '021-538051';
+        $companydetail->operation_date = '38483';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BLDBL';
+        $company->name = 'Biratlaxmi Bikas Bank Ltd.';
+        $company->listed_shares = '2512880';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bldbl.gif';
+        $company->total_paid_up_value = '251288000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'bbbank@bbbank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Pokhara, Kaski, Nepal';
+        $companydetail->web = 'http://www.bbbank.com.np/';
+        $companydetail->profile = 'Bishwa Bikash Bank Limited (BBBank) is a Regional Level Development Bank having its Head Office in Chipledhunga, Pokhara, Kaski, Nepal. Bank has been registered under the Company Act 2063 (Bikram Era) with a mandate to operate as a Development Bank within the framework of Bank & Financial Institution Act 2063 (Bikram Era). The Bank has been established with the aim of collecting idle sources of funds and lending it to productive sector by providing employment opportunity for overall economic development of the country through effortless, reliable and quality banking service. Zeal of the promoters and experienced & qualitative management team, the bank is expected to serve Nepalese people with great pleasure and professionalism. The Bank is being promoted by local and national level professionals like industrialists, academicians, businessmen, ex-servicemen, bankers etc. As slogan ""your convenient bank"", BBBank is committed to provide quality service conveniently.';
+        $companydetail->phone = '061-528001';
+        $companydetail->operation_date = '39436';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BSBL';
+        $company->name = 'Bishwa Bikas Bank Ltd.';
+        $company->listed_shares = '3717000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bsbl.gif';
+        $company->total_paid_up_value = '371700000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@budbank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Anamanagar, KTM, Nepal';
+        $companydetail->web = 'www.budbank.com.np';
+        $companydetail->profile = 'BUDBL is one Nepal’s national level development bank established under Banks and Financial Institutions Act, 2063 to provide banking and financial services. With 8 branches in both established and faster growing markets throughout the nation, we aim to be where growth is, connecting customers to opportunities, enabling businesses to thrive and economies to prosper and ultimately helping people to fulfill their hopes and realize their ambitions. Listed on Nepal Stock Exchange, shares in BUDBL are held by over 4300 shareholders nationwide. We serve around 20,000 customers nationwide through our business like Personal Banking, Business Banking and other financial services. Our network covers 5 districts and we aim to be acknowledged as one of the nation’s leading development bank.';
+        $companydetail->phone = '01-4240480 ';
+        $companydetail->operation_date = '38482';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BUDBL';
+        $company->name = 'Business Universal Development Bank Ltd.';
+        $company->listed_shares = '9346899';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'budbl.gif';
+        $company->total_paid_up_value = '934689900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'cbbhtd@ntc.net.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Baneswor, Ktm, Nepal';
+        $companydetail->web = 'http://www.chhimekbank.org/';
+        $companydetail->profile = 'Chhimek Laghubitta Bikas Bank Ltd. (CLBBL) registered as a Company in December 2001, received its banking license in January 2002, from Nepal Rastra Bank (The Central Bank) under the Development Bank Act 1995. It was established by the Neighbourhood Society Service Centre (NSSC), which carried out earlier its own microfinance activities in Mahottari and Chitwan districts of Nepal. When the new Financial Intermediary Act came into effect, NGO’s were restrained from mobilizing client savings, and , additionally more recognized legal entity for providing micro-finance services to the members was required. Thus, as an initiative of NSSC and with the help from various commercial banks and promoters, CBB was established. ';
+        $companydetail->phone = '01-4490513';
+        $companydetail->operation_date = '37257';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CBBL';
+        $company->name = 'Chhimek Laghubitta Bikas Bank Ltd.';
+        $company->listed_shares = '4255340';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cbbl.gif';
+        $company->total_paid_up_value = '425534000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'mail@citybanknepal.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Pokhara, Kaski, Nepal';
+        $companydetail->web = 'www.citybanknepal.com';
+        $companydetail->profile = 'City Development is a certified development bank as per the Bank and Financial organization Act 2063 and Company Act 2063 from Nepal Rasta Bank as ‘Kha’ graded. People involved in industries, business, education, health, engineering, banking, financial organization, British Gurkha, development project management and social service are promoters of the bank. The bank is committed to fulfill all the financial requirements of the people from different walk of lives very simply, fast and in a straightforward manner.     Located in the financial hub of the iconic beauty, Pokhara City\'s Chipledhunga, this Bank is a combination of human skill and modern technologies which will provide modern banking facilities in a safe and sound way. All our services will be leading to satisfy customers and give them optimum outcome.  Therefore our role will be focused on being a dependable and reliable financial mediator to our customers on securing their capital and adding to their wealth.  It is our strong conviction that secures capital and productive use of it is the way of creating wealthy society and supporting economic growth of the country.';
+        $companydetail->phone = '061-521505';
+        $companydetail->operation_date = '39374';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CDBL';
+        $company->name = 'City Development Bank Ltd.';
+        $company->listed_shares = '4884971';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cdbl.gif';
+        $company->total_paid_up_value = '488497100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@cedbl.com';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Sitapaila , KTM, Nepal';
+        $companydetail->web = 'www.cedbl.com';
+        $companydetail->profile = 'Clean Energy Development Bank Limited (CEDB), established in 2006 in a joint venture with FMO - Netherlands, is the first national level development bank and perhaps the only Bank in Asia to have a focused developmental agenda towards harnessing the nation’s abundant natural resources in addition to uplifting the standards of living of the people of Nepal. CEDB is playing a proactive role in finding the best solutions to create an effective platform for the sustained development of the country. Thus, “CEDB is, in its rightful sense, a true development bank, a fact that has been attested after it won the Best Development Bank 2010 and Best Managed Development Bank 2013 among many other awards.” CEDB has also been recognized as one of the 25 most progressive banks of the world and becomes the only bank from Nepal and third bank from Asia to join the Global Alliance for Banking on Values (GABV). The GABV is an independent network of banks using finance to deliver sustainable development for underserved people, communities and the environment. Above and beyond, CEDB is also committed towards excellence in general banking business. It offers a wide range of corporate and retail banking services with a unique customer oriented approach. All in all, the bank is dedicated to achieving sound business growth and maximizing stakeholders\' values by embracing team spirit, progressive technology and good corporate governance.';
+        $companydetail->phone = '01-4671444';
+        $companydetail->operation_date = '38967';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CEDBL';
+        $company->name = 'Clean Energy Development Bank Ltd.';
+        $company->listed_shares = '11424000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cedbl.gif';
+        $company->total_paid_up_value = '1142400000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'civic@cdbl.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Dhadingbesi, Dhading, Nepal';
+        $companydetail->web = 'http://www.cdbl.com.np/';
+        $companydetail->profile = 'Civic Development Bank Limited (CDBL) is the first development bank having main office in Dhading district, established on 2066/04/29. It has established to deliver of comprehensive banking services to the esteemed customers by the collective efforts, experts, professors, professional bankers, pioneer of cooperative movement, engineers, advocates and other professionals with excellent track record and high social profile. Its principle concern is to contribute on ruler development through diversified range of banking products & services. The Bank believes on offering of quality service to the customers, generating maximum return to shareholders, providing competitive incentives to employees, ensuring compliance of prudential norms to regulators and serving community as well.';
+        $companydetail->phone = '010-520704';
+        $companydetail->operation_date = '40038';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CIVIC';
+        $company->name = 'Civic Development Bank Ltd';
+        $company->listed_shares = '500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'civic.gif';
+        $company->total_paid_up_value = '50000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@cdbank.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Banepa, Kavre, Nepal';
+        $companydetail->web = 'www.cdbank.com.np';
+        $companydetail->profile = 'Country Development (CD) Bank Ltd is promoted by a group of visionary Bankers and Developers. It is registered with Nepal Rastra Bank under the Banking and Financial Regulation Act 2063, and the Company Registrar’s Office under the Company Act 2063. The Bank has adopted principles and values that competent, disciplined, highly motivated, and professional developers and bankers would incorporate in any other Bank.';
+        $companydetail->phone = '011-660701';
+        $companydetail->operation_date = '39359';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CNDBL';
+        $company->name = 'Country Development Bank Ltd.';
+        $company->listed_shares = '3328000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cndbl.gif';
+        $company->total_paid_up_value = '332800000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@corporatebank.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Birgunj, Parsa, Nepal';
+        $companydetail->web = 'www.corporatebank.com.np';
+        $companydetail->profile = 'Corporate Development Bank Limited, CDBL, has been established by a group of person having its member specialized in different sectors of society such as industrialists, businessmen, banker, retired civil servants, and professionals. It considers each individual, either be a person or a firm, as its friend and is ever ready to be a ‘Financial Friend’. It believes on mutual growth and hence appeals ‘let’s tie into friendship knot for mutual growth’. The CDBL, a ‘B’ class licensed financial institution from Nepal Rastra Bank started its commercial operation from 07th November 2007 (21st of Kartik 2064) from Birgunj, the city is popularly known as commercial hub of Nepal with a young and dynamic team of employee having enough experience in the Banking sector.';
+        $companydetail->phone = '051-531031';
+        $companydetail->operation_date = '39393';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CORBL';
+        $company->name = 'Corporate Development Bank Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'corbl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@cosmosbank.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Shakti Chok, Gorkha, Nepal';
+        $companydetail->web = 'www.cosmosbank.com.np';
+        $companydetail->profile = 'COSMOS Development Bank Limited (CDBL) is the first and one of the leading banks of Gorkha district promoted by highly committed innovative and renowned individuals of different strata of society. CDBL is established under the Company Act 2063 with its head office at Gorkha Municipality-6, Gorkha and has come into operation from (Mangshir 01, 2067 B.S.) (Nov 17, 2010). Initially, it launched within the district of Gorkha with phase wise expansion also in other part of Nepal as per the rules of Nepal Rastra Bank.';
+        $companydetail->phone = '064-421538';
+        $companydetail->operation_date = '40499';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CSDBL';
+        $company->name = 'Cosmos Development Bank Ltd.';
+        $company->listed_shares = '437500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'csdbl.gif';
+        $company->total_paid_up_value = '43750000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'DDBL';
+        $company->name = 'Diprox Development Bank Ltd.';
+        $company->listed_shares = '1719492';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ddbl.gif';
+        $company->total_paid_up_value = '171949200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@devabank.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Landarbar,  KTM, Nepal';
+        $companydetail->web = 'www.devabank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4242272';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'DBBL';
+        $company->name = 'Dev BikasBank Ltd.';
+        $company->listed_shares = '8180948';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'dbbl.gif';
+        $company->total_paid_up_value = '818094800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'excelbirta@yahoo.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Birtamod, Jhapa, Nepal';
+        $companydetail->web = 'www.edb.com.np';
+        $companydetail->profile = 'Development Banking Sector remained dominated by government owned bank for more than five decades. With the liberalization of economy private sector started to promote development banks obtaining license from Nepal Rastra Bank, the central Bank of Nepal. Excel Development Bank Limited is licensed by Nepal Rastra Bank under banking and financial Regulation Act 2061.The bank is promoted by a group of experienced and highly motivated individuals from all walks on life. The promoters include; professional bankers, Entrepreneurs, Educationalists and Technocrats. The bank\'s central office is located in Birtamode, Jhapa, the far eastern part of Nepal. At present the banks working area is Illam, Jhapa and Morang districts. The bank is committed to deliver its services to the customers through easy banking procedures. Since the bank is located in the rural area, it indicates to serve the need of common people by providing simple yet modern banking facilities. It is transparent in its approach and workings.';
+        $companydetail->phone = '023-543714';
+        $companydetail->operation_date = '38554';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EDBL';
+        $company->name = 'Excel Development Bank Ltd.';
+        $company->listed_shares = '2025000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'edbl.gif';
+        $company->total_paid_up_value = '202500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ekatabank.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Butwal, Rupandehi, Nepal';
+        $companydetail->web = 'www.ekatabank.com.np';
+        $companydetail->profile = 'Ekata Bikas Bank Limited (EBBL) founded in October 24,2011 as a ""B"" class regional level development bank, in western part of Nepal at Butwal Rupandehi, Under the Bank and Financial Institution Act 2063 Initially, the bank is providing its services within 10districts are Rupandehi, Kapilvastu, Dang, Salyan, Pyuthan, Banke, Rolpa, Rukum, Surkhet and Kailali. The bank is promoted by 186 local and prominent youth promoter who is getting involvement in various professions. Employees of the bank are qualified, loyal and helpful with long experience in national banking industry and international market as well. We are now more competitive than ever with new products and innovations in the market. Despite the cut-throat competition in the local financial market, other financial institutions in the local market have been following our lead by introducing similar products and services. All Branches of EBBL integrated into E-Pumori Banking software this should helped the bank provide services like ‘Any Branch Banking Facility data centralized, Living up to the expectations and aspiration of the Customers and other stakeholders of being innovative. Our facilities are monthly interest payment deposit Scheme, Small Business Enterprises Loan, Ekata In reward Card, Gold & silver security loan, Postal services, Locker facilities, meeting hall for valuable customers etc. We should introduce soon several new products and services like Internet Banking, Debit card and SMS Banking.';
+        $companydetail->phone = '071-550556';
+        $companydetail->operation_date = '40840';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EKBL';
+        $company->name = 'Ekata Bikas Bank Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ekbl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@fmdb.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Gyaneshor, KTM, Nepal';
+        $companydetail->web = 'http://fmdb.com.np/';
+        $companydetail->profile = 'First Microfinance Development Bank Limited (FMDB) started its operation from January 8, 2010 (B.S. 2066 Poush 24) in Kathmandu as national level microfinance development bank licensed by Nepal Rastra Bank under the Bank and Financial Institution Act, 2063. FMDB provides microfinance services to the economically and socially disadvantaged and deprived people through MFIs. FMDB aims to focus on improving livelihood of target people with priority to agriculture and micro enterprises. FMDB is also committed to promote sustainable microfinance services in Nepal.';
+        $companydetail->phone = '01-4425361';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'FMDBL';
+        $company->name = 'First Micro Finance Development Bank Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'fmdbl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'gaumukhi.bijuwar@gmail.com';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Bijuwar, Pyuthan, Nepal';
+        $companydetail->web = 'http://www.gaumukheebank.com.np/';
+        $companydetail->profile = 'Gaumukhee Bikash  Bank has been incorporated as a \'B\' class financial institution and has operated its financial activities form 11th Magh 2068 for undertaking limited District level banking activities. The professional management team along with dedicated employees is always looking forward to serve the customers with its designed products. The Bank is going for public offering within 2069 for 120,000 shares. Out of which, 6000 shares were allotted for its employees after complying with all the conditions of Nepal Stock Exchange Limited and Nepal Rastra Bank. The Bank is a public limited company incorporated under the Bank and Financial Institution Act 2063 and the Companies Act 2063. The Bank is licensed by NRB to undertake banking services. The Authorized Capital of the Bank is Rupees 100 Million and the Issued Capital is Rupees 40 million and Paid-Up Capital is Rupees 28 Million 70 Percent of total Issued Capital and after the Public offering of 30 Percent paid up capital will be 40 million. The Bank has a 6 member Board of Directors (BOD) from promoters\' group till now and after the public offering bank will have a seven member Board of Directors (BOD) out of which four represents the promoters\' group, two represents the general public and one represents the Professional Director. To the date, bank has 5 branches within this district. The Bank is driven by industrialist, banking professional, doctors and professional management team along with dedicated employees by a strong focus on catering the needs of every customer by offering high quality and cost effective products and services.';
+        $companydetail->phone = '086-460324';
+        $companydetail->operation_date = '40203';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GABL';
+        $company->name = 'Gaumukhee Bikas Bank Ltd.';
+        $company->listed_shares = '432000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gabl.gif';
+        $company->total_paid_up_value = '43200000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@garimabank.com.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Pokhara, Kaski, Nepal';
+        $companydetail->web = 'www.garimabank.com.np';
+        $companydetail->profile = 'Garima Bikas Bank Ltd. was established by a group of enthusiastic, dedicated and successful professionals and entrepreneurs from different fields including business, teaching, engineering, banking, accounting, management etc. The management team also consists of experienced, qualified and devoted professionals. The bank was incorporated under Company Act on 2064.04.22. On 2064.06.24, it acquired licence from Nepal Rastra Bank to perform its financial transactions which was approved by the Company Registrar\'s office on 2064.5.29. The bank started its formal operations on 2064.07.18 from Waling 3, Syangja. However in the third AGM it was decided to shift the head office to Pokhara. This step was taken to speed up the expansion plan and also to facilitate the upgrading the bank to a national level development bank.';
+        $companydetail->phone = '061-533694';
+        $companydetail->operation_date = '39390';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GBBL';
+        $company->name = 'Garima Bikas Bank Ltd.';
+        $company->listed_shares = '5610000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gbbl.gif';
+        $company->total_paid_up_value = '561000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'hop@gandakibank.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Pokhara , Kaski, Nepal';
+        $companydetail->web = 'www.gandakibank.com.np';
+        $companydetail->profile = 'Gandaki Bikash Bank Limited is first and one of the leading Bank of Pokhara. The Bank is established under the Company Act 2063 and the Bank and Financial Institution Act 2063 at New Road Pokhara in Magh 12 2061 B.S. It is ""B"" class development Bank licensed by Nepal Rastra Bank (Central Bank of Nepal).';
+        $companydetail->phone = '061-540466';
+        $companydetail->operation_date = '38377';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GDBL';
+        $company->name = 'Gandaki Bikas Bank Ltd.';
+        $company->listed_shares = '3520000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gdbl.gif';
+        $company->total_paid_up_value = '352000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@gdbl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Putalisadak, KTM, Nepal';
+        $companydetail->web = 'www.gdbl.com.np';
+        $companydetail->profile = 'Gurkha Development Bank (Nepal) Ltd. is managed by banking professionals. The disciplined and loyal Gurkhas incorporates the same values in the bank which has earned them an awesome reputation. There is profit but with ethics. Transparency and integrity are not compromised for financial gains. The bank has been initiated with the latest innovative tools in banking to give services with a difference. There has been a constant revamping and introduction of market friendly packages for the benefit of the customers. Operation and the financial statement are clean and reliable. The deposit and lending rates are competitive with an unprecedented emphasis on the quality of services. We are constantly enabling our clients achieve their financial goals.';
+        $companydetail->phone = '01- 4255182 ';
+        $companydetail->operation_date = '38326';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GDBNL';
+        $company->name = 'Gurkha Development Bank Ltd.';
+        $company->listed_shares = '5280000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gdbnl.gif';
+        $company->total_paid_up_value = '528000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GULMI';
+        $company->name = 'Gulmi Bikas Bank Ltd.';
+        $company->listed_shares = '250000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gulmi.gif';
+        $company->total_paid_up_value = '25000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'hamrobank@gmail.com';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Butter Bazzar, Nuwakot, Nepal';
+        $companydetail->web = 'http://www.hamrobank.com/';
+        $companydetail->profile = 'Hamro Bikas Bank is a citizen focused Development Bank located in Bidur Nuwakot. The Bank is promoted by multiprofessional and multicultural group of Nepali citizens. Hamro Bikas Bank is \'B\' Grade development bank in Nepal with total assets of Rs. 92 Crores at Ashadh end, 2072 and Net Profit of Rs. 1 Crore 70 lakhs for the end period. The Bank has a network of four branches and one extension counter is serving more than 30,000 customers. Its head quarter is located in Battar-3, Nuwakot, 65KM far from Kathmandu. ';
+        $companydetail->phone = '010-561777';
+        $companydetail->operation_date = '39922';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HAMRO';
+        $company->name = 'Hamro Bikas Bank Ltd.';
+        $company->listed_shares = '1093219';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hamro.gif';
+        $company->total_paid_up_value = '109321900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@idbank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Ghantaghar, KTM, Nepal';
+        $companydetail->web = 'www.idbank.com.np';
+        $companydetail->profile = 'Infrastructure Development Bank Limited was promoted by visionary Bankers, Engineers, Businessman and other reputed personalities. It is licensed as a ""B"" category Financial Institution by Nepal Rastra Bank under the Banks and Financial Institution Act. It was established in the year 2004 as a regional level development bank and now become a national level development bank after merger with Swastik Merchant Finance Co. Ltd. The Bank has been offering a large number of tailor-made deposit and loan products along with remittance and guarantee services to meet the banking requirements of all. Efficiency and high ethical standards are always the priorities of ID bank and the reputation of ID bank is footed on quality in service delivery.';
+        $companydetail->phone = '01-4244902';
+        $companydetail->operation_date = '38481';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'IDBL';
+        $company->name = 'Infrastructure Development Bank Ltd.';
+        $company->listed_shares = '8640000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'idbl.gif';
+        $company->total_paid_up_value = '864000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@innovativedevelopmentbank.com';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Siddharthanagar, Rupandehi, Nepal';
+        $companydetail->web = 'www.innovativedevelopmentbank.com';
+        $companydetail->profile = 'Innovative Development Bank Limited was registered on 20/12/2065 with the Office of company register as per Bank and Financial Institution Act, 2063. Bank came in operation from 13th November 2009 after obtaining the license from Nepal Rastra Bank as a ""B"" class financial institution. The bank is promoted by renowned and established businessmen, industrialists, bankers, doctors, engineers, lawyers, intellectuals, retired civil servant etc. The bank is headed by a team of professionals having extensive banking experience and exposure. The working area of the bank is Rupandehi, Nawalparasi and Chitwan district.  The central office and initial service coverage area of the bank is Siddharthanagar Municipality of Rupandehi and its surroundings. The bank is planning to extend its banking activities and services in the working area in a phase wise manner.';
+        $companydetail->phone = '071-526301';
+        $companydetail->operation_date = '40130';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'INDB';
+        $company->name = 'Innovative Development Bank Ltd.';
+        $company->listed_shares = '1473212';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'indb.gif';
+        $company->total_paid_up_value = '147321200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@internationalbank.com.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Teku, KTM, Nepal';
+        $companydetail->web = 'www.internationalbank.com.np';
+        $companydetail->profile = ' International Bank, a new establishment in the modern banking industry in the country, is an integrated outcome of more than 500 enthusiastic investors striving to promote a unique bank that caters to the banking needs of every citizen across the country.';
+        $companydetail->phone = '01-4212814';
+        $companydetail->operation_date = '40060';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'INDBL';
+        $company->name = 'International Development Bank Ltd';
+        $company->listed_shares = '7040000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'indbl.gif';
+        $company->total_paid_up_value = '704000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@jbbl.com.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Kamaladi, KTM, Nepal';
+        $companydetail->web = 'www.jbbl.com.np';
+        $companydetail->profile = 'Jyoti Bikash Bank Ltd. (JBBL) is a National Level Development Bank licensed by Nepal Rastra Bank and has started its operation from 9th Shrawan 2065 ( 24 July, 2008). JBBL is established with a primary focus on financing for the development of Hydropower and Infrastructure and providing banking facilities to the general public for various purposes. JBBL aims to serve wide range of customers with its unique customer- oriented quality services.';
+        $companydetail->phone = '01-4411116';
+        $companydetail->operation_date = '39653';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JBBL';
+        $company->name = 'Jyoti Bikas Bank Ltd.';
+        $company->listed_shares = '8472260';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jbbl.gif';
+        $company->total_paid_up_value = '847226000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@jhimrukbank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Bagdula, Pyuthan, Nepal';
+        $companydetail->web = 'www.jhimrukbank.com.np';
+        $companydetail->profile = 'Jhimruk Bikas Bank Ltd was licensed on 18th and declared open on the 29th of Marg 2066 B.S. Its head office is located at ward no 1, of Dharmawati VDC Bagdula Pulchowk Pyuthan. Within the short period say 3 and half months, Bank gave top priority to extend its branch in the most potential area Bhingri Bazar where the branch of Nepal Bank Ltd’s branch used to operate which was later faced the difficulty of the then 10 year people’s war and was removed. But the people had been highly habituated with the banking services, so we gave first priority to expand the branch. Similarly another branch in Machhibazar was extending within one year of bank’s establishment in the district. The primary mission of Jhimruk Bikas Bank Ltd is to establish, develop, expand and facilitate the productivity of feasible manufacturing and to create so as to uplift the rural economy through agriculture, service, trade and industry by mobilizing the local human and capital resources. We are in the process of expanding the services of our bank by extending the branches in some feasible places, so that we could meet the expectations of our rural depositors and service seekers.';
+        $companydetail->phone = '086-460320';
+        $companydetail->operation_date = '40161';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JHBL';
+        $company->name = 'Jhimruk Bikas Bank Ltd.';
+        $company->listed_shares = '485010';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jhbl.gif';
+        $company->total_paid_up_value = '48501000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kanchanbank.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Mahendranagar,  Kanchanpur, Nepal';
+        $companydetail->web = 'www.kanchanbank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '099-520265';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KADBL';
+        $company->name = 'Kanchan Development Bank Ltd.';
+        $company->listed_shares = '1320000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kadbl.gif';
+        $company->total_paid_up_value = '132000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kailashbank.com';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Newplaza, KTM, Nepal';
+        $companydetail->web = 'www.kailashbank.com';
+        $companydetail->profile = 'Kailash Bikas Bank Limited is one of the largest national level development banks of Nepal in terms of assets, deposits, profits & branches catering to large customer base. The Bank has earned accolades in recognition to its services and overall performance & has been bejewelled with glorious awards from NRB, ICAN and PCCI in the history of Nepali Financial Institutions. We have completed 21 consecutive successful years, and are operating in 22nd year now. Ever since inception, the Bank has been rendering outstanding services to its\' clients from different walks of life. Corporate governance, transparency, long term growth and likes has always been high priority of the Management which in turn has yield secured profit, sustained growth and smooth operation of the Bank.We have been providing services through our 25 branches & 14 ATM machines; in and outside the valley, including internet banking, SMS banking, 365 days banking & extended evening counter. We are in the process of opening more branches in the coming fiscal year and are contemplating to start Mobile Banking and utility payment in near future. Kailash team is always determined to provide services unsurpassed in the industry.';
+        $companydetail->phone = '01-4443034';
+        $companydetail->operation_date = '41023';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KBBL';
+        $company->name = 'Kailash Bikas Bank Ltd.';
+        $company->listed_shares = '8951342';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kbbl.gif';
+        $company->total_paid_up_value = '895134200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kamanabank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Pokhara, Kaski, Nepal';
+        $companydetail->web = 'www.kamanabank.com.np';
+        $companydetail->profile = 'Kamana Bikas Bank limited is established to provide finincial support to different productive and needy sectors by collecting the small and large savings all around the country for the overall development of the nation under the free economy policy of the Nepal government. We are first development bank of Lekhnath and ""KHA"" class institution licensed by Nepal Rastra Bank. The head office of Kamana Bikas Bank is located in ward no 7 dandakonak of lekhnath municipality which is garden city of seven Lakes. Agriculture, tourism, business, service and industry are the major target areas for lending. Beside these Kamana Bikas Bank helps to find, establish, develop and finance productive sector which is base for nation building. We have set a priority to develop tourism industry all over Nepal including pokhara and lekhnath. Promoted by professionals of bank, financial institution and educational sector, Kamana Bikas Bank provides easy, fast and convenient service to our valued customer using modern technology and experienced staff family. Development of Nepal is impossible without the development of the villages so special programmes are given importance for rural places by this Bank. ';
+        $companydetail->phone = '061-539672';
+        $companydetail->operation_date = '39384';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KMBL';
+        $company->name = 'Kamana Bikas Bank Ltd.';
+        $company->listed_shares = '2300000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kmbl.gif';
+        $company->total_paid_up_value = '230000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'kbbl@kankaibank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Damak, Jhapa, Nepal';
+        $companydetail->web = 'www.kankaibank.com.np';
+        $companydetail->profile = 'Kankai Bikas Bank Limited is registered at ""Company Register Office"" under Company act 2063 and is licensed by Nepal Rastra Bank under banking and financial act 2063 as \'B\' class bikas bank.The bank started its operation since 2064 Baisakh 20. The bank is promoted by a group of experienced and highly motivated individuals from all groups. The promoters include; professional bankers, Doctors,Entrepreneurs, Educationalists and Technocrats. Besides, more number of promoters includes from damak muncipality. The bank\'s central office is located in Damak muncipality, Jhapa,the mid eastern part of Nepal. At present the banks working area is Jhapa, Illam  & Morang districts. The bank is committed to ease the banking procedures to the customers through its quality services. Since the bank is located in the rural area, it is dedicated to serve those people who are deprived of banking facilities with simple but modernized banking system.Its gaining the popularity for quick simple banking.';
+        $companydetail->phone = '023-584749';
+        $companydetail->operation_date = '39205';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KNBL';
+        $company->name = 'Kankai Bikas Bank Ltd.';
+        $company->listed_shares = '1112579';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'knbl.gif';
+        $company->total_paid_up_value = '111257900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kbbl.com';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Birendranagar, Surkhet, Nepal';
+        $companydetail->web = 'www.kbbl.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '083-524432';
+        $companydetail->operation_date = '39948';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KKBL';
+        $company->name = 'Kakre Bihar Bikash Bank Ltd';
+        $company->listed_shares = '379500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kkbl.gif';
+        $company->total_paid_up_value = '37950000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'kdbl@ntc.net.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Nepalgunj, Banke, Nepal';
+        $companydetail->web = 'http://www.kdblnepal.com/';
+        $companydetail->profile = 'Karnali Development Bank Ltd. was established on Falgun 6, 2060 under Bank Act 2052 BS. Its head office is located in Nepalgunj and it gradually opened its 11 branches at Tulsipur, Ghorahi, Lamahi, Bhaluwang, Kohalpur, Khajura, Gulariya, Sanoshree, Bansgadhi & Bhurigaun including Head Office. The primary mission of Karnali Development Bank Ltd is to establish, develop, expand and facilitate the productivity of feasible manufacturing and to create employment so as to uplift the rural and urban economy through agriculture, trade and industry by mobilizing the local human and capital resources. We are in the process of expanding our branches at different places, thus meeting the expectations of our rural depositors. ';
+        $companydetail->phone = '081-526014';
+        $companydetail->operation_date = '38035';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KRBL';
+        $company->name = 'Karnali Development Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'krbl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kdevbank.com';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Charikot, Dolkha, Nepal';
+        $companydetail->web = 'www.kdevbank.com';
+        $companydetail->profile = 'Kalinchowk Development Bank Limited is a regional level development bank. The bank is licensed by Nepal Rastra Bank under banking and financial Regulation Act 2063. The bank is promoted by highly prominent business personalities / groups and reputed individuals of the region who have excelled in their field of business/profession with very integrity and social standings. The Bank\'s central office is located in Charikot, Dolakha, and the far Mid-Eastern part of Nepal. At present the banks working area is Dolakha, Ramechhap and Sindhuli districts. The bank is committed to deliver its services to the customers through easy banking procedures. Since the bank is located in the rural area, it indicates to serve the need of common people by providing simple yet modern banking facilities. It is transparent in its approach & workings. With a shared vision of “Dedicated to Rural Development”,Kalinchowk Development Bank Team is committed to providing the quality products and services to its valued customers with utmost courtesy and care. We at kalinchowk Bank believe that delivery of quality products/services designed/customized to best suit the customer need through continuous research/development and innovation is the foundation to build-up the trust and enhance the level of confidence between the customers and the bank. Kalinchowk Bank team pledges its commitment to always endeavor for delivery of innovative products/services to all the customers to best suit their requirements thereby ensuring the optimum benefit and value addition to the customer as well as to all other stake holders.';
+        $companydetail->phone = '049-421937';
+        $companydetail->operation_date = '40868';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KCDBL';
+        $company->name = 'Kalinchowk Development Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kcdbl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'kdbl@kdbl.com.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'New Road, KTM, Nepal';
+        $companydetail->web = 'www.kdbl.com.np';
+        $companydetail->profile = 'Kasthamandap Development Bank Limited is established under the Bank and Financial Institution Act, 2063 in Kathmandu Municipality of Kathmandu district as a national level development bank. The working area of the bank as per the guidelines of the Central Bank, will be whole Nepal. The bank will thus, be effortive in performing its banking activities and other commercial and economical activities. Kasthamandap Development Bank Ltd has been in operation in Nepal since 2007/10/25 A.D. It was registered as private sector promoted public limited company operation with paid up capital of NRs 320 million. The main promoter of this development bank has 70 % shares and 30% of shares owned by Nepalese public. KDBL enjoys the status of Nepalese private sector promoted development bank currently operating in Nepal. KDBL has its head office at Pako New Road, Kathmandu. This development bank has 19 branches (including head office) and 8 ATMs scattered in different places in the country. This development bank covers 11 districts of Nepal. The districts covered are Baglung, Chitwan, Gulmi, Kaski, Kathmandu, Lalitpur, Morang, Myagdi, Parbat, Rupandehi and Solukhumbu respectively.';
+        $companydetail->phone = '01-4258400';
+        $companydetail->operation_date = '39367';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KDBL';
+        $company->name = 'Kasthamandap Development Bank Ltd.';
+        $company->listed_shares = '6799723';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kdbl.gif';
+        $company->total_paid_up_value = '679972300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'kbbremit@yahoo.com';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Dhankutabazaar, Nepal';
+        $companydetail->web = 'http://www.kabelibikasbank.com.np/';
+        $companydetail->profile = 'Kabeli Bikas Bank Limited was registered in Company Registrar Office on 2064.5.23 as a public limited company with limited liability on shares. Similarly it received permission from NRB to conduct financial transaction on 2064.6.29 with financial institution of B class with its activities in Dhankuta district. The bank has started its transaction on 2064.9.1 from head office at Dhankuta. It opened its first branch at Dhankuta Hile on 2065.5.26. Similarly it has started other 3 branches in Dhankuta viz; Rajarani branch on 2066.3.1,  Buddhabare on 2066.3.9 and Sidhuwa on 2067.01.07. The bank is providing 365 days banking service to customers. Bank had been promoted by individual from different walk of life with a vision and dedication to provide the best financial products and services in efficient and professional manner.Kabeli Bikas Bank Limited was registered in Company Registrar Office on 2064.5.23 as a public limited company with limited liability on shares. Similarly it received permission from NRB to conduct financial transaction on 2064.6.29 with financial institution of B class with its activities in Dhankuta district. The bank has started its transaction on 2064.9.1 from head office at Dhankuta. It opened its first branch at Dhankuta Hile on 2065.5.26. Similarly it has started other 3 branches in Dhankuta viz; Rajarani branch on 2066.3.1,  Buddhabare on 2066.3.9 and Sidhuwa on 2067.01.07.';
+        $companydetail->phone = '026-521435';
+        $companydetail->operation_date = '39432';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KEBL';
+        $company->name = 'Kabeli Bikas Bank Ltd.';
+        $company->listed_shares = '516000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kebl.gif';
+        $company->total_paid_up_value = '51600000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Khandbari, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '029-560860';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KHDBL';
+        $company->name = 'Khandbari Development Bank Ltd';
+        $company->listed_shares = '500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'khdbl.gif';
+        $company->total_paid_up_value = '50000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kalikabank.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Syangja, Nepal';
+        $companydetail->web = 'http://www.kalikabank.com.np/';
+        $companydetail->profile = ' Kalika Microcredit Development Bank Limited (KMDB) as a public limited company, received operating license from Nepal Rastra Bank (the Central Bank of Nepal) as ""D"" class financial institution  on 2067/04/05 (July 21, 2010) to operate under Bank and Financial Institution Act, 2063 (2006). Its Central Office is located in western part of Nepal, Walling Bazar, Syangja and working area is  10 District: Syangja, Parbat, Kaski, Rupendehi, Nawalparasi, Palpa, Tanahu, Gorkha, Dhading and Makawanpur. KMDB provides customer friendly microfinance services in un-served and underserved areas of respective districts. Our major focus is to expand financial service in rural and deprived area  through our Branch Offices which are located in remote area.';
+        $companydetail->phone = '063-440555';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KMCDB';
+        $company->name = 'Kalika Microcredit Development Bank Ltd.';
+        $company->listed_shares = '500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kmcdb.gif';
+        $company->total_paid_up_value = '50000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@laxmilaghu.com.np';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Maharajgunj, KTM, Nepal';
+        $companydetail->web = 'http://www.llbs.com.np/';
+        $companydetail->profile = 'Laxmi Laghubitta Bittiya Sanstha Limited (LLBS), a microfinance subsidiary of Laxmi Bank Limited (a commercial bank of Nepal), is a national level microfinance institution licensed by Nepal Rastra Bank, the central bank of Nepal. It is the first microfinance institution to be registered as a subsidiary of a commercial bank in Nepal. Registered as a limited company on 30th November 2010, LLBS received operating license from central bank as ""D"" class (National Level) financial institution on 6th March 2012 to operate under Bank and Financial Institution Act 2003. It started formal microfinance operation from June 4, 2012 from its first branch office located in Battar, Nuwakot.';
+        $companydetail->phone = '01-4016209';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LLBS';
+        $company->name = 'Laxmi Laghubitta Bittiya Sanstha Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'llbs.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'mahakalib_bank@yahoo.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Vimdattanagar, Kanchanpur, Nepal';
+        $companydetail->web = 'http://www.mbbl.com.np/';
+        $companydetail->profile = 'Mahakali Bikas Bank is the first local development bank in the financial sector of the Mahakali Zone, which is promoted by a team of professionals representing banking, insurance, health, transportation and trade sectors. The Bank believes in the highest standards of corporate governance. As a result, the Bank has successfully embarked on a multi-pronged strategy of consolidation, administrative streamlining, human resource up-skilling, strategic cost management, focused non-performing assets management and up-to-date balance sheet, in tandem with strengthening the credit culture in remote areas of Nepal. Furthermore, the Bank has developed its corresponding agency relationship with various Banks in Nepal and abroad, which facilitates our customers to remit their money through our branch offices and correspondent Banks.';
+        $companydetail->phone = '099-521365';
+        $companydetail->operation_date = '39312';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MBBL';
+        $company->name = 'Mahakali Bikas Bank Ltd.';
+        $company->listed_shares = '1416000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mbbl.gif';
+        $company->total_paid_up_value = '141600000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'miteribank@wlink.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Dharan, Sunsari, Nepal';
+        $companydetail->web = 'http://www.miteribank.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '025-531317';
+        $companydetail->operation_date = '39003';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MDB';
+        $company->name = 'Miteri Development Bank Ltd.';
+        $company->listed_shares = '1625183';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mdb.gif';
+        $company->total_paid_up_value = '162518300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@malikabank.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Dhangadhi , Kailali, Nepal';
+        $companydetail->web = 'www.malikabank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '091-527482';
+        $companydetail->operation_date = '36475';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MDBL';
+        $company->name = 'Malika Bikas Bank Ltd.';
+        $company->listed_shares = '2425500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mdbl.gif';
+        $company->total_paid_up_value = '242550000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@metrodevbank.com.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Pokhara, Kaski, Nepal';
+        $companydetail->web = 'www.metrodevbank.com.np';
+        $companydetail->profile = 'Metro Development Bank limited is established to provide financial support to different productive and needy sectors by collecting the small and large savings all around the country for the overall development of the nation under the free economy policy of the Nepal government. We are the development bank of Pokhara having head office in newroad and ""KHA"" class institution licensed by Nepal rastra bank. Metro development bank is promoted by renowned businessman, industrialists, social workers and professionals. We are 75th development bank of the nation promoted by 86 professional youths from different part of the country including pokhara, kathmandu, myagdi, baglung, and gorkha.';
+        $companydetail->phone = '061-526347';
+        $companydetail->operation_date = '40163';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'METRO';
+        $company->name = 'Metro Development Bank Ltd.';
+        $company->listed_shares = '2135200';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'metro.gif';
+        $company->total_paid_up_value = '213520000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'grameenbank@ntc.net.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Dhanusa, Janakpur, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '527383';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MGBL';
+        $company->name = 'Madhyamanchal Gramin Development Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mgbl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@missionbanknepal.com.np';
+        $companydetail->issue_manager_id = '12';
+        $companydetail->address = 'Butwal , Rupandehi, Nepal';
+        $companydetail->web = 'www.missionbanknepal.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '071-551586';
+        $companydetail->operation_date = '40344';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MIDBL';
+        $company->name = 'Mission Development Bank Ltd.';
+        $company->listed_shares = '1150000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'midbl.gif';
+        $company->total_paid_up_value = '115000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MLBBL';
+        $company->name = 'Mithila LaghuBitta Bikas Bank Ltd.';
+        $company->listed_shares = '282900';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mlbbl.gif';
+        $company->total_paid_up_value = '28290000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@mmdbank.com';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Basantapur, Terathum, Nepal';
+        $companydetail->web = 'www.mmdbank.com';
+        $companydetail->profile = 'Mount Makalu Development Bank Ltd lies at Basantapur VDC of Terhathum District. Basantapur is small town which is located at the boarder of Terhathum, Dhankuta and Sankhuwasava district and indentified as a tourism and commercial area of eastern development hill region. To fulfill the financial needs of this place, By understanding the financial market and to collect unproductive saving of common people, some of intellectuals, merchants, socialists and common people decided to establish Mount Makalu Development Bank Ltd. The Bank was registered in Company Registered Office on 2066 Mangsir 19th as a Public Limited Company with limited liability on shares. Similarly it received permission from Nepal Rastra Bank to conduct financial transaction on 2067 Ashad 30th with financial institution of ""B"" Class (One District) with its activities in Terhathum district. The bank has started its financial transaction on 2067 Shrawan 5th from head office at Basantapur, Terhathum. ';
+        $companydetail->phone = '026-630124';
+        $companydetail->operation_date = '40380';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MMDBL';
+        $company->name = 'Mount Makalu Development Bank Ltd.';
+        $company->listed_shares = '200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mmdbl.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@mirmirebank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Banepa, Kavre, Nepal';
+        $companydetail->web = 'http://mirmirebank.com.np/';
+        $companydetail->profile = 'Mirmire Microfinance Development Bank Limited was incorporated on Poush 02, 2066 (Dec 17, 2009) under the Company Act, 2063 as a Public Limited Company. The Company has been licensed by the Nepal Rastra Bank (Central Bank of Nepal) on Ashwin 07, 2067 to undertake retail microfinance in the specified districts of the country as a 19th Microfinance Bank in Nepal. The bank has commenced its full-fledged operation from Ashwin 26, 2067 from its registered office at Banepa Municipality, Ward No 05, Kavreplanchowk. The basic inspiration behind the establishment of this bank is to contribute for reduction of huge gap between demand and supply of micro loan in rural areas with its various financial products to specifically disadvantaged and deprived people in support of making their livelihood better. Unlike other modern Bank and Financial Institutions, the Bank grants the loan to its targeted groups without need of any collateral with pure objective of financial and social uplift of disadvantaged peoples. The banks areas of operation are Rasuwa, Nuwakot, Dhading, Dolakha, Gulmi, Kavreplanchowk, Makwanpur, Chitwon,Nawalparasi and Palpa districts.';
+        $companydetail->phone = '011-662311';
+        $companydetail->operation_date = '40164';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MMFDB';
+        $company->name = 'Mirmire Microfinance Development Bank Ltd.';
+        $company->listed_shares = '200000';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mmfdb.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@muktinathbank.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Pokhara, Kaski, Nepal';
+        $companydetail->web = 'www.muktinathbank.com.np';
+        $companydetail->profile = 'Muktinath Bikas Bank Limited (MNBBL) is another renowned name in Nepalese banking sector. Established on Poush 19, 2063 B.S., Muktinath Bikas Bank Limited has obtained permission from Nepal Rastra Bank to operate as a ""B"" class regional level financial institution, At present the Bank has been upgraded as National Level development Bank from regional level by   way of acquisition to Dhading based development Bank Civic Development Bank Limited. The central office of the Bank is situated at Pokhara-9, Prithvichowk of Kaski District. It has a special wing for Micro-Credit finance which is a model for micro banking activities throughout the development banks in Nepal. The Bank is committed for good corporate governance practices and banking activities with prudent banking culture. It has been offering various products and services for its customer with competitive rate in market. It has been able to provide diversified service (Modern Banking, Limited Banking and Microfinance) backed by the latest technology. At present MNBBL is one of the largest National Level Development Bank with Branch Network of 28 modern banking branches, 20 limited banking branches, and 45 microfinance desks with depositor\'s base of more than 1 lakh 74 thousand customers. We are in the process of opening more branches in this fiscal year and are contemplating to start internet banking in near future. Muktinath team is always determined to provide services which are supreme in the industry.';
+        $companydetail->phone = '061-522786';
+        $companydetail->operation_date = '39085';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MNBBL';
+        $company->name = 'Muktinath Bikas Bank Ltd.';
+        $company->listed_shares = '5990250';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mnbbl.gif';
+        $company->total_paid_up_value = '599025000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@manaslubank.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Buspark, Gorkha, Nepal';
+        $companydetail->web = 'www.manaslubank.com.np';
+        $companydetail->profile = 'Manaslu Bikas Bank  Ltd. (MBBL) is a public limited Development Bank promoted by a group of highly committed and innovative persons involved in different professions like Doctors, Engineers, Industrialist, Businessman and prominent persons of the society. It is managed by a group of well experienced and professional managers having excellent leadership quality. The registered office is in Gorkha Municipality -1, Gorkha, District, which is also the Head Office of the Bank. The working area for the bank at the initial stage is in three district Gorkha, Tanahu & Chitwan. MBBL has started its operation since 2067/08/27, obtaining operating license from Nepal Rastra Bank under the Banks & Financial Institutions Act 2063 and has enjoying a very encouraging response from the public from the inception. The bank was formally inaugurated by the honorable finance minister Mr Surendra Pandey at 2067/08/28. MBBL\'S efforts will be focused to reach to unattended and unaware savers of the remote area of the region by advising them to get maximum benefits of their resources from the competitive financial market and to encourage potential investors and experts to invest into the productive and employment generating sectors by providing them financial support for implementing new business ideas and techniques.';
+        $companydetail->phone = '064-421540';
+        $companydetail->operation_date = '40526';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MSBBL';
+        $company->name = 'Manaslu Bikas Bank Ltd.';
+        $company->listed_shares = '1650750';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'msbbl.gif';
+        $company->total_paid_up_value = '165075000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@mbdbl.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Sindhulimadi, Sindhuli, Nepal';
+        $companydetail->web = 'www.mbdbl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '047-520625';
+        $companydetail->operation_date = '40095';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MTBL';
+        $company->name = 'Matribhumi Development Bank Ltd.';
+        $company->listed_shares = '484000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mtbl.gif';
+        $company->total_paid_up_value = '48400000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Ratna Nagar, Chitawan, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '561258';
+        $companydetail->operation_date = '37181';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NABBC';
+        $company->name = 'Narayani Development Bank Ltd.';
+        $company->listed_shares = '437355';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nabbc.gif';
+        $company->total_paid_up_value = '43735500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBBL';
+        $company->name = 'NagBeli LaghuBitta Bikas Bank Ltd.';
+        $company->listed_shares = '200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbbl.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ncdbank.com';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Butwal , Rupandehi, Nepal';
+        $companydetail->web = 'www.ncdbank.com';
+        $companydetail->profile = 'Nepal Community Development Bank Ltd. is established in Butwal, under the Bank and Financial Institution Act 2063 as a regional Development Bank. Initially, the bank is to operate within three districts: Rupandehi, Nawalparasi and Chitwan. The bank will expand its business in other districts as per the requirement of community. The bank is committed to provide effective and efficient banking services in the proposed area, where the banking activities are in short supply. ';
+        $companydetail->phone = '071-541817';
+        $companydetail->operation_date = '40485';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCDB';
+        $company->name = 'Nepal Community Development Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ncdb.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'New Road, Pokhara, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '061-539406';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCDBL';
+        $company->name = 'Nepal Consumer Development Bank Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ncdbl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NDB';
+        $company->name = 'Nepal Development Bank Ltd.';
+        $company->listed_shares = '3200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ndb.gif';
+        $company->total_paid_up_value = '320000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Beni, Myagdi, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = '39367';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NGBL';
+        $company->name = 'Nilgiri Bikas Bank Ltd.';
+        $company->listed_shares = '1495121';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ngbl.gif';
+        $company->total_paid_up_value = '149512100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nidc@nidc.org.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Durbar Marg, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nidc.org.np/';
+        $companydetail->profile = 'Nepal Industrial Development Corporation Ltd. (NIDC), pioneer in Industrial Financing in Nepal, was established in July 1959 and has been playing a vital role in the development of the country by virtue of introducing many innovative concepts and development activities. While contributing to establish several prominent product industries like Bhrikuti Pulp and Paper, Everest Sugar, Himalayan Brewery - to name a few; and hotels like Soaltee, Hyatt, Annapurna and Fulbari - for instance, NIDC also has a significant role in the establishment of Industrial Districts, Nepal Stock Exchange, NIDC Capital Market etc. Presently - the 1959 special charter has been repealed and NIDC has been registered under Company Act such that it is licensed to operate as a Development Bank. It represents a milestone in the history of NIDC as it started an era of modern banking with customer satisfaction measured as a focal objective while continuing its business of project financing.';
+        $companydetail->phone = '01-4228322';
+        $companydetail->operation_date = '21716';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NIDC';
+        $company->name = 'NIDC Development Bank Ltd.';
+        $company->listed_shares = '2978784';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nidc.gif';
+        $company->total_paid_up_value = '297878400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nerude.org.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Bhanutole, Biratnagar, Nepal';
+        $companydetail->web = 'nerude.org.np';
+        $companydetail->profile = 'Nerude Laghubitta Bikas Bank Ltd. is registered under the ""Company Act 2063"" with the Company Registrar\'s office of Nepal as a micro-finance institution in Biratnagar,Morang district. The registered code number of this organization is 989/063/64 dated March 4, 2007 (2063.11.10 Bikram Era). Nerude came into existence in May 23, 2007 (2064.02.09) with the establishment of its central office at Biratnagar in Eastern Region of Nepal. The Nepal Rastra Bank (NRB) has given the license for operating the transactions. The license number is ""D"" 12/063/64. Nerude Laghubitta Bikas Bank Ltd., established in 2007 with the objective of uplifting the socio-economic status of rural poor, has initiated micro-financial services and community development activities to female group members by replicating the basic approach of Grameen Bank Financial System of Bangladesh (GBFS). NERUDE\'s is to work as a self-sustained financial institution and serve a maximum number of the rural poor and deprived through delivery of micro-finance services at the grassroots level.';
+        $companydetail->phone = '21-524560';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLBBL';
+        $company->name = 'Nerude Laghubita Bikas Bank Ltd.';
+        $company->listed_shares = '1250003';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nlbbl.gif';
+        $company->total_paid_up_value = '125000300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nemfin.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Dhulikhel, Kavre, Nepal';
+        $companydetail->web = 'http://www.nemfin.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '011-490671';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NNLB';
+        $company->name = 'Naya Nepal Laghubitta Bikas Bank Ltd.';
+        $company->listed_shares = '200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nnlb.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nirdhan.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Naxal, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.nirdhan.com/';
+        $companydetail->profile = 'Nirdhan Utthan Bank Limited, ""the bank for upliftment of the poor"" is a microfinance bank established in October 1998 under Company Act of Nepal 1997 (now Company Act 2006). Nepal Rastra Bank, the central bank of Nepal granted a license in April 1999 to undertake banking activities under the Development Bank Act 1996. It started its formal operation from July 1999. Now, operated under Bank and Financial Institution Act 2006, Nirdhan Utthan Bank (NUBL) provides microfinance services such as Loans, Deposits, Micro insurance and Remittance services to poor families of Nepal. The lending methodologies are individual lending based on Grameen Bank, Bangladesh model and group lending based on Self-help Group model through few specified branch offices. Though, legally established as a company in 1998, the operation of NUBL is a continuation of microfinance services provided by an NGO called ""NIRDHAN"" which was providing microfinance services since March 1993. The story behind the establishment of ""NIRDHAN"" starts from 1986 when Dr. Harihar Dev Pant, the Chief Executive Officer of NUBL/Executive Chairman of ""NIRDHAN"" (then senior officer with central bank of Nepal) visits Grameen Bank in Bangladesh. The visit inspired him to launch microfinance program in Nepal resulting the birth of ""NIRDHAN"" or ""people without money"" in 1991. NIRDHAN began its microfinance operation in March 1993.';
+        $companydetail->phone = '01- 4413711';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NUBL';
+        $company->name = 'Nirdhan Utthan Bank Ltd.';
+        $company->listed_shares = '3358604';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nubl.gif';
+        $company->total_paid_up_value = '335860400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@pacificbank.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Besishahar, Lumjung, Nepal';
+        $companydetail->web = 'www.pacificbank.com.np';
+        $companydetail->profile = 'Pacific Development Bank is established as B class regional Level development Bank at Besishahar, district headquarter of Lamjung under the Bank and financial institutions Act, 2063. The working area for the development bank is the Lamjung District at the initial stage. This bank will expand its branches and expand its activities phase wise as per the guidelines of Nepal Rastra Bank. The development bank will provide efficient banking services to the regional level where the banking activities are in short supply.';
+        $companydetail->phone = '066-520789';
+        $companydetail->operation_date = '40020';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PADBL';
+        $company->name = 'Pacific Development Bank Ltd.';
+        $company->listed_shares = '878400';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'padbl.gif';
+        $company->total_paid_up_value = '87840000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'pathibhara.url@pbb.com.np';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Urlabari, Morang, Nepal';
+        $companydetail->web = 'www.pbb.com.np';
+        $companydetail->profile = 'Pathibhara Bikas Bank Limited is registered at ""Company Register Office"" under Company act 2063 and is licensed by Nepal Rastra Bank under banking and financial act 2063 as ‘B’ class Bikas Bank. The bank started its operation since 2064, Mangsir 5. The bank is promoted by a group of experienced and highly motivated individuals from all groups. The promoters include; professional bankers, Entrepreneurs, Educationalists and Technocrats. Besides, more number of promoters includes from Urlabari V.D.C. The bank\'s central office is located in Urlabari V.D.C, Morang, the mid eastern part of Nepal. At present the banks working areas are Jhapa, Morang & Sunsari districts. The bank is committed to ease the banking procedures to the customers through its quality services. Since the bank is located in the rural area, it is dedicated to serve those people who are deprived of banking facilities with simple but modernized banking system. It’s gaining the popularity for quick simple banking. The bank gives true value of the depositor\'s money by providing a competitive interest rate. Furthermore, it encourages the entrepreneurs to increase their capacity in productive sectors. The bank aims to be engine of development with its reliable and trustworthy banking services-Pathibhara Bikas Bank Limited strives to achieve excellence in the banking sector through its customer friendly approach.';
+        $companydetail->phone = '021-541936';
+        $companydetail->operation_date = '39407';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PBSL';
+        $company->name = 'Pathibhara Bikas Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pbsl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@pdbl.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Butwal, Rupandehi, Nepal';
+        $companydetail->web = 'www.pdbl.com.np';
+        $companydetail->profile = 'Pashchimanchal Development Bank Limited (PDBL) is one of the recognized development bank established in 18th Chaitra 2059 situated in the Rupandehi District at Pushpalal Park - 8, Butwal. ';
+        $companydetail->phone = '071-549900';
+        $companydetail->operation_date = '37714';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PDBL';
+        $company->name = 'Paschimanchal Bikash Bank Ltd.';
+        $company->listed_shares = '3565000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pdbl.gif';
+        $company->total_paid_up_value = '356500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Bhairahawa, Butwal, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '541001';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PGBBL';
+        $company->name = 'Pashchimanchal Grameen Bikas Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pgbbl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Biratnagar, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '524259';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PGBL';
+        $company->name = 'Purwanchal Grameen Bikash Bank Ltd.';
+        $company->listed_shares = '600000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pgbl.gif';
+        $company->total_paid_up_value = '60000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Banepa, Kavre, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '011-660713';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRBL';
+        $company->name = 'Professional Bikas Bank Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prbl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@pdbbl.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Banepa , Kavre, Nepal';
+        $companydetail->web = 'www.pdbbl.com';
+        $companydetail->profile = 'Professional Diyalo Bikas Bank Limited (PDBBL), a “B” category Development Bank licensed by Company Registrar Office/ Government of Nepal and duly approved by Nepal Rastra Bank has been formed on Asar 25, 2070 ( 9th July 2013) through successful merger between then Diyalo Bikas  Bank Ltd. and Professional Bikas Bank Ltd. established at the same FY 2064/65 having their central office at Banepa, Kavre. PDBBL is promoted by183 professionals of different field with authorized capital of Rs 600 million and paid up capital of Rs 220 millions. PDBBL has established a successful record in the merger history of the financial institutions of Nepal. From the limited working area of each 3 districts, bank has now spread its’ working area to ten districts (Dolkha, Sindhupalchowk, Kavre, Sindhuli, Makwanpur, Chitwan, Nawalparasi, Rupandhe, Tanahu and Kaski). At present, bank has six branches network at Chautara(Sindhupalchowk), Charikot (Dolkha), Banepa, Panchkhal, Bhakundebesi (Kavre) and Hakimchowk (Chitwan). Expansion of the branch network within the working area will take place in a priority basis of the bank as well as the need of the people living with in the area. PDDBL has also entered in to the core area of the rural people enhancing the economic activities as well as the productive sector to support the regional economic balance.';
+        $companydetail->phone = '011-660703';
+        $companydetail->operation_date = '39369';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRDBL';
+        $company->name = 'Professional Diyalo Bikas Bank Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prdbl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@purnimabank.com';
+        $companydetail->issue_manager_id = '11';
+        $companydetail->address = 'Siddharthanagar, Rupandehi, Nepal';
+        $companydetail->web = 'www.purnimabank.com';
+        $companydetail->profile = 'Purnima Bikas  Bank Limited (PBBL) is a Regional Level Development Bank    having its Head Office in Siddharthanagar, Bhairahawa, Rupandehi, Nepal. The  Bank has been registered under the Company Act 2063 (Bikram Era) with a  mandate to operate as a Development Bank within the framework of Bank &  Financial Institution Act 2063 (Bikram Era). The Bank has been established with the  aim of collecting idle sources of funds and lending it to different and productive  sector by providing employment opportunity for overall economic development of  the country through effortless, reliable and quality banking service. Zeal of the  promoters and experienced & qualitative management team, the bank is expected  to serve Nepalese people with great pleasure and professionalism. The Bank is  being promoted by local and national level professionals like industrialists,  academicians, businessmen, ex-servicemen, bankers etc.';
+        $companydetail->phone = '071-520856';
+        $companydetail->operation_date = '39588';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PURBL';
+        $company->name = 'Purnima Bikas Bank Ltd.';
+        $company->listed_shares = '1701562';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'purbl.gif';
+        $company->total_paid_up_value = '170156200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RARA';
+        $company->name = 'Rara Bikas Bank Ltd.';
+        $company->listed_shares = '2001000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rara.gif';
+        $company->total_paid_up_value = '200100000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'rbbank@subisu.net.np';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Banke, Nepalgunj, Nepal';
+        $companydetail->web = 'http://raptibheribank.com.np/';
+        $companydetail->profile = 'Raptibheri Bikash Bank Ltd. (RBB-BANK) is a Regional Level Development Bank licensed by Nepal Rastra Bank and has started its operation from 22nd Magh 2066. Rbb Bank is established with a primary focus on providing banking facilities to the general public for various purposes. RBB- BANK  aims to serve wide range of customers with its unique customer- oriented quality services.';
+        $companydetail->phone = '081-550505';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RBBBL';
+        $company->name = 'Raptibheri Bikas Bank Ltd.';
+        $company->listed_shares = '1250134';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rbbbl.gif';
+        $company->total_paid_up_value = '125013400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@resungabank.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Tamghas, Gulmi, Nepal';
+        $companydetail->web = 'resungabank.com.np';
+        $companydetail->profile = 'A well outfitted strategic plan, & potential discussion with the renowned personalities representing diverse sectors of the society, The bank had started its operation on B.S. 2068 Ashwin 09 Budhabar as a regional level development (September 26, 2007 Wednesday) licensing ""B"" class financial institution from Nepal Rastra Bank with license no 45/064/065 under the Bank & Financial Institutions Act, 2063 & had been formally inaugurated by Mr. Bir Bikram Raimajhij Deputy Governor of Nepal Rastra Bank on 2064-06-09 at its Registered Office Tamghas, Gulmi on the lap of Resunga TAPOBHUMI, historical religious place of western region.';
+        $companydetail->phone = '079-520715';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RBSL';
+        $company->name = 'Resunga Bikas Bank Ltd.';
+        $company->listed_shares = '703800';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rbsl.gif';
+        $company->total_paid_up_value = '70380000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@reliablebank.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Gyaneshwor, KTM, Nepal';
+        $companydetail->web = 'http://www.reliablebank.com.np/';
+        $companydetail->profile = 'Reliable Development Bank Limited is established after completion of merger process with Reliable Finance Limited, SubhaLaxmi Finance Limited and Nepal Consumer Development Bank Limited. The bank is commencing its integrated operation since 3 Baisakh 2071 (16 April 2014). Reliable Development Bank Limited is established with the combination of joint history among 3 companies, wheareas Reliable finance Limited was established since 2006 haviing its capital of 35 mio with 42 Promoters and 8 Branches.  It\'s head office was situated at Bagdurbar, Sundhara, Kathamndu. SubhaLaxmi was a national level finance company of 200 mio capital with 39  Promotors and 3 branch outlets.  Head office of SFL was at Naxal, Kathmandu. Similarly Nepal Consumer Development Bank Limited was licensed as a regional (10 districts) level development bank whose capital stood at 200 mio with 4 branch outlets and 85 promotors. Head office in the name of NCDB was at Pokhara, Kaski.After completion of merger of 3 companies, we are now standing as a National Level Development Bank and serving our products and services at your end.';
+        $companydetail->phone = '01-4441860,';
+        $companydetail->operation_date = '41745';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'REDBL';
+        $company->name = 'Reliable Development Bank Ltd.';
+        $company->listed_shares = '7168926';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'redbl.gif';
+        $company->total_paid_up_value = '716892600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'rmdc@wlink.com.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Putalisadak, Kathmandu, Nepal';
+        $companydetail->web = 'http://www.rmdcnepal.com/';
+        $companydetail->profile = 'The Rural Microfinance Development Centre Ltd. (RMDC) is a wholesale lending organization in Nepal. It was registered on 30 October 1998 under the then ‘Company Act, 1996’ as a public limited company with the mandate to operate as a wholesale lending organization within the framework of the then ‘Development Bank Act, 1995’. RMDC was reregistered under the current unified banking law, the ‘Bank and Financial Institution Act (BFIA), 2006’ as a class ‘D’ financial institution. RMDC commenced its lending operation from January 2000. The main function of RMDC is wholesale lending to MFIs. Besides, it has been extending institutional capacity building supports to MFIs. Currently, RMDC is one of the prominent wholesale lending organizations for MFIs in the country. Its partners\' outreach shares nearly 70% of the entire microfinance industry’s business in the country.';
+        $companydetail->phone = '01-4268019';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RMDC';
+        $company->name = 'Rural Microfinance Development Centre Ltd.';
+        $company->listed_shares = '5720000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rmdc.gif';
+        $company->total_paid_up_value = '572000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@shangrilabank.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Baluwatar, Kathmandu, Nepal';
+        $companydetail->web = 'www.shangrilabank.com';
+        $companydetail->profile = 'Shangri-la Development Bank Limited is a dream project of few innovative and motivated entrepreneurial minds rather than being just another bank in the crowd of financial institutions. Promoted by respected professionals, bankers, chartered accountants, doctors, engineers, businessmen, entrepreneurs, social workers, and other renowned personality of other fields with very good integrity and social standings.It is formed after merged of two local development bank named Bageswari Development Bank based in Nepaljung and Shangri-la Development Bank based in Pokhara. At present Shangri-la Development Bank Ltd. is one of the largest National level Development Bank with Branch network of 26 branches, depositors base of more than 2 lakhs customers with its Central Office in Baluwatar ,Kathmandu and Regional Office in Pokhara and Nepalgunj.';
+        $companydetail->phone = '01-4421766';
+        $companydetail->operation_date = '38289';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SADBL';
+        $company->name = 'Shangrila Development Bank Ltd.';
+        $company->listed_shares = '7359999';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sadbl.gif';
+        $company->total_paid_up_value = '735999900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'sahayogibank@yahoo.com';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Janakpurdham, Dhanusa, Nepal';
+        $companydetail->web = 'http://www.sahayogibank.com.np/';
+        $companydetail->profile = 'Sahayogi Vikas Bank Limited is the 10th Development Bank of Nepal with its Head Office at Vidhyapati Chowk -4, Janakpurdham, Dhanusha, Nepal. It is incorporated under Company Act 2063 as ‘B’ Class Financial Institution. It started its full fledged commercial operations from 23rd October 2003 from its registered office at Vidhyapati Chowk-4 Janakpurdham. The shares of the bank are actively traded at Nepal Stock Exchange (NEPSE).';
+        $companydetail->phone = '041-525972';
+        $companydetail->operation_date = '37917';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBBLJ';
+        $company->name = 'Sahayogi Bikas Bank Ltd.';
+        $company->listed_shares = '2014664';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sbblj.gif';
+        $company->total_paid_up_value = '201466400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sdblnepal.com';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Tinkune, KTM, Nepal';
+        $companydetail->web = 'www.sdblnepal.com';
+        $companydetail->profile = 'Siddhartha Development Bank limited (SDBL) is the first Development bank of western region of Nepal established formally in the year 2056 which commenced operation on 11th Ashad, 2057. The Bank has been established solely with the aim of getting exclusive confidence of Nepalese market by rendering global standards of services through professional & quality management. SDBL has been promoted as a dedicated bank with a primary focus in the development of industrial trade and commercial in Nepal Besides debt financing, the bank also offers assistance to the clean and renewable energy projects by way of private equity and advisory and consulting services. The Bank which has been in profitable operation from its inception, has managed robust growths in its overall business and profitability during the recent years. The Bank offers a complete suite of banking products and services including transaction banking, business banking, project finance, corporate banking and consumer banking.';
+        $companydetail->phone = '01-4488480';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SDBL';
+        $company->name = 'Siddhartha Development Bank Ltd.';
+        $company->listed_shares = '6450000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sdbl.gif';
+        $company->total_paid_up_value = '645000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sewabank.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Butwal, Rupandehi, Nepal';
+        $companydetail->web = 'www.sewabank.com.np';
+        $companydetail->profile = 'Sewa Bikash Bank Limited is a regional level development bank promoted by highly prominent business personalities/ groups and reputed individuals of the region who have excelled in their field of business/profession with very good integrity and social standings. Under the guidance of reputed Board of Directors and professional and dynamic management team having extensive experience with proven track-record in the banking industry, Sewa Bank is committed to offer a wide range of banking products and services tailored with the state-of-the-art technology to meet the unique requirements of all the customer/clients and thereby delight them by exceeding their expectations.';
+        $companydetail->phone = '071-546993';
+        $companydetail->operation_date = '39138';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SEWA';
+        $company->name = 'Sewa Bikas Bank Ltd.';
+        $company->listed_shares = '3606400';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sewa.gif';
+        $company->total_paid_up_value = '360640000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'saharabb2010@hotmail.com';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Malangwa, Sarlahi, Nepal';
+        $companydetail->web = 'http://www.saharabikashbank.com/';
+        $companydetail->profile = 'Sahara Bikas Bank Ltd is registered with the Government of Nepal, Company Registrar\'s Office as the limited company with the date July 14, 2004 ( Ashad 30, 2061 BS). Commence License is received from Nepal Rastra Bank (the central bank of Nepal) on November 29, 2004 (Mangsir 14, 2061 BS) with the issue number.';
+        $companydetail->phone = '046-521471';
+        $companydetail->operation_date = '40478';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SHBL';
+        $company->name = 'Sahara Bikas Bank Ltd.';
+        $company->listed_shares = '236000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'shbl.gif';
+        $company->total_paid_up_value = '23600000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sindhubikashbank.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Barhabise, Sindhupalchowk, Nepal';
+        $companydetail->web = 'www.sindhubikashbank.com.np';
+        $companydetail->profile = 'SINDHU BIKASH BANK is first development bank opened at Sindhupalchowk district of NEPAL started operation in Bhadra 22, 2067 (Sept.7, 2010). This bank has licensed by Nepal Rastra Bank (Central Bank of Nepal) & running under the Company Act & Bank & Financial Institution Act of Nepal. Sindhupalchowk Chamber of Commerce & Industry of Nepal has taken initiative to open the bank. Â The bank also has a network of 3 branches as well as some 20,000 nos. of customers (as on May 2012).';
+        $companydetail->phone = '011-489245';
+        $companydetail->operation_date = '40430';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SINDU';
+        $company->name = 'Sindhu Bikash Bank Ltd';
+        $company->listed_shares = '1075000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sindu.gif';
+        $company->total_paid_up_value = '107500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@shinebank.com.np';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Butwal, Rupandehi, Nepal';
+        $companydetail->web = 'www.shinebank.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '071-551498';
+        $companydetail->operation_date = '39866';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SHINE';
+        $company->name = 'Shine Resunga Development Bank Ltd.';
+        $company->listed_shares = '6333300';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'shine.gif';
+        $company->total_paid_up_value = '633330000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@skbbl.com.np';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Subidhanagar, KTM, Nepal ';
+        $companydetail->web = 'http://skbbl.com.np';
+        $companydetail->profile = 'Small Farmers Development Bank (Sana Kisan Bikas bank); as an apex microfinance bank emerged in July 2001 to provide wholesale credit along with the technical support services mainly to the Small Farmers Agriculture Cooperatives Ltd. (SFACLs) and similar types. The bank is incorporated under the Company Act and licensed under the Bank and Financial Institutions Act (BAFIA) 2006 as a “D” class bank. Currently, this bank has started providing wholesale credit to other cooperatives and Microfinance institutions (MFIs) too in order to expedite access to microfinance services for the low income people especially living in hills and mountains of the country.';
+        $companydetail->phone = '01-4111828';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SKBBL';
+        $company->name = 'Sana Kisan Bikas Bank Ltd.';
+        $company->listed_shares = '2300000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'skbbl.gif';
+        $company->total_paid_up_value = '230000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@slbbl.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Banepa, Kavrepalanchok, Nepal';
+        $companydetail->web = 'slbbl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '011-661060';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SLBBL';
+        $company->name = 'Swarojgar Laghu Bitta Bikas Bank Ltd.';
+        $company->listed_shares = '400000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'slbbl.gif';
+        $company->total_paid_up_value = '40000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'banksummit@yahoo.com';
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Birtamode, Jhapa, Nepal';
+        $companydetail->web = 'http://www.summitbank.com.np/';
+        $companydetail->profile = 'Summit Micro Finance Development Bank limited is the 15th microfinance bank established under the bank & financial institution act, 2063. The bank’s co-rporate office is located in Anarmani-4,Birtamode ,Jhapa .Currently the bank is operating with 13 branches & will gradually expand its branch network to provide its service all over the working area.';
+        $companydetail->phone = '023-541420';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SMFDB';
+        $company->name = 'Summit Micro Finance Development Bank Ltd.';
+        $company->listed_shares = '352800';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'smfdb.gif';
+        $company->total_paid_up_value = '35280000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@hnbdevbank.com';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Dillibazar, KTM, Nepal';
+        $companydetail->web = 'www.hnbdevbank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4443031';
+        $companydetail->operation_date = '38663';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SODBL';
+        $company->name = 'Society Development Bank Ltd.';
+        $company->listed_shares = '8979301';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sodbl.gif';
+        $company->total_paid_up_value = '897930100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@subhechhabank.com.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Narayangadh, Chitwan, Nepal';
+        $companydetail->web = 'http://www.subhechhabank.com.np/';
+        $companydetail->profile = 'Subhechha Bikash Bank has become a pronounced name in regional level bank based on Chitwan. Subhechha Bikash Bank Limited is a regional level bank, licensed by Nepal Rastra Bank (Central Bank of Nepal) promoted by highly experienced banking professionals, doctors, entrepreneurs, and reputed individuals. The Bank has great aim to mobilize required resources for the national development process which has commenced its formal operation from 10th Aswin 2061. The head office of the bank is in Bharatpur Municipality, Ward No-3,Narayangarh,Chitwan.';
+        $companydetail->phone = '056-521734';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SUBBL';
+        $company->name = 'Subhechha Bikas Bank Ltd.';
+        $company->listed_shares = '1497182';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'subbl.gif';
+        $company->total_paid_up_value = '149718200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sdbank.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Tinkune, KTM, Nepal';
+        $companydetail->web = 'www.sdbank.com.np';
+        $companydetail->profile = 'Supreme Development Bank Ltd. has been established under the Bank and Financial Institution Act 2006 as a ""B"" class national level development bank. The Bank has been formed through the merger of former Annapurna Bikas Bank Ltd. and Suryadarshan Finance Company Ltd. with approval from Nepal Rastra Bank on July 08, 2012. The head office of the Bank is situated at central capital – Tinkune, Kathmandu.';
+        $companydetail->phone = '01-4465882';
+        $companydetail->operation_date = '38235';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SUPRME';
+        $company->name = 'Supreme Development Bank Ltd.';
+        $company->listed_shares = '8106000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'suprme.gif';
+        $company->total_paid_up_value = '810600000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'swbbl@ntc.net.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Lal Durbar, Kathmandu, Nepal';
+        $companydetail->web = 'http://swbbl.com.np/';
+        $companydetail->profile = 'Swabalamban Laghubitta Bikas Bank Ltd. (SWBBL) is a microfinance development bank.  With the mission of delivering sustainable microfinance services at the doorstep of the deprived sector target societies, SWBBL, was registered with the Company Registrar’s Office as a limited company under the Companies Act, 2053 on October 5, 2001 (Aswin 19, 2058) and obtained license from Nepal Rastra Bank– the Central Bank of Nepal on January 3, 2002 (Poush 19, 2058) to operate the financial activities under Development Bank Act, 2052.';
+        $companydetail->phone = '01-4434921';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SWBBL';
+        $company->name = 'Swabalamban Bikas Bank Ltd.';
+        $company->listed_shares = '2187750';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'swbbl.gif';
+        $company->total_paid_up_value = '218775000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'triveni@trivenibank.com';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Bharatpur, Chitwan, Nepal';
+        $companydetail->web = 'www.trivenibank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '056-521100';
+        $companydetail->operation_date = '38212';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TBBL';
+        $company->name = 'Triveni Bikas Bank Ltd.';
+        $company->listed_shares = '7400860';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'tbbl.gif';
+        $company->total_paid_up_value = '740086000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@tdbl.com.np';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'New Baneshwor, KTM, Nepal';
+        $companydetail->web = 'www.tdbl.com.np';
+        $companydetail->profile = 'Tourism Development Bank Limited (TDBL) has been established for the delivery of comprehensive banking services to the esteemed customers by the collective efforts of entrepreneurs from tourism sector, hydropower experts, professors, professional bankers, pioneer of cooperative movement, doctors, engineers, advocates and other professionals with excellent track record and high social profile. Its prime concern is to contribute on socio-economic development of the Country through diversified range of banking products & services. The Bank believes on offering of quality service to the customers, generating maximum return to shareholders, providing competitive incentives to employees, ensuring compliance of prudential norms to regulators and serving community as well. We are fully committed to glorify our corporate slogan \'The Bank you can rely on\'. Capital structure of the Bank is authorized Capital: NPR. 1280 Million Issued and paid up Capital: NPR. 678.4 Million, out of which 37.50% is allocated to general public.';
+        $companydetail->phone = '01-4485480';
+        $companydetail->operation_date = '40255';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TDBL';
+        $company->name = 'Tourism Development Bank Ltd.';
+        $company->listed_shares = '6784000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'tdbl.gif';
+        $company->total_paid_up_value = '678400000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@tinaubank.com';
+        $companydetail->issue_manager_id = '11';
+        $companydetail->address = 'Butwal, Rupandehi, Nepal';
+        $companydetail->web = 'www.tinaubank.com';
+        $companydetail->profile = 'Tinau Development Bank has been incorporated as a \'B\' class financial institution and has operated its financial activities form 15th Kartik, 2063 for undertaking limited regional banking activities. The professional management team along with dedicated employees is always looking forward to serve the customers with its designed products. The Bank made public offering on 3rd Bhadra, 2067 for 3,00,000 shares. Out of which, 6000 shares were allotted for its employees after complying with all the conditions of Nepal Stock Exchange Limited and Nepal Rastra Bank. The Bank is a public limited company incorporated under the Bank and Financial Institution Act 2006 and the Companies Act 2006. The Bank is licensed by NRB to undertake banking services. The Authorized Capital of the Bank is Rupees 300 Million and the Issued Paid-Up Capital is Rupees 128.80 Million. 70 Percent of the Paid-Up Capital is held by the promoter and remaining 30 percent is held by the general public. Bank has a 6 member Board of Directors (BOD) from promoter\'s group. Out of which four represents the promoters\' group, two represents the general public. To the date, Bank has eight branches. The bank has established itself as an emerging player in financial sector with focus in customer service excellence maintaining excellent relationship with valued customers. Tinau Bank provides various services such as ATM Debit Card, SMS Banking, Remittance, Mobile Recharge Services,Locker Facility and Gold Loan.';
+        $companydetail->phone = '071-545205';
+        $companydetail->operation_date = '39022';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TNBL';
+        $company->name = 'Tinau Development Bank Ltd.';
+        $company->listed_shares = '1851499';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'tnbl.gif';
+        $company->total_paid_up_value = '185149900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UBBL';
+        $company->name = 'Udhyam Bikas Bank Ltd.';
+        $company->listed_shares = '500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ubbl.gif';
+        $company->total_paid_up_value = '50000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@viborbank.com';
+        $companydetail->issue_manager_id = '12';
+        $companydetail->address = 'Tripureshwor, KTM, Nepal';
+        $companydetail->web = 'www.viborbank.com';
+        $companydetail->profile = 'Even today, many entrepreneurial ideas remain wishful thinking. Many others die in infancy. And many more do not reach their fullest potential. We dedicate Vibor to the services of those entrepreneurs whose courage and imagination are the source of inspiration and hope to us all. Vibor Bikas Bank Limited (VIBOR), a national level category B financial institution licensed from Nepal Rastra Bank (the central bank of Nepal), commenced its operation in October 2007. In pursuit to strengthen strategic competitiveness, Vibor Bikas Bank Ltd merged with Bhajuratna Finance and Saving Company Ltd and started joint operation from September 02, 2012 with a vision of ""Together for Better"". ';
+        $companydetail->phone = '01-4233373';
+        $companydetail->operation_date = '41511';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'VBBL';
+        $company->name = 'Vibor Bikas Bank Ltd.';
+        $company->listed_shares = '6800000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'vbbl.gif';
+        $company->total_paid_up_value = '680000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'wdbldang@yahoo.com';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Ghorahi, Dang, Nepal';
+        $companydetail->web = 'http://wdbldang.com.np/';
+        $companydetail->profile = 'Even today, many entrepreneurial ideas remain wishful thinking. Many others die in infancy. And many more do not reach their fullest potential. We dedicate Vibor to the services of those entrepreneurs whose courage and imagination are the source of inspiration and hope to us all. Vibor Bikas Bank Limited (VIBOR), a national level category B financial institution licensed from Nepal Rastra Bank (the central bank of Nepal), commenced its operation in October 2007. In pursuit to strengthen strategic competitiveness, Vibor Bikas Bank Ltd merged with Bhajuratna Finance and Saving Company Ltd and started joint operation from September 02, 2012 with a vision of ""Together for Better"". ';
+        $companydetail->phone = '082-560732';
+        $companydetail->operation_date = '40193';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'WDBL';
+        $company->name = 'Western Development Bank Ltd.';
+        $company->listed_shares = '1308000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'wdbl.gif';
+        $company->total_paid_up_value = '130800000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@yetibank.com';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Darbarmarga, KTM, Nepal';
+        $companydetail->web = 'www.yetibank.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4268719';
+        $companydetail->operation_date = '41394';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'YETI';
+        $company->name = 'Yeti Development Bank Ltd.';
+        $company->listed_shares = '13299584';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'yeti.gif';
+        $company->total_paid_up_value = '1329958400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Bagbazar, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4241605';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AEFL';
+        $company->name = 'Alpic Everest Finance Co. Ltd.';
+        $company->listed_shares = '1076400';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aefl.gif';
+        $company->total_paid_up_value = '107640000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Pokhara, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-561667';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AFL';
+        $company->name = 'Api Finance Ltd.';
+        $company->listed_shares = '1200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'afl.gif';
+        $company->total_paid_up_value = '120000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '3';
+        $companydetail->address = 'Putali Line, Dharan, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-523185';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ARUN';
+        $company->name = 'Arun Finance Ltd.';
+        $company->listed_shares = '1500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'arun.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kantipath, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BFIL';
+        $company->name = 'Bhajuratna Finance & Saving Co. Ltd.';
+        $company->listed_shares = '1001000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bfil.gif';
+        $company->total_paid_up_value = '100100000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Adarshnagar, Birgunj, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-523468';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BJFL';
+        $company->name = 'Birgunj Finance Ltd.';
+        $company->listed_shares = '4200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bjfl.gif';
+        $company->total_paid_up_value = '420000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@cmbfl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Battisputali, Ktm, Nepal';
+        $companydetail->web = 'www.cmbfl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4471458';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CMB';
+        $company->name = 'Capital Merchant Bank & Finance Co. Ltd.';
+        $company->listed_shares = '9350695';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cmb.gif';
+        $company->total_paid_up_value = '935069500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'central@ ntc.net.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kupondole, Lalitpur, Nepal';
+        $companydetail->web = 'www.centralfinance.com.np';
+        $companydetail->profile = 'Central Finance Limited (CFL), was incorporated as a public limited company, in April 14, 1996. It has been established as per the Finance Company Act 2042 B.S. and Company Act 2053. It commenced operations from April 14, 1997 upon obtaining the operating license from Nepal Rastra Bank. Central Finance Limited envisions becoming a strong and reputed institution in financial sector of Nepal by providing preferred products and services and ensuring attractive and substantial return for shareholders with the help of well experienced staffs. As envisaged by the stated mission, Central Finance Limited [CFL] has been actively participating to cater the demand of small, medium and long term finance for the industrial, commercial, agricultural, service, tourism and infrastructure sectors and other services by offering various banking facilities. It mobilizes its sources in the form of fixed, saving and other short-term deposits with competitive interest rates.';
+        $companydetail->phone = '01-5544517 ';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CFCL';
+        $company->name = 'Central Finance Co. Ltd.';
+        $company->listed_shares = '1846610';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cfcl.gif';
+        $company->total_paid_up_value = '184661000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nlk.org.np';
+        $companydetail->issue_manager_id = '2';
+        $companydetail->address = 'New Baneshwor, Ktm, Nepal';
+        $companydetail->web = 'http://nlk.org.np/';
+        $companydetail->profile = 'Citizen Investment Trust (Nagarik Lagani Kosh) was incorporated in 18th March, 1991 (4th Chaitra, 2047 B.S.) under the Citizen Investment Trust Act,1990. CIT formally started its activities since 15th January,1992 (1st Magh, 2048 B.S.). It is a statutory body under Ministry of Finance, Government of Nepal and has been functioning on the basis of the ‘Citizen Investment Trust Management By-Laws,1991’ which was made under the ‘Citizen Investment Trust Act,1990’. In fact, it is only a semi-governmental organization actively being operated as an ‘Investment Trust’ all over the nation and is fully functioning its activities in the capital market exploring new opportunities of an ultimate saving, investment, merchant banking and market making. All in all it is a saving and investment institution responsible for the development of various savings and investment schemes, insurance programs, capital markets services, unit-trust management services and trustee services. It has been established in order to expand investment opportunities by encouraging general public to save capital and to bring vitality in the promotion of capital market. CIT has successfully completed its two decade challenging years with the simultaneous growth of a dynamic capital market in Nepal. At present, it has been launching various types of voluntary retirement schemes (Pension funds, Gratuity funds etc.) and mandatory insurance fund programs on the basis of fully funded and individual account. CIT, at the same time, encouraging the long-term saving mobilizations by operating Employee Saving Growth schemes (ESGS), Employee Savings Growth Retirement Fund (ESGRF), Insurance Funds for government employees & teachers, Investors’ Account scheme, Pension/ Gratuity Fund scheme and Citizen Unit scheme to help the small & medium saving depositor’s surplus fund mobilization towards the capital market. The head office of CIT is in Kathmandu and may open branches of appoint representatives within or outside the country.';
+        $companydetail->phone = '01-4781673';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CIT';
+        $company->name = 'Citizen Investment Trust';
+        $company->listed_shares = '4500036';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cit.gif';
+        $company->total_paid_up_value = '450003600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'civilmbsl@hotmail.com';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Kuleshwor, Ktm, Nepal';
+        $companydetail->web = 'www.civilmbsl.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4289524';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CMBSL';
+        $company->name = 'Civil Merchant Bittiya Santha Ltd.';
+        $company->listed_shares = '1493909';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cmbsl.gif';
+        $company->total_paid_up_value = '149390900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kamalachhi, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4238511';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CMBF';
+        $company->name = 'CMB Finance Ltd.';
+        $company->listed_shares = '1501020';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cmbf.gif';
+        $company->total_paid_up_value = '150102000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Bag Durbar, Ktm, Nepal';
+        $companydetail->web = 'www.crystalfinance.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4218269';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CFL';
+        $company->name = 'Crystal Finance Ltd.';
+        $company->listed_shares = '700000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cfl.gif';
+        $company->total_paid_up_value = '70000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'efl@ntc.net.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Narayan Path, Rupendehi, Nepal';
+        $companydetail->web = 'http://www.efl.com.np/';
+        $companydetail->profile = 'Everest Finance Limited (EFL) is a leading Consumer Finance Company in western Nepal with excellent asset quality and strong growth potential. The company, promoted by the industrialists, former Officers from Nepal Rastra Bank and Nepal Bank Limited established in 2058-3-4 as per the Companies Act of Nepal and permitted to start the financial activities in 2060-3-12 where it started its daily work since 2060-3-18. The main objective of the company is to mobilize scattered savings into the consumer financing sector. The major promoters and shareholders of the company are hold 60% of the shares in the company with the remaining balance of 40% shares held by the general public. The company operates from its Head Office in Siddhartha Nagar Municipality-7, Narayan Path, and Rupendehi. Within a short span of its establishment, the company has been able to establish itself as one of the leading financial institution in the territory. The company’s vision is to become the one of the best finance company in terms of consumer financing in the region. With an aim to provide highly professional banking & financial services, Everest Finance Ltd. has a team of young and dynamic professionals to run the Company. The experience gained in various sectors of finance over the years has enabled Everest Finance Ltd. to serve its customers in most reliable and efficient manner.';
+        $companydetail->phone = '071-526507';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EFL';
+        $company->name = 'Everest Finance Ltd.';
+        $company->listed_shares = '968392';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'efl.gif';
+        $company->total_paid_up_value = '96839200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Chipledhunga, Pokhara, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '538300';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'FFCL';
+        $company->name = 'Fewa Finance Co. Ltd.';
+        $company->listed_shares = '3963960';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ffcl.gif';
+        $company->total_paid_up_value = '396396000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@generalfinance.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Chabahil, Ktm, Nepal';
+        $companydetail->web = 'http://www.generalfinance.com.np/';
+        $companydetail->profile = 'General Finance Limited (Bittiya Sanstha) was incorporated under the Finance Company Act 2042 and Company Act 2021. GEFL (BS), came into existance its operations from 18th Magh, 2052 B.S with an objectives of providing full fledge integrated financial services intermediary destined to provide the best competitive and modern banking services to its customers. General Finance Limited (Bittiya Sanstha) GEFL(BS) is conducting its entire financial service activities under the direct supervision of Nepal Rastra Bank.';
+        $companydetail->phone = '01-4484754';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GFL';
+        $company->name = 'General Finance Ltd.';
+        $company->listed_shares = '1322280';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gfl.gif';
+        $company->total_paid_up_value = '132228000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'goodwill@finance.wlink.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kamalpokhari , Ktm, Nepal';
+        $companydetail->web = 'http://www.goodwillfinance.com.np/';
+        $companydetail->profile = 'Goodwill Finance Limited is a leading provider of financial solutions with unique mix of dedication and perfect execution. With the vision of providing best financial services for success, Goodwill Finance Limited started its operation as financial institution under the license from Nepal Rastra Bank in 1995. It is a public limited company established under the financial company act 2042, on 2051BS. The Authorized Capital of the company is Rupees 64,00,00,000/- and the Issued Capital is 31,05,00,000/- . 60 percent of the Paid-Up Capital is held by the promoter and remaining 40 is held by the general public. The shares of the Company are listed at Nepal Stock Exchange Limited (NEPSE). Our objective is to uplift the economic status of Nepal by investing in different economic sectors under economic liberalization policy, understanding diverse customer needs and providing broad mix of financial services to business and individuals. With corporate office based on Hattisar, Kamalpokhari, Kathmandu, we are known for our financial stability and excellent customer services. We are a continuously growing company and in present our branches are spread over Dillibazar, Indrachowk, Lalitpur, Bakhtapur, Birtamode, Itahari, Dang and Nepalgunj.';
+        $companydetail->phone = '01-4444039';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GFCL';
+        $company->name = 'Goodwill Finance Co. Ltd.';
+        $company->listed_shares = '3299458';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gfcl.gif';
+        $company->total_paid_up_value = '329945800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Satdobato, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5521404';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GFLK';
+        $company->name = 'Gorkha Finance Ltd.';
+        $company->listed_shares = '1557085';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gflk.gif';
+        $company->total_paid_up_value = '155708500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GMFIL';
+        $company->name = 'Guheshowori Merchant Bank & Finance Co. Ltd.';
+        $company->listed_shares = '2552254';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gmfil.gif';
+        $company->total_paid_up_value = '255225400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@hamafinance.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Tripureshwor, Ktm, Nepal';
+        $companydetail->web = 'www.hamafinance.com.np';
+        $companydetail->profile = 'Hama Financial Institution Limited operates from June 16th, 2006 with a goal to provide you Professionalized and efficient financial services. We would like to introduce ourselves as a National Level Financial Institution in ""C"" category under Bank and Financial Institution related Ordinance 2062, promoted by prominent figures in Industry, Business, Professionals, Bankers and intellectual persons.';
+        $companydetail->phone = '01-4249503';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HAMA';
+        $company->name = 'Hama Merchant & Finance Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hama.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@hfl.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Sundhara, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = 'Established in the year 1994, Himalayan Finance Limited (HFL) has become successful to create a place for itself in Nepali finance market. The institution’s ability to adapt to the shifting paradigm in the finance world to offer their clients the superior financial solutions is one of the reasons behind its success. The company, since its inception, has been offering a wide variety of tailor-made, technology based, co-branded, prompt and personalized services right at the customer’s doorstep. Himalayan Finance Limited tries to tap the untapped resources and inject the same into the mainstream of the country’s economy which makes it unique and different from other institutions of the same category. The company provides best services with highest standard at lower service charges and help people build up regular savings habit by offering them assured returns with total security. The team of the company is determined to embrace cutting edge concepts with transparent operations and customer-centric policies to constructively reshape Nepal’s finance world.';
+        $companydetail->phone = '01-4259376';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HFL';
+        $company->name = 'Himalayan Finance Ltd. (Bittiya Sanstha)';
+        $company->listed_shares = '1400000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hfl.gif';
+        $company->total_paid_up_value = '140000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'sanjaya@icfcbank.com';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Boudha, Ktm, Nepal';
+        $companydetail->web = 'http://icfcbank.com/';
+        $companydetail->profile = 'ICFC Finance Limited, registered in 2003 under the Company Act 2053 and Bank & Finance Ordinance, 2060 commenced its operations from July 17, 2004. Headquartered in Bhatbhateni, Kathmandu, Nepal. ICFC has been promoted primarily to cater to the financial needs of small and medium enterprises.';
+        $companydetail->phone = '01-4473052';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ICFC';
+        $company->name = 'ICFC Finance Ltd.';
+        $company->listed_shares = '4263547';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'icfc.gif';
+        $company->total_paid_up_value = '426354700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kantipath, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4239170';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'IMEFI';
+        $company->name = 'IME Financial Institution Ltd.';
+        $company->listed_shares = '4318445';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'imefi.gif';
+        $company->total_paid_up_value = '431844500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Putalisadak, Kathmandu, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4432373';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'IFIL';
+        $company->name = 'Imperial Financial Inst. Ltd.';
+        $company->listed_shares = '1497300';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ifil.gif';
+        $company->total_paid_up_value = '149730000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'New Baneshower, Ktm, Nepal';
+        $companydetail->web = 'http://www.ilfco.com.np/';
+        $companydetail->profile = 'ILFCO was initially established as a joint venture finance company with the Korean Industrial Leasing Co., Ltd. (KILC) which was founded as a subsidiary of the Korea Development Bank in 1972. On March 2 1999, KILC merged with Korea Technology Finance Corporation (KTFC) under the restructuring program initiated by the Korea Development Bank (KDB), a common major shareholder of both KILC and KTFC, and thus emerged KDB Capital Corporation after this merger. KDB Capital Corporation is the largest leasing company in the Republic of Korea and one among the top three largest leasing companies within the Asian Continent. It has been participating in the management of ILFCO through the provision of technical know-how as a foreign partner since the very inception of the company. The Asian Development Bank (ADB) and National Life and General Insurance Company (NLGI) acted as the Nepalese promoters in initiating together the project to widen the scope of Nepalese financial activities. Today, ILFCO stands with its unique pride for being the key role player in introducing lease financing to Nepal. With the prime objective of providing the people of the nation with creative financing alternatives of international standards, it has been continuously rendering a variety of financial services according to the needs of the Nepalese people since its establishment.';
+        $companydetail->phone = '01-4782010';
+        $companydetail->operation_date = '34650';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ILFC';
+        $company->name = 'International Leasing & Finance Co. Ltd.';
+        $company->listed_shares = '6480000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ilfc.gif';
+        $company->total_paid_up_value = '648000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@jfcjanakpur.com';
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Parshuram Marga, Janakpur, Nepal';
+        $companydetail->web = 'http://jfcjanakpur.com/';
+        $companydetail->profile = 'Janaki Finance Company Limited (Bittiya Sanstha) was established on 2052 B.S. It has been giving excellent services to its valuable customers for 18 years. Since the day of inception till date the motto of the finance has remained towards the better and easy service to the customer. The company has started its service with the paid up capital amount Rs. 6 Million. Now the company has been able to raise the paid up capital amounted to Rs. 248.625 Million. The Profit, Net worth, collection of deposits and investments are in growing trend. It has been able to keep enough liquidity ratios. It is also succeed in providing the regular dividends to the shareholder. Share Capital of Finance company comprises 60% from Promoters and 40% from Public. Janaki Finance Company has been awarded by highly income tax paid in Janakpur zone.';
+        $companydetail->phone = '041-521586';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JFL';
+        $company->name = 'Janaki Finance Ltd.';
+        $company->listed_shares = '2486250';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jfl.gif';
+        $company->total_paid_up_value = '248625000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'New Road, Kathmandu, Nepal';
+        $companydetail->web = 'http://jebils.com/';
+        $companydetail->profile = 'Jebil\'s Finance Limited, promoted by a team of Professional Bankers, Mangers, Auditors, Businessman, Industrialists, Doctors, Lawyers, Engineers, is a Public Limited Company established under Company Act, 2063 and registered to Nepal Rastra Bank as national level ""C"" categorized financial institution under Bank & Financial Institution Act, 2063. It started it\'s operation from 11 Kartik 2067.';
+        $companydetail->phone = '01-4220426';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JEFL';
+        $company->name = 'Jebils Finance Ltd.';
+        $company->listed_shares = '2200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jefl.gif';
+        $company->total_paid_up_value = '220000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kaskifinance.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Newroad, Pokhara, Nepal';
+        $companydetail->web = 'www.kaskifinance.com.np';
+        $companydetail->profile = 'Kaski Finance Limited is established to provide financial support to different productive and needy sector by collecting the small and large savings all around the country for the overall development of the nation under the free economy policy of Nepal Government.Kaski Finance Limited is ‘GA’ class institution licensed by Nepal Rastra Bank(N.R.B.). The Head office of Kaski Finance Limited is located in Newroad, Pokhara. Agriculture, Tourism , Business, Services and Industries are the major target areas for Lending. Besides these Kaski Finance Limited helps to find, establish, develop and finance productive sector which is base for nation building. Kaski Finance Limited is promoted by professionals of Bank, financial institution and educational sector, Kaski Finance Limited provides easy, fast and convenient services to our valued customers using modern technology and experienced staff family.';
+        $companydetail->phone = '61-523011';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KAFIL';
+        $company->name = 'Kaski Finance Ltd.';
+        $company->listed_shares = '2836960';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kafil.gif';
+        $company->total_paid_up_value = '283696000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'kafal@mail.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Dillibazar, Ktm, Nepal';
+        $companydetail->web = 'http://www.kathmandufinance.com.np/';
+        $companydetail->profile = 'Kathmandu Finance Limited (KAFAL) was established on 2051 B.S. It has been giving excellent service to its valuable customer for 20 years. Since the day of inception till date the motto of the finance has remained towards the better and easy service to the customer. The company has started its service from the paid up capital amount Rs. 2 Crore. Now the company has been able to raise the paid up capital amounted to Rs. 17 crore. The Profit, Net worth, collection of deposit and investment are in growing trend. The company is also able to abide by the rules and regulation of the regulatory bodies. It has been able to keep enough liquidity ratios. It is also succeed in providing the regular dividends to the shareholder.';
+        $companydetail->phone = '01-4430527';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KFL';
+        $company->name = 'Kathmandu Finance Ltd.';
+        $company->listed_shares = '1920907';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kfl.gif';
+        $company->total_paid_up_value = '192090700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@kubermerchant.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Gyaneshwor, Ktm, Nepal';
+        $companydetail->web = 'www.kubermerchant.com.np';
+        $companydetail->profile = 'Kuber Merchant Finance Limited (KMFL) is the 62nd Finance company established to meet the financial dream of the people of Nepal. It is incorporated under the company Act 2063 as National level \'C\' Class financial institution licensed by Nepal Rastra Bank, and is supported by the team of highly prominent business personalities, groups, bankers, economists, chartered accountants and reputed individuals of the country who have stand out in their field of business/career with very good integrity and social standings. Under the guidance of reputed Board of Directors, professionals and dynamic management team with having extensive experience with proven track-record in the banking industry. KMFL is committed to offer a wide range of banking products and services adopted with the state-of-the-art technology to meet the unique requirements of all the customers/clients and thereby delight them by exceeding their expectations.';
+        $companydetail->phone = '01-4421411';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KMBSL';
+        $company->name = 'Kuber Merchant Finance Ltd.';
+        $company->listed_shares = '1500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kmbsl.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'lfcl@wlink.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Lagankhel, Lalitpur, Nepal';
+        $companydetail->web = 'http://www.lalitpurfinance.com.np/';
+        $companydetail->profile = 'Lalitpur Finance Limited is the first Finance Company of Lalitpur District owned by private sector. Established under the Finance Company Act 2042 and Company Act 2053, LAFIN has been performing its functions effectively under the guidance of Nepal Rastra Bank (Central Bank). The financial result of the company reflects its strong strength. The company was listed in Nepal Stock Exchange on September 18, 1998 (2055/06/02). We are LAFIN - a diversified financial services company where speed, creativity, and responsiveness are the keys to our success.';
+        $companydetail->phone = '01-5536598';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LFC';
+        $company->name = 'Lalitpur Finance Ltd.';
+        $company->listed_shares = '1878697';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'lfc.gif';
+        $company->total_paid_up_value = '187869700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'New Road, Kathmandu, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4212770';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LBFIL';
+        $company->name = 'Lord Buddha Finance Ltd.';
+        $company->listed_shares = '1665000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'lbfil.gif';
+        $company->total_paid_up_value = '166500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'lufil@mos.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Thamel, Ktm, Nepal';
+        $companydetail->web = 'http://lumbinifinance.com.np/';
+        $companydetail->profile = 'Lumbini Finance & Leasing Company Ltd. commonly known as LFLC is a public limited Finance and Leasing Company promoted by a group of highly committed and innovative persons. It is managed by a group of well experienced and professional managers having excellent leadership. The company has the right combination of dedicated service-oriented staffs for which one can always trust for an excellent service. It is registered in the Ministry of Industry and has obtained license from Nepal Rastra Bank (Central Bank of Nepal ) under the section 6(A) of Finance Companies Act 2042. LFLC is operating its business as per the guidelines of Nepal Rastra Bank, provisions of Finance companies Act 2042, companies ACT 2053 and other related Nepalese law. LFLC has started its operation from 12/03/052 and has shown a very encouraging trend in its years of operation. Our logo represents the symbol of continuity & reliability in the market. LFLC’s share is listed in Nepal stock Exchange (NEPSE quote: LFLC) & it is being traded in the market as A-grade share.';
+        $companydetail->phone = '01-4423443';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LFLC';
+        $company->name = 'Lumbini Finance Ltd.';
+        $company->listed_shares = '3389214';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'lflc.gif';
+        $company->total_paid_up_value = '338921400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@mahalaxmi.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Putalisadak, Ktm, Nepal';
+        $companydetail->web = 'http://www.mahalaxmifinance.com/';
+        $companydetail->profile = 'Mahalaxmi Finance Limited, a well known ‘C’ Class financial institution, licensed by Nepal Rastra Bank was established in 2051 B.S. (1994 AD) with a vision of becoming “Your Partner for financial solution”. The company has an authorized Capital of NPR 500 million; issued and paid-up capital of NPR 420 million. 51% of the paid-up capital is held by the promoters and remaining 49% by the general public. The share of the Bank is listed at Nepal Stock Exchange Limited (NEPSE) as \'A\' category company. The Company has excellent track record of continuous distribution of dividend since 18 years out of 19 years of its operation. This was possible only due to the faith of our valued customers and the service provided by us to them; that is why we are always “striving for excellence”.';
+        $companydetail->phone = '01-4224179';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MFL';
+        $company->name = 'Maha Laxmi Finance Ltd.';
+        $company->listed_shares = '4200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mfl.gif';
+        $company->total_paid_up_value = '420000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@manjushreefinance.com.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'New Baneshower, Ktm, Nepal';
+        $companydetail->web = 'http://manjushreefinance.com/';
+        $companydetail->profile = 'Manjushree is a established finance company with a vision to become the country’s premier financial institution known for its expertise and services in providing superior financial solutions to you. Equipped with a strong capital base, a team of competent and dedicated management professionals, strong IT infrastructure and systems, wider and deeper connections in the market, Manjushree now stands as a very modern and efficient financial institution. It provides customer- focused financial services to you in a very friendly environment. Promoted by a team of eminent people with long experience and reputation in banking, business, government, education and development sectors, Manjushree is committed to lead in meeting your financial needs and expectations. It optimizes all its strengths, expertise, advices and services in a very flexible and effective manner in serving your financial needs.';
+        $companydetail->phone = '01-4782517';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MFIL';
+        $company->name = 'Manjushree Financial Institution Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mfil.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MPFL';
+        $company->name = 'Multipurpose Finance Company Ltd.';
+        $company->listed_shares = '287500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mpfl.gif';
+        $company->total_paid_up_value = '28750000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nbsl.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Ghorahi, Dang, Nepal';
+        $companydetail->web = 'www.nbsl.com.np';
+        $companydetail->profile = 'Namaste Bittiya Sanstha Limited (NBSL) was incorporated as a public limited company at the office of the Company Registrar On 2063-07-03 under registration on 980/2063-64 with on authorized capital of Rs 2 corers. Under Bank & Financial Institution Act-2063, Nepal Rastra Bank granted license to Namaste Bittiya Sanstha Ltd. classifying it’s as a “C” class Licensed institution on 2064-02-27 under license no “C”/75/063-64. NBSL commenced its financial operation with effect from 2064-03-25 with one central office at Ghorahi Dang. It is promoted by prominent personalities and reputed individual having high social standing and managed by a team of experienced bankers & professionals.';
+        $companydetail->phone = '082-561659';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBSL';
+        $company->name = 'Namaste Bittiya Sanstha Ltd.';
+        $company->listed_shares = '312500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbsl.gif';
+        $company->total_paid_up_value = '31250000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nnfl.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Kalikasthan, Ktm, Nepal';
+        $companydetail->web = 'http://www.nnfl.com.np/';
+        $companydetail->profile = 'Narayani National Finance limited was formed after the merge of two finance companies, Narayani Finance Limited and National Finance Limited in 2009. Narayani Finance limited (NAFIL) is the first financial institution, established by private sector in Chitwan district and National Finance Limited was incorporated on the 30th of August 1992 with the approval of the central bank, ""Nepal Rastra Bank"" (NRB).';
+        $companydetail->phone = '01-4422554';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NNFC';
+        $company->name = 'Narayani National Finance Ltd.';
+        $company->listed_shares = '6854017';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nnfc.gif';
+        $company->total_paid_up_value = '685401700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NDFL';
+        $company->name = 'Nava Durga Finance Co. Ltd.';
+        $company->listed_shares = '1973132';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ndfl.gif';
+        $company->total_paid_up_value = '197313200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nafl@nepalaawas.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Tinkune, Ktm, Nepal';
+        $companydetail->web = 'http://www.nepalaawas.com.np/';
+        $companydetail->profile = 'Nepal Aawas Finance Limited (NAFL), formerly Nepal Housing Development Finance Company(NHDFC), is the first finance company to come into existence in Nepal. NAFL was established as a Limited Financial Institution as per the Bank and Finance Company Act 2063 (Financial Institution Act 2042) on 2046 Chaitra -6 at the Office of the Company Registrar. Having started its operations on 2049 Srawan 19, NAFL got permission from Nepal Rastra Bank to operate as a financial institution on 2049 Magh 8. Its current location of corporate affairs is in Subidhanagar, Tinkune.';
+        $companydetail->phone = '01-4117551';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NABB';
+        $company->name = 'Nepal Aawas Finance Ltd.';
+        $company->listed_shares = '2017075';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nabb.gif';
+        $company->total_paid_up_value = '201707500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Sundhara, Ktm, Nepal';
+        $companydetail->web = 'http://www.nepexfinance.com/';
+        $companydetail->profile = 'Nepal Express Finance Limited is a national level finance company that operates in a unique, customer-focused way. NEPEX delivers the convenience and technological advantages of a commercial bank, along with the flexibility and timely response customers need, helping us sustain mutually satisfying, long-term banking relationships. Our primary focus is on meeting and exceeding customer expectations through convenient hours, an extensive network of branches, competitive rates and pricing, technological innovation and offering a full line of banking services. Currently, NEPEX operates in 4 central locations in the form of Head Office at Sundhara, Kathmandu, Branch Office, Butwal, Branch Office Pokhara and Extension Counter, Waling. The company was incorporated under Company Ordinance 2062 on in 19th Mangsir, 2062 B.S. (4th December, 2005 A.D.). Our banking transaction was commenced from 21st Baisakh 2063 (4th May, 2006). The company has been conducting banking transactions under Bank & Financial Institution Act 2063, Nepal Rastra Bank Act 2058 and Company Act 2063. This is the 68th finance company of the country that got license from the central bank of Nepal (Nepal Rastra Bank).';
+        $companydetail->phone = '01-4268056';
+        $companydetail->operation_date = '38454';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NEFL';
+        $company->name = 'Nepal Express Finance Ltd.';
+        $company->listed_shares = '2640303';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nefl.gif';
+        $company->total_paid_up_value = '264030300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'mail@nefinsco.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Putalisadak, Ktm, Nepal';
+        $companydetail->web = 'www.nefinsco.com';
+        $companydetail->profile = 'Nefinsco is The First Finance Company of Private Sector in Nepal stabilized in 2049 B.S. Till Then Nefinsco has been known as The most Mature finance company in Nepal providing its products among the Nefinsco Clients. Nefinsco, As The Trend setter in the market has the initiation of innovating some of the very first products launched in Nepal like Hire purchase, Margin Lending which became very famous later on and has been a synonym in the market nowadays. Nefinsco, As a Leading Finance has its some of the most advance and technically developed Deposit Schemes with various Kinds of Account which has been very popular for many years and adopted very keenly in the market. Nefinsco, serving to our country to Remit foreign currency, is just a another step for the people living outside of Nepal to send their money from anywhere around the world.';
+        $companydetail->phone = '01-4220031';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NFS';
+        $company->name = 'Nepal Finance Ltd.';
+        $company->listed_shares = '1359599';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nfs.gif';
+        $company->total_paid_up_value = '135959900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NSM';
+        $company->name = 'Nepal Share Markets Ltd.';
+        $company->listed_shares = '4320000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nsm.gif';
+        $company->total_paid_up_value = '432000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nslmb@info.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Laldurbar, Ktm, Nepal';
+        $companydetail->web = 'http://goo.gl/vQ1W83';
+        $companydetail->profile = 'Nepal Sri Lanka Merchant Bank Ltd. Is a joint venture between NB Group and Merchant bank of Sri Lanka Ltd. (MBSL). The company commenced its operation in 1996. By virtue of its nature and presence in Nepal, it is proud to have pioneered Merchant Banking activities in the country. The company performs and specializes in Corporate Counseling, Project Counseling, Capital & Management Re-structuring, Venture Capital, Loan Syndication, Privatization, working Capital Financing, Lease Financing, Mergers & Acquisitions, Negotiable instruments and Deposits mobilizing activities. NSLMB was managed by MBSL under TSA agreement with them for 3 years who had a strong support from its parent Bank, Bank of Ceylon. After 3 years of their management the company took over the management and from 1st January 1999, the company is fully managed by Nepalese professionals.';
+        $companydetail->phone = '01-440300';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NSLMB';
+        $company->name = 'Nepal Shree Lanka Merchant Banking & Finance Ltd.';
+        $company->listed_shares = '3000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nslmb.gif';
+        $company->total_paid_up_value = '300000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ncml.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kamalphokhari, Ktm, Nepal';
+        $companydetail->web = 'http://www.ncml.com.np/';
+        $companydetail->profile = 'Throughout our history we have been where the growth occurs, connecting our customers to opportunities. We enable businesses to thrive and economics to prosper, helping people to fulfill their hopes and dreams and realize their ambitions. Founded in 2049 under the initiation of Nepal industrial development corporation along with participation of other institutions such as National Life & General insurance, National Productivity, Rastriya Beema Sansthan, RBB, Nabil Bank and NRCS. Our aim is to become the leading  Financial institution in Nepal.';
+        $companydetail->phone = '01-4423219';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCM';
+        $company->name = 'NIDC Capital Markets Ltd.';
+        $company->listed_shares = '2332289';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ncm.gif';
+        $company->total_paid_up_value = '233228900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@omfinance.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'New Road, Pokhara, Nepal';
+        $companydetail->web = 'http://omfinance.com/';
+        $companydetail->profile = 'Om Finance Limited is one of the pioneer & leading finance companies of the Pokhara. It was registered in 2054 B.S. by the group of highly reputed & skilled board of directors. In 29th Bhadra 2057 B.S. Nepal Rastra Bank provided the License as finance company, thus, om finance started its operation from 1st Ashwin 2057 B.S. The head office of this finance limited is situated in Newroad, Pokhara. From its starting phase, Om Finance Limited is trying to bring motivation in the economic condition of the country, establish economic favour to every individual and utilize the freezed capital of the country, plan and invest in an ordered (step by step) manner & upgrade the economical policies of Nepal. Om Finance Limited is providing the cutting edge facilities to Pokhara Valley as per market demands to fulfill the basic to every level of customer demands. The services provided by the finance is trustworthy, protective and easy financial services. Famous and successful industrialists, businessmen, social workers and people having years of experience in financial sector of Pokhara.';
+        $companydetail->phone = '061-532600';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'OFL';
+        $company->name = 'Om Finance Ltd.';
+        $company->listed_shares = '3257100';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ofl.gif';
+        $company->total_paid_up_value = '325710000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@paficol.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Milanchowk, Butwal, Nepal';
+        $companydetail->web = 'http://www.paficol.com.np/';
+        $companydetail->profile = 'Pashchimanchal Finance Company Ltd is the first Finance Company in western region of the Nepal. PAFICOL was registered in the Office of Company Registrar on 2051.09.21 as per the provisions of Company Act and obtained license from the Nepal Rastra Bank on 2051.09.21 for operating financial transactions. As per the provision under Section 30 of the Bank and Financial Institution Act, 2063, the company has obtained license from Nepal Rastra Bank as a “C” class financial institution on 2063.01.12. The seven storey PAFICOL building is a model piece as well gives pride to entire Butwal city. The company has head office in Sukrapath,Butwal and its branch office in Tansen (Palpa), Beni (Myagdi), Putalibazar (Shyangja) and Kamaladi (Kathmandu),Tulsipur (Dang),Kushma(Parbat),New Road (Kathmandu) and Drivertole(Shankarnagar,Rupandehi). Altogether 88 personnel have been employed in this company.';
+        $companydetail->phone = '071-544693';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFC';
+        $company->name = 'Paschimanchal Finance Co. Ltd.';
+        $company->listed_shares = '3035074';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pfc.gif';
+        $company->total_paid_up_value = '303507400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'pfinance@wlink.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Pulchowk, Lalitpur, Nepal';
+        $companydetail->web = 'http://www.patanfinance.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5009523';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFLBS';
+        $company->name = 'Patan Finance Ltd.';
+        $company->listed_shares = '1100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pflbs.gif';
+        $company->total_paid_up_value = '110000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@pokharafinance.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Newroad, Pokhara, Nepal';
+        $companydetail->web = 'pokharafinance.com.np';
+        $companydetail->profile = 'Pokhara Finance Limited was established in 2053 B.S. Currently, the company has an Authorized Capital of NPR 940 million and Paid Up/Issued Capital of NPR 330.72 million. Its head office is situated at Newroad, Pokhara-9, Kaski . The company has an ownership of 60% with 40% shares owned by the general public. The company is amongst the oldest finance companies currently operating in Pokhara. The prime objective of this company is to render banking services to the different sectors like industries, traders, businessmen, priority sector, small entrepreneurs, deprived section of the society and every other people who need banking services. During the period of 18 years of its operation, it has accommodated a large number of clients and has been able to provide excellent services to its customers. We always protect the rights of our shareholders and help people to uplift their economic condition.';
+        $companydetail->phone = '061-531145';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFL';
+        $company->name = 'Pokhara Finance Ltd.';
+        $company->listed_shares = '3289671';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pfl.gif';
+        $company->total_paid_up_value = '328967100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'premierfinance@info.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Manbhawan, Lalitpur, Nepal';
+        $companydetail->web = 'http://www.premierfinance.com.np/';
+        $companydetail->profile = 'Established in the year 1998 under the provision of company Act, 1964 & Finance company Act, 1984. Premier Finance Company Limited (PFCL) is one of the many finance companies which were established under the approved license of central Bank. It is a national level private finance company providing the financial service to different sectors. The Finance Company came out with its Initial Public Offering (I.P.O) in March of 2003 with its paid up capital of Rs. 24 million. The individual promoter hold 60 percent and the general public hold 40 percent of the total share capital of the finance company. PFCL\'S share was listed in Nepal Stock Exchange on 28th May 2003 and its shares are being regularly traded in the secondary market. PFCL falls among the \'A\' Class Company in the listing of Nepal Stock Exchange and is an ISO 9001 : 2008 certified company.';
+        $companydetail->phone = '01-5521223';
+        $companydetail->operation_date = '1998';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFCLL';
+        $company->name = 'Premier Finance Co. Ltd.';
+        $company->listed_shares = '1266985';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pfcll.gif';
+        $company->total_paid_up_value = '126698500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Pako Newroad, Ktm, Nepal';
+        $companydetail->web = 'http://pfltd.com.np/';
+        $companydetail->profile = 'Progressive Finance Limited is a public limited company which is registered at 2051 Ashwin 14 under the company act 2021 B.S. and approved by the Government of Nepal.On 2052/09/18  Progressive Finance Limited has got “C” class licensed of financial institution from NRB under 2062 31’1’act.It is located at heart of city Pako, New Road, Kathmandu. Its operation started at 14 Falgun 2052 B.S.The name of the finance has been changed to Progressive Finance Limited from Merchant Finance Limited since 2067 upon approval of company’s annual general meeting,Nepal Rastra Bank & Company Registar’s  office.';
+        $companydetail->phone = '01-4246402';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PROFL';
+        $company->name = 'ProgressiveFinance Ltd.';
+        $company->listed_shares = '2100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'profl.gif';
+        $company->total_paid_up_value = '210000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@prudentialfinance.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Nagpokhari, Ktm, Nepal';
+        $companydetail->web = 'prudentialfinance.com.np';
+        $companydetail->profile = 'Prudential Finance Company Limited was established on Baisakh 16, 2061 with an objective of providing competitive and modern banking services in the Nepalese financial Sector. The company received permission from the NRB to commence it\'s transactions on Jestha 18, 2061 and has started its operations as the 58th Finance Company of Nepal since Jestha 24, 2061 (June 6, 2004). The company always focuses on building sound technology driven internal system to cater the changing needs of the customer that enhance high comfort and value. The key focus of company is centered on serving unfulfilled needs of all classes of customers located in various parts of the country by offering modern and competitive banking products and services.';
+        $companydetail->phone = '01-4445988';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFIL';
+        $company->name = 'Prudential Finance Company Ltd.';
+        $company->listed_shares = '3223713';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pfil.gif';
+        $company->total_paid_up_value = '322371300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Putalisadak, Ktm, Nepal';
+        $companydetail->web = 'reliancenepal.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4223117';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RLFL';
+        $company->name = 'Reliance Lotus Finance Ltd.';
+        $company->listed_shares = '3200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rlfl.gif';
+        $company->total_paid_up_value = '320000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@smb.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Manbhawan, Ktm, Nepal';
+        $companydetail->web = 'http://www.smb.com.np';
+        $companydetail->profile = 'Sagarmatha Finance Limited (SAFAL) is one of the leading finance company in Nepal promoted by highly prominent business personalities/groups and reputed individuals of the country who have excelled in their field of business/profession with very good integrity and social standings. SAFAL is incorporated under the Company Act, 2063 and Bank and Financial Institutions Act, 2063. The company is licensed by Central Bank of Nepal, Nepal Rastra Bank to carry out financial transactions as a “C” Class Financial Institution on 5th Bhadra 2062 and is carrying out its operation since 13th Bhadra 2062.';
+        $companydetail->phone = '01-5535158';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SMBF';
+        $company->name = 'Sagarmatha Merchant Banking & Finance Ltd.';
+        $company->listed_shares = '3937500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'smbf.gif';
+        $company->total_paid_up_value = '393750000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Bhaktapur, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-6610183';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SFC';
+        $company->name = 'Samjhana Finance Co. Ltd.';
+        $company->listed_shares = '225000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sfc.gif';
+        $company->total_paid_up_value = '22500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@setifinance.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Tikapur, Kailali, Nepal';
+        $companydetail->web = 'http://setifinance.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '091-560950';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SETI';
+        $company->name = 'Seti Finance Ltd.';
+        $company->listed_shares = '556600';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'seti.gif';
+        $company->total_paid_up_value = '55660000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@shreefinance.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Dilli Bazar, Ktm, Nepal';
+        $companydetail->web = 'shreefinance.com.np';
+        $companydetail->profile = 'Shree Investment & Finance Co Ltd.  was incorporated in the year 1994 (2051 BS) by a group of eminent businessmen from Kathmandu , as a Financial Services Company and a Merchant Bank under the Nepal Finance Company Act, 1985 and the Nepal Company Act, 1964. The Company has been licensed by the Nepal Rastra Bank as “C’ class Financial Institution to undertake finance services and merchant banking activities in the country. The Company started its operations on June 01, 1995. (B.S 2051/03/22) with an authorized share capital of Rs. 6400 Lakh, issued capital of Rs. 2000 Lakh and paid-up capital of Rs. 1008 Lakh. In keeping with the growth targets, the company has kept increasing its capital base. Today, the Company has an authorized share capital of Rs. 6400 Lakh, issued capital of Rs. 3200 Lakh and paid-up capital of Rs. 1760 Lakh';
+        $companydetail->phone = '01-4422038';
+        $companydetail->operation_date = '34705';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SIFC';
+        $company->name = 'Shree Investment Finance Co. Ltd.';
+        $company->listed_shares = '2200056';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sifc.gif';
+        $company->total_paid_up_value = '220005600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Thapathali, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4100525';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBSL';
+        $company->name = 'Shikhar Finance Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sbsl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SFFIL';
+        $company->name = 'Shrijana Finance (Bittaya Sanstha) Ltd.';
+        $company->listed_shares = '448000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sffil.gif';
+        $company->total_paid_up_value = '44800000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'http://siddharthafinance.com.np/';
+        $companydetail->profile = 'Siddhartha Finance Limited (SFL) is the first national level finance company, has been established at Bhairahawa (Rupandehi), the entry door of worldwide famous Lumbini, birthplace of Lord Siddhartha Gautam Buddha, with the keen purpose to make the country financially strong. SFL is inaugurated by former Prime Minister late Mr. Man Mohan Singh Adhikari on 25 th May, 1995. SFL has been working from 25th of May, 1995 with permission from Nepal Rastra Bank. SFL is a full fledged “C” category national level financial institution, the registered head office of the SFL, is located at Bhairahawa and branch offices at Kamaladi (Kathmandu), Parasi (Nawalparasi) & Chandrauta (Kapilbastu), rendering it\'s services to all levels of people for their individual as well as the overall development of the nation. SFL is conducting its entire financial service activities under the direct supervision of Nepal Rastra Bank.';
+        $companydetail->phone = '01-4441229';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SFL';
+        $company->name = 'Siddharth Finance Ltd.';
+        $company->listed_shares = '3243140';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sfl.gif';
+        $company->total_paid_up_value = '324314000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@sfl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = 'http://www.sfl.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4433853';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'STFL';
+        $company->name = 'Standard Finance Ltd.';
+        $company->listed_shares = '10018041';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'stfl.gif';
+        $company->total_paid_up_value = '1001804100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4441734';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SLFL';
+        $company->name = 'Subha Laxmi Finance Co. Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'slfl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'New Baneshwor, Ktm, Nepal';
+        $companydetail->web = 'www.sdfinance.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4785211';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SDFL';
+        $company->name = 'Suryadarshan Finance Company Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sdfl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Khichapokhari, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4233517';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SMF';
+        $company->name = 'Swastik Merchant Finance Co. Ltd.';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'smf.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'corporate@synergyfinance.com.np';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'synergyfinance.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4442462';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SYFL';
+        $company->name = 'Synergy Finance Ltd.';
+        $company->listed_shares = '4744090';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'syfl.gif';
+        $company->total_paid_up_value = '474409000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'ufl@union.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = 'http://www.union.com.np/';
+        $companydetail->profile = 'Union Finance Limited (UFL) is the first non-banking financial institution to introduce the leasing business in Nepal. It was established in 1993 in technical collaboration with BAIL EQUIPMENT of UECIC BANKS of FRANCE whose leasing expertise is widely recognized throughout France. UFL was registered with the Company Registrar\'s office on March 25th 1993. Its operation came into effect on December 12th 1994 after obtaining the license on September 17th 1994 from Nepal Rastra Bank. Since its operation, UFL has been providing financial services successfully to individuals, business enterprises within the Kathmandu Valley and other parts of the country in the form of taking deposits, lease financing, loans and financial guarantees.';
+        $companydetail->phone = '01-4427091';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UFCL';
+        $company->name = 'Union Finance Co. Ltd.';
+        $company->listed_shares = '1749028';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ufcl.gif';
+        $company->total_paid_up_value = '174902800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'unique@uniquefinance.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Putalisadak, Ktm, Nepal';
+        $companydetail->web = 'uniquefinance.com.np';
+        $companydetail->profile = 'Unique Finance Ltd. (UFL) has come in the operation from October 9, 2007 (2064/06/22) as \'C\' class financial institution licensed by NRB to provide best financing services to all people, firms, industries, corporations of the society. We are a newly established finance company promoted by local businessmen, doctors, engineers and bankers who have achieved unprecedented success in their professions and having high social standing. Our motto is to providing safe, seamless, quick and advance banking services and we are committed to meet the financial needs of our customers and exceed their expectations through innovative solutions. UFL is using contemporary banking technologies. UFL is located at New Plaza, Putalisadak, Kathmandu, which is in all accepts immensely suitable for doing financial business. The main building has its own under ground parking and easily availability of public transportation. UFL building has easy and many access to main place of Kathmandu, Patan and Bhaktapur.';
+        $companydetail->phone = '01-4440955';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UFIL';
+        $company->name = 'Unique Finance Ltd.';
+        $company->listed_shares = '1115000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ufil.gif';
+        $company->total_paid_up_value = '111500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ufl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Durbar Marg, Ktm, Nepal';
+        $companydetail->web = 'ufl.com.np';
+        $companydetail->profile = 'United Finance Limited (UFL) is a leading Consumer Finance Company in Nepal with excellent asset quality and strong growth potential. The company, promoted by the Chaudhary Group - the largest conglomerate in Nepal was established in 1992 as per the Companies Act of Nepal. The main objective of the company is to mobilize scattered savings into the consumer financing sector. The major promoters and shareholders of the company are the Chaudhary Group and Morang Auto Works. These groups among themselves hold 60% of the shares in the company with the remaining balance of 40% shares held by the general public. The shares of the company are actively traded at the Nepal Stock Exchange (NEPSE) and have been categorized in Category “A” by NEPSE for the last Five years. The company operates from its Head Office in Durbar Marg, Kathmandu.';
+        $companydetail->phone = '01-4241648';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UFL';
+        $company->name = 'United Finance Ltd.';
+        $company->listed_shares = '4032187';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ufl.gif';
+        $company->total_paid_up_value = '403218700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kantipath, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4230234';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UFLK';
+        $company->name = 'Universal Finance Ltd.';
+        $company->listed_shares = '1517424';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'uflk.gif';
+        $company->total_paid_up_value = '151742400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Maharajgunj, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4721215';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'VFL';
+        $company->name = 'Valley Finance Ltd.';
+        $company->listed_shares = '1433600';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'vfl.gif';
+        $company->total_paid_up_value = '143360000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Putalisadak, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4212061';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'WMBF';
+        $company->name = 'World Merchant Banking & Finance Ltd.';
+        $company->listed_shares = '1819200';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'wmbf.gif';
+        $company->total_paid_up_value = '181920000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Main Road, Hetauda, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '520822';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'YFL';
+        $company->name = 'Yeti Finance Ltd.';
+        $company->listed_shares = '2019584';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'yfl.gif';
+        $company->total_paid_up_value = '201958400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = '8';
+        $companydetail->address = 'Lazimpat, Ktm, Nepal';
+        $companydetail->web = 'www.radisson.com';
+        $companydetail->profile = 'Perfectly situated near Thamel and Durbar Marg Street in Lazimpat, and only six kilometers from the international airport, the Radisson Kathmandu is the perfect accommodation choice for your business trip or upcoming vacation in Nepal. The hotel\'s central location in Kathmandu is also within walking distance of major businesses, diplomatic offices and popular tourist attractions, making it easy to get the most out of your stay. This hotel is delighted to feature an impressive array of world-class amenities, including complimentary high-speed Internet access, a health club, a rooftop swimming pool, a deluxe spa and numerous on-site dining options. For off-site fun, spend a day touring the beautiful city, temples and stupas, check out the Kathmandu, Patan or Bhaktapur Durbar squares, or browse the many speciality boutiques in Dubar Marg.';
+        $companydetail->phone = '01-4460001';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='4';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'OHL';
+        $company->name = 'Oriental Hotels Ltd.';
+        $company->listed_shares = '5500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ohl.gif';
+        $company->total_paid_up_value = '550000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Tahachal, Ktm, Nepal';
+        $companydetail->web = 'www.ihg.com';
+        $companydetail->profile = 'Soaltee Crown Plaza Kathmandu Nepal is a legendary five (5) star deluxe hotel in Nepal situated in the centre of Kathmandu city with the experience of natural beauty of Nepal. It surrounds manicured gardens with the views of mountain. Soaltee Crown Plaza hotel Kathmandu has an outdoor pool, a health club, mini bars, safes and a spa tub providing luxurious accommodations. With Nepal\'s rich fascinating culture represented in arts and architecture, Soaltee Crown Plaza consist of several luxurious air-conditioned rooms offering warm hospitality, for which Nepalese are renowned.';
+        $companydetail->phone = '01-4273999';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='4';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SHL';
+        $company->name = 'Soaltee Hotel Ltd.';
+        $company->listed_shares = '42122067';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'shl.gif';
+        $company->total_paid_up_value = '421220670';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Boudha Rd, Ktm, Nepal';
+        $companydetail->web = 'www.kathmandu.regency.hyatt.com';
+        $companydetail->profile = 'Taragaon, owned by Hyatt Regency Kathmandu Nepal is a deluxe five (5) star hotels in Kathmandu situated in the centre of the city lying near to the Tribhuvan International Airport. The four exciting restaurants and bars at the hotel ensure the perfect dining experience with an array of cuisine options. The Hyatt hotel Kathmandu also consists of Club Oasis spa, a place of sanctuary of calm in Kathmandu, Nepal. With Nepal\'s rich fascinating culture represented in arts and architecture, Hyatt Regency consist of 290 rooms offering luxurious and deluxe accommodation with warm hospitality, for which Nepalese are renowned to the traveler proving it to be the best among the five (5) star hotels in Nepal.';
+        $companydetail->phone = '01-4491234';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='4';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TRH';
+        $company->name = 'Taragaon Regency Hotel Ltd.';
+        $company->listed_shares = '7449875';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'trh.gif';
+        $company->total_paid_up_value = '744987500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'reservation@yakandyeti.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Durbar Marg, Ktm, Nepal';
+        $companydetail->web = 'www.yakandyeti.com';
+        $companydetail->profile = 'The Hotel Yak & Yeti with the historic character, suitable for both short or long stay, is fashioned as the fusion of modern design and the noblesse of original heritage interiors. This exceptional city centre hotel is located minutes away from both domestic and international airport. It continues to be the city\'s leading luxury hotel for business and leisure.';
+        $companydetail->phone = '01-4240520';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='4';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'YHL';
+        $company->name = 'Yak And Yeti Hotel Ltd.';
+        $company->listed_shares = '2209208';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'yhl.gif';
+        $company->total_paid_up_value = '220920800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'arunvalley2054@gmail.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Thapathali, Ktm, Nepal';
+        $companydetail->web = 'http://www.arunhydro.com.np/';
+        $companydetail->profile = 'Introduction of Hydropower Development Policy in 1991 and Electricity Act in 1993 opened new avenues for private sector investment for the first time in the history of hydroelectric project development in Nepal. Though it was new to Nepalese investors, efforts had been made by intellectual group of individuals to develop Piluwa Khola Hydropower Project in Sankhuwasabha district, Eastern Development Region of Nepal. Piluwa Khola Hydropower Project of 800 kW, at first was identified by the government of Nepal under small size project under the study of JICA (Japanese International Fund). A company named Arun Valley Hydropower Development Company Limited was established to build the project in 1997 under the Company Act of Nepal.';
+        $companydetail->phone = '01-5111085';
+        $companydetail->operation_date = '1997';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='5';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AHPC';
+        $company->name = 'Arun Valley Hydropower Development Co. Ltd.';
+        $company->listed_shares = '7710846';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ahpc.gif';
+        $company->total_paid_up_value = '771084600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bpc.com.np ';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Buddha Nagar, Ktm, Nepal ';
+        $companydetail->web = 'http://www.bpc.com.np/';
+        $companydetail->profile = 'Butwal Power Company (BPC) was established in 1966 by a visionary Norwegian engineer Mr. Odd Hoftun. Mr. Hoftun, who led the construction of Tinau Hydropower Plant, had a vision for educating young Nepal is in development of technical skills for harnessing the hydropower potential of Nepal\'s rivers to create opportunities for small businesses. He managed to raise support from his home country, and brought tons of equipment from Norway to Butwal in 1964.';
+        $companydetail->phone = '01-4784026';
+        $companydetail->operation_date = '1966';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='5';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BPCL';
+        $company->name = 'Butwal Power Company Ltd.';
+        $company->listed_shares = '16921495';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bpcl.gif';
+        $company->total_paid_up_value = '1692149500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@chilime.com.np';
+        $companydetail->issue_manager_id = '2';
+        $companydetail->address = 'Dhumbarahi, Ktm, Nepal';
+        $companydetail->web = 'http://www.chilime.com.np/';
+        $companydetail->profile = 'Chilime Hydropower Company Limited (Chilime) was incorporated in 1995 with an objective of hydroelectricity generation through optimal utilization of resources within the country. Nepal Electricity Authority (NEA) holds majority ownership with 51% share holding. Remaining 49% shareholding is from general public including 10% equity ownership of local people.';
+        $companydetail->phone = '01-4370773';
+        $companydetail->operation_date = '1995';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='5';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CHCL';
+        $company->name = 'Chilime Hydropower Company Ltd.';
+        $company->listed_shares = '27256320';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'chcl.gif';
+        $company->total_paid_up_value = '2725632000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nhpc@infoclub.com.np';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'http://www.nbgroup.com.np/';
+        $companydetail->profile = 'Development of small run of the river type Hydro Power projects for meeting the immediate requirement of power has attracted the attention of the private developers. Such projects are ecofriendly, locally financiable and do not involve any submergence or rehabilitation. With the Group’s commitment towards the overall development of Nepal and towards maximizing the utilization of the abundant potential of hydropower in the country, NB Group has established the National Hydro Power Company in joint venture with Lyse Kraft AS of Norway in 1996. Lyse Kraft AS was founded in 1947 and is currently amongst the five largest power producers of Norway.';
+        $companydetail->phone = '01-437359';
+        $companydetail->operation_date = '1999';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='5';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NHPC';
+        $company->name = 'National Hydro Power Company Ltd.';
+        $company->listed_shares = '13851862';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nhpc.gif';
+        $company->total_paid_up_value = '1385186200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'ridihydro@wlink.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Thapathali, Ktm , Nepal';
+        $companydetail->web = 'http://ridihydro.com.np/';
+        $companydetail->profile = 'Ridi Hydropower Development Company is a limited company registered under the Company Act of Nepal. It is established in 2000 AD with a mission to build, own and operate hydroelectric project. The company has constructed and operating 2400kW Ridikhola Small Hydropower Project, in Gulmi district, Western Development Region. The motto of the company is ""Hydropower through Peoples\' Participation"". Ridikhola Hydropower Project is an example of Peoples\' Participation. There are 271 promoter shareholders in the company with a minimum investment of Rs. 10,000 (US$ 133.33). Of the total number of promoter shareholders, 50 percent are from the project location. To increase people\'s participation, the company is issuing its 49 percent share to the general public.';
+        $companydetail->phone = '01-5111015';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='5';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RHPC';
+        $company->name = 'Ridi Hydropower Development Company Ltd.';
+        $company->listed_shares = '3300000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rhpc.gif';
+        $company->total_paid_up_value = '330000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'sanimamai@sanimahydro.com';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Naksal, Ktm, Nepal';
+        $companydetail->web = 'http://www.maihydro.com/';
+        $companydetail->profile = 'The feasibility study of Mai Hydropower Project (MHP) was undertaken by Sanima Hydropower Ltd. Initially, in June 2006, MHP was proposed as a daily peaking run of river project with installed capacity of 22MW.  After discussion with Nepal Electricity Authority(NEA), the daily peaking option was abandoned (as recommended by NEA, the government’s power utility to purchase power from the Project) and an optimum simple run-of river scheme with installed capacity of 14.5MW was technically concluded with NEA in year 2007 with the energy price open for negotiation. With the amendment in the Power Purchase Agreement between Nepal Electricity Authority and Sanima Mai Hydropower Limited the capacity has been increased to 22MW from 15.6MW. Thus the total capacity of Sanima Mai Hydropower Limited is now 22MW. In Year 2008, Sanima (P) Limited (SMPL) established a special purpose vehicle company ""Sanima Mai Hydropower Limited"" for the implementation of Mai Hydropower Project (22MW) and Mai Cascade Hydropower Project (7MW). The PPA of Mai HP was signed on 8th Baisakh 2069 and MCHP on 12th Magh 2069. The construction of Mai HP started on Magh 2067 and that of MCHP started on Shrawan 2070.';
+        $companydetail->phone = '01-4415314';
+        $companydetail->operation_date = '2008';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='5';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SHPC';
+        $company->name = 'Sanima Mai Hydropower Ltd.';
+        $company->listed_shares = '10550000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'shpc.gif';
+        $company->total_paid_up_value = '1055000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'asianlife@asianlife.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Newplaza, Ktm, Nepal';
+        $companydetail->web = 'www.asianlife.com.np';
+        $companydetail->profile = 'Asian Life Insurance Company has got operating license as per Insurance Act 2049 from Beema Samiti on 27th February, 2008 (Falgun 15, 2064) and started functioning on 3rd April, 2008 (Chaitra 21, 2064). After 6 years in Nepalese Life Insurance Business, Asian Life Insurance Company is the first life Insurance Company to receive operating License from Beema Samiti. The Authorized Capital of the Company is Rs. 1000 million. Out of which 521.29 million is currently paid up (70% by the promoter and the remaining 30% by the general public). The member of the board of directors and other individual investors are leaders in other professions and business, such as banks, insurance companies, financial institutions, private enterprises etc. Some investors are from reputed position holders of ex-government services. Since inception, the company has focused on policy holder\'s satisfaction. The company is equipped with modern technology to conduct the insurance business in a professional manner and is in the position to properly deal with all types of clients and ready to provide excellent service.';
+        $companydetail->phone = '01-4410115';
+        $companydetail->operation_date = '2008';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ALICL';
+        $company->name = 'Asian Life Insurance Co. Ltd.';
+        $company->listed_shares = '6707504';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'alicl.gif';
+        $company->total_paid_up_value = '670750400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@eic.com.np';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Hattisar, Ktm, Nepal';
+        $companydetail->web = 'http://www.everestinsurance.com/';
+        $companydetail->profile = 'Everest Insurance Company has served for over 2 decades ensuring on world-class property and casualty insurance products and services. Our insurance policies are varied in nature, and we have a wide range of non-life insurance schemes, which will ensure that you have a life of comfort. In today’s world of uncertainty a sense of security is not only needed but it is an essential factor of life. Insurance provides us the security we need and keep our worries down. With an ambition of safekeeping Nepal, Everest Insurance Company was established in 1994 – after the privatization of insurance sector – as a public limited company and has come a long way in winning wider customer trust . The strength of the Company lies in its smooth management, dynamic staff members and agents.';
+        $companydetail->phone = '01-4444717';
+        $companydetail->operation_date = '1994';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EIC';
+        $company->name = 'Everest Insurance Co. Ltd.';
+        $company->listed_shares = '1012500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'eic.gif';
+        $company->total_paid_up_value = '101250000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@guranslife.com';
+        $companydetail->issue_manager_id = '10';
+        $companydetail->address = 'Tinkune, Ktm, Nepal';
+        $companydetail->web = 'http://www.guranslife.com/';
+        $companydetail->profile = 'Gurans Life Insurance Co .Ltd. has been established and registered under Company Act 2063 B.s.(Regd. No. 1005/063-64) and Insurance Act 2049 as a public Limited Co. and was issued a license to operate Life Insurance Business on 2064/12/18. Gurans Life Insurance Co .Ltd. is promoted by T.M Dugar Group, Sunrise Bank Ltd. along with group of diverse and renowned Businessmen, Industrialist and Legal professionals. Gurans Life Insurance Co .Ltd. have total authorized capital of 50 crore. Out of which issued and paid up capital is also Rs 50 crores. 30% of the issued capital has been allotted to the public through IPO and 70% has been subscribed by the promoters. Total shareholders of the company are more than 26000.';
+        $companydetail->phone = '01-4465810';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GLICL';
+        $company->name = 'Gurans Life Insurance Company Ltd.';
+        $company->listed_shares = '4999919';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'glicl.gif';
+        $company->total_paid_up_value = '499991900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'ktm@hgi.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Babarmahal, Ktm, Nepal';
+        $companydetail->web = 'http://hgi.com.np/';
+        $companydetail->profile = 'Himalayan General Insurance Co. Ltd. commenced operations in December 1993 to write Insurance Policies after obtaining license from the Insurance Board of Nepal to underwrite General Insurance (Non-life). They have worked with Swire Blanch Asia Ltd., Singapore, through a technical service agreement for the initial five years in order to arrange reinsurance with the world’s best reinsurers. Spanning a history of more than two decades, they have been providing clients with stability and confidence of security, and their shareholders with consistent returns. While HGI is widely acknowledged for its market leadership in claims services, it services a large and diverse product range and client base. Their clients span all levels of society – business corporations, development organisations and individual customers.';
+        $companydetail->phone = '01-4231788';
+        $companydetail->operation_date = '1993';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HGI';
+        $company->name = 'Himalayan General Insurance Co. Ltd';
+        $company->listed_shares = '2675044';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hgi.gif';
+        $company->total_paid_up_value = '267504400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'liccorporate@licnepal.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Naxal Bhagawatibahal, Ktm, Nepal';
+        $companydetail->web = 'http://www.licnepal.com.np/';
+        $companydetail->profile = 'LIC (Nepal) Ltd. is one of the largest capitalized insurance companies of Nepal. A joint venture between Life Insurance Corporation of India(55%) and Vishal Group of Nepal (25%), the insurance company has public participation to the extent of 20%. Life insurance corporation (Nepal) Ltd. having Registration No: 765-057/58, was incorporated under the Companies Act 2053, on 27.12.2000. It has started Operations since 01.09.2001.';
+        $companydetail->phone = '01-4443616';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LICN';
+        $company->name = 'Life Insurance Co. Nepal Ltd.';
+        $company->listed_shares = '8555625';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'licn.gif';
+        $company->total_paid_up_value = '855562500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'lgic@mos.com.np';
+        $companydetail->issue_manager_id = '1';
+        $companydetail->address = 'Gyaneshwor, Ktm, Nepal';
+        $companydetail->web = 'http://www.lgic.com.np';
+        $companydetail->profile = 'Lumbini General Insurance Company Ltd. (LGIC) have jointly promoted by prominent bankers, entrepreneurs, top dealers of automobile, Tourism specialists and other products, industrialists,finance companies and vast experienced persons in the insurance industry for more than two decades. ﻿';
+        $companydetail->phone = '01-4411707';
+        $companydetail->operation_date = '2005';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LGIL';
+        $company->name = 'Lumbini General Insurance Co. Ltd.';
+        $company->listed_shares = '2927472';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'lgil.gif';
+        $company->total_paid_up_value = '292747200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nlgilife@mail.com.np     ';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = 'http://www.nationallife.com.np/';
+        $companydetail->profile = 'National Life Insurance Company Limited Khals (formerly known as National life & General Insurance Co.Ltd.) was incorporated in 1988 A.D. under Nepal Company Act 1964 and the insurance Act 1968 of Nepal with prime objective to meet growing insurance requirements of the country. For more than two decades, National Life has built reputation as a company that believes in highest level of customer’s service. The company’s well known name and good reputation are reinforced by our commitment to deliver value and service to all who do business with us.';
+        $companydetail->phone = '01-4416556';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLICL';
+        $company->name = 'National Life Insurance Co. Ltd.';
+        $company->listed_shares = '10241058';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nlicl.gif';
+        $company->total_paid_up_value = '1024105800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nbic@mos.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'http://www.nbinsurance.com.np/';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4224312';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBIL';
+        $company->name = 'NB Insurance Co. Ltd.';
+        $company->listed_shares = '1500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbil.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@necoinsurance.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Anamnagar, Ktm, Nepal';
+        $companydetail->web = 'www.necoinsurance.com.np';
+        $companydetail->profile = 'Neco Insurance Limited was incorporated as a Public Limited Company on 16th December 1994. The Company started its General Insurance business on 30th May 1996 when the company was provided the License by Beema Samiti (Insurance Board) to transact all types of Non-Life (General) Insurance in Nepal .';
+        $companydetail->phone = '01-4770415';
+        $companydetail->operation_date = '1994';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NIL';
+        $company->name = 'Neco Insurance Co. Ltd.';
+        $company->listed_shares = '2817747';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nil.gif';
+        $company->total_paid_up_value = '281774700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nic@wlink.com.np';
+        $companydetail->issue_manager_id = '6';
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'http://www.nepalinsurance.com.np/';
+        $companydetail->profile = 'Nepal Insurance Company Limited, a pioneer non life insurance company of Nepal was established on 1947 A.D. by Nepal Bank Limited (the first commercial Bank) and general public with 51% and 49% shares respectively. At the beginning the name of this company was ""Nepal Malchalani Tatha Beema Company"" and had changed its name as ""Nepal Insurance & Transport Company Ltd."" on 1959 A.D. Now its name is ""Nepal Insurance Company Ltd."" since 1991 A.D. ';
+        $companydetail->phone = '01-4221353';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NICL';
+        $company->name = 'Nepal Insurance Co. Ltd.';
+        $company->listed_shares = '2634948';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nicl.gif';
+        $company->total_paid_up_value = '263494800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nepallife.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'http://nepallife.com.np/';
+        $companydetail->profile = 'NepalLife, established under the Company Act 2053 and Insurance Act 2049 as a public limited company on 2058/01/21 (04/05/2001). NepalLife is the foremost life insurance company established by private investors. The promoters of the company are a group of well known businessmen and business houses of Nepal. Within the eleven years of operation the Company has set up an excellent business record and has a strong financial position.';
+        $companydetail->phone = '01-4169082';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLIC';
+        $company->name = 'Nepal Life Insurance Co. Ltd.';
+        $company->listed_shares = '17340000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nlic.gif';
+        $company->total_paid_up_value = '1734000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nlgi.com.np';
+        $companydetail->issue_manager_id = '4';
+        $companydetail->address = 'Durbar Marg, Ktm, Nepal';
+        $companydetail->web = 'http://www.nlg.com.np/';
+        $companydetail->profile = 'NLG Insurance Company Limited is a part of National Life & General Insurance (NLGI) incorporated in 2044 B.S. (1988 A.D.) to conduct Life as well as General business, as composite insurance company. But as per requirement of the Insurance Act of Nepal, Life and Non life insurance businesses needed to be to two separate entities because of which General Insurance business of NLGI was separated and a new company by the name NLG Insurance Company Ltd. (NLG) was incorporated in 2062 B.S. (2005 A.D.). The company’s registered office is situated in Kathmandu Metropolitan City, Ward No. 2, Panipokhari, Kathmandu which is also the Head office. After separation, the company started with  authorized capital of NPR 150 million, issued and paid up capital of NPR 100 million. But to meet capital requirement set by Insurance Board (IB), the company has changed its authorized capital to NPR 500 million and issued capital to NPR 225 million in FY 2067/68 (FY 2010/11). And in the subsequent FY 2068/69 (FY 2011/12), it increased its paid up capital to NPR 157.5 million through issuance of right share and has targeted to increase the paid up capital up to NPR 250 million  (by issuing ordinary and bonus share) by 2070 B.S. (2013 A.D.) as per the regulatory requirement of Insurance Board. ';
+        $companydetail->phone = '01-4418113';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLG';
+        $company->name = 'NLG Insurance Company Ltd.';
+        $company->listed_shares = '2846250';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nlg.gif';
+        $company->total_paid_up_value = '284625000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@prabhuinsurance.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Tinkune, Kathmandu, Nepal';
+        $companydetail->web = 'www.prabhuinsurance.com';
+        $companydetail->profile = 'Prabhu Insurance Limited is a non-life insurance company founded in 1996 by leading industrial and business houses of Nepal. It has major shareholding of Prabhu Group and also of Karmachari Sanchaya Kosh (Employee\'s Provident Fund), an enterprise of Government of Nepal. It has paid up capital around 30 crores by end of Fiscal year 2071/2072. Mr. Devi Prakash Bhattachan, a major business leader and a very prominent figure in diverse areas of business such as remittance, banking & finance sector, travel trade, energy and infrastructure, also the Chairman of the entire Prabhu Group in Nepal, USA, Malaysia and Qatar, leads the company as Chairman and Mr. Rajendra Malla, a reputed name in business community involved in various businesses such as trading, industry, investment, infrastructure, hydro, education and also the Vice President of Chamber of Commerce and Industry, as Vice-Chairman.';
+        $companydetail->phone = '01-4499220';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRIN';
+        $company->name = 'Prabhu Insurance Co. Ltd.';
+        $company->listed_shares = '3045687';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prin.gif';
+        $company->total_paid_up_value = '304568700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'premier@picl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = 'http://www.premier-insurance.com.np/';
+        $companydetail->profile = 'Incorporated on 12th may 1994, Premier Insurance Company (Nepal) Limited has emerged as a renowned general insurance company of the second generation. The company has earned a reputation in the local and international insurance and reinsurance sectors as well for its professionalism and services. Premier\'s success in the insurance and reinsurance business owes itself to the determination of its promoters to succeed. Comprised of prominent entrepreneurs, the promoters of the company have brought their experiences, entrepreneurial talent and leadership skills to add to the company\'s growth.';
+        $companydetail->phone = '01-4413543';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PIC';
+        $company->name = 'Premier Insurance Co. Ltd.';
+        $company->listed_shares = '2875023';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pic.gif';
+        $company->total_paid_up_value = '287502300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@primelifenepal.com';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Hattisar, Ktm, Nepal';
+        $companydetail->web = 'www.primelifenepal.com';
+        $companydetail->profile = 'Prime Life lnsutrance Co. Ltd. (PrimeLife) came into existence in June 2007. The paid up capital of PrimeLife is NPR 500 million (including call in advance of NPR 11.84 million) and the shareholding constitutes of the promoters holding 70 percent and general public group holding 30 percent of the share. The promoters represent Nepal\'s leading and highly prominent business groups having widely diversified business interests and expertise. Laxmi Bank Limited, one olthe leading commercial banks in Nepal  is one of the major promoters with 15 pecrcent stake.';
+        $companydetail->phone = '01-4441414';
+        $companydetail->operation_date = '2007';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PLIC';
+        $company->name = 'Prime Life Insurance Company Ltd.';
+        $company->listed_shares = '4881600';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'plic.gif';
+        $company->total_paid_up_value = '488160000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'prudential@wlink.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Kamaladi, Ktm, Nepal';
+        $companydetail->web = 'http://www.prudential.com.np/';
+        $companydetail->profile = 'Prudential Insurance Company was incorporated under the Companies Act on November 30, 2000. With the approval of Beema Samiti, it commenced operation on June 20, 2002. The Company is housed in the four floor of Kamaladi Complex an exquisitely built modern office complex located in the heart of the City. Formed with an initial capital of Rupees 50 Crores (this includes Public Issue of Rs. 27 Crores). the company can claim to have a strong financial base the first essential ingredient for success in the business of insurance. The strength, reputation and the influence of the groups and their business associates together with the professional management the Company has employed give an assurance of stability and quality service to the Nepalese customers. The Company\'s operation is computerized with an integrated insurance software that ensures speedy and quality service to its customers in matters of issuing policies and settlement of claims.';
+        $companydetail->phone = '01-4212940';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PICL';
+        $company->name = 'Prudential Insurance Co. Ltd.';
+        $company->listed_shares = '3240000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'picl.gif';
+        $company->total_paid_up_value = '324000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'beema@wlink.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Ramshahpath, Ktm, Nepal';
+        $companydetail->web = 'www.beema.com.np';
+        $companydetail->profile = 'The Rastriya Beema Sansthan (RBS) had been established by a decision of the then Nepal Government for mobilization of internal resources and capital for national development, for checking burden of expense of foreign currency and to establish a competent professional insurance company.Consequently, till its tenure, as of this day, this Corporation has been successful in providing returns as per the goals and objectives set forth by the Government of Nepal. In its tenure till date, the Corporation has been contributing to the revenue without inflicting any additional liability on Government of Nepal. The Corporation has spread competent manpower in the insurance market of Nepal and has identified itself as \'a credible name in the insurance sector\'. Indeed, the Rastriya Beema Sansthan (RBS) has become synonymous to a cumulative and certain future of all Nepalese people.';
+        $companydetail->phone = '01-4262520';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RBCL';
+        $company->name = 'Rastriya Beema Company Ltd.';
+        $company->listed_shares = '828999';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rbcl.gif';
+        $company->total_paid_up_value = '82899900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'sagarmatha@insurance.wlink.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = 'http://www.sagarmathainsurance.com.np/';
+        $companydetail->profile = 'Sagarmatha Insurance Co. Ltd; incorporated in 1996 has been promoted by the prominent entrepreneurs and leading industrial Groups - Salt Trading Corporation, Golchha Organisation, Jyoti Group, MC Group, National Finance Co. Ltd; Nepal Construction and Engineering Corporation and other promising entrepreneurs. Sagarmatha Insurance, First Foreign Joint Venture Company of Nepal in General Insurance, with Ceylinco Insurance Co. Ltd; of Sri Lanka has been awarded ""CNCI Achievers Industrial Excellence - 2002"" Gold Medal by The Ceylon National Chamber of Industries among the best industry in the SAARC region. Our Joint Venture Partner, Ceylinco Insurance Co. Ltd; No.1 Insurance Company in Sri Lanka, is internationally recognised as an industry leader in product innovation, was placed within the top four General Insurance Companies in Asia, competing with over 1,000 insurance companies and received this prestigious award at the fourth Asia Insurance Industry Awards Ceremony 2000, held in the Philippines.';
+        $companydetail->phone = '01-4412367';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SIC';
+        $company->name = 'Sagarmatha Insurance Co. Ltd.';
+        $company->listed_shares = '3565438';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sic.gif';
+        $company->total_paid_up_value = '356543800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'shikharins@mos.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Thapathali, Ktm, Nepal';
+        $companydetail->web = 'http://shikharinsurance.com/';
+        $companydetail->profile = 'Shikhar Insurance Company Ltd. (SICL) is an established General Insurance Company promoted by a young team of reputed Industrial and Business Houses involved in various fields like Aviation, Banking, Manufacturing, Trading, Travel Trade, Media Houses etc.';
+        $companydetail->phone = '01-4246101';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SICL';
+        $company->name = 'Shikhar Insurance Co. Ltd.';
+        $company->listed_shares = '3570000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sicl.gif';
+        $company->total_paid_up_value = '357000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@siddharthainsurance.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Hanumansthan, Ktm, Nepal';
+        $companydetail->web = 'http://www.siddharthainsurance.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4257766';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SIL';
+        $company->name = 'Siddhartha Insurance Ltd.';
+        $company->listed_shares = '2758800';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sil.gif';
+        $company->total_paid_up_value = '275880000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@suryalife.com.np';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Gyaneshwor, Ktm, Nepal';
+        $companydetail->web = 'http://www.suryalife.com/';
+        $companydetail->profile = 'Surya Life Insurance Co. Ltd. has been established and registered under Company Act 2063B.S.(Regd. No. 1006/063-64) and Insurance Act 2049 as a Public Limited Co. and was issued a license to operate Life Insurance Business on 2064/12/06(19th March\'08). The authorized capital of the Company is NRs 50 crore and Issued and Paid up Capital is NRs 50 crore. The promoters have contributed 70% of this,amounting to NRs.35 Crore whereas the other Nepalese Citizens  contributed remaining 30% of this capital amounting to NRs.15 Crore. The Company has made reinsurance arrangement with SCOR Global Life Reinsurance Co. of Paris (France).';
+        $companydetail->phone = '01-4423743';
+        $companydetail->operation_date = '2008';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SLICL';
+        $company->name = 'Surya Life Insurance Company Ltd.';
+        $company->listed_shares = '5000174';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'slicl.gif';
+        $company->total_paid_up_value = '500017400';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'uic@mail.com.np';
+        $companydetail->issue_manager_id = '5';
+        $companydetail->address = 'Thapathali, Ktm, Nepal';
+        $companydetail->web = 'www.unitedinsurance.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5111111';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UIC';
+        $company->name = 'United Insurance Co. (Nepal) Ltd.';
+        $company->listed_shares = '1500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'uic.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Ganabahal, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4250001';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AVU';
+        $company->name = 'Arun Vanaspati Udhyog Ltd.';
+        $company->listed_shares = '550343';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'avu.gif';
+        $company->total_paid_up_value = '55034300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Baluwatar, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4428893';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BSL';
+        $company->name = 'Birat Shoe Ltd.';
+        $company->listed_shares = '165000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bsl.gif';
+        $company->total_paid_up_value = '16500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Balaju, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4350602';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BNL';
+        $company->name = 'Bottlers Nepal (Balaju) Ltd.';
+        $company->listed_shares = '1948887';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bnl.gif';
+        $company->total_paid_up_value = '194888700';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Bharatpur, Chitwan, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BNT';
+        $company->name = 'Bottlers Nepal (Terai) Ltd.';
+        $company->listed_shares = '1210000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bnt.gif';
+        $company->total_paid_up_value = '121000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Ramnagar, Butwal, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BSM';
+        $company->name = 'Butwal Spinning Mills Ltd.';
+        $company->listed_shares = '1306693';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bsm.gif';
+        $company->total_paid_up_value = '130669300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = 'Fleur Himalayan Ltd. established in 2053 B.S., had been founded to pioneer the efforts to popularize herbal resources and traditional medicines and hygienic products by blending these natural resources and traditional knowledge with modern technology. Our aim is to utilize these natural resources of herbs in a renewable basis. Fleur Himalayan Ltd. (FHL) has been working towards developing herbal medicines and hygienic products with due research on the subject. The Research and Development (R & D) team blends traditional knowledge with modern technology. The research on the products is vigorously done before the R & D team declares them to be suitable for the market. FHL has a state of art manufacturing facility of approx. 65,000 sq. ft. area in Jeetpur, Bara. The products are manufactured with the most modern technology in controlled areas to satisfy its quality parameters. Fleur Himalayan Ltd. has given a major thrust to the Marketing Department, which uses a professional approach towards marketing its products. The company strongly believes in building strong customer relations by focusing on customer care and satisfaction.';
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'FHL';
+        $company->name = 'Fleur Himalayan Ltd.';
+        $company->listed_shares = '262102';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'fhl.gif';
+        $company->total_paid_up_value = '26210200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GRU';
+        $company->name = 'Gorakhkali Rubber Udhyog Ltd.';
+        $company->listed_shares = '3833400';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gru.gif';
+        $company->total_paid_up_value = '383340000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HBT';
+        $company->name = 'Harisiddhi Brick And Tiles Ltd.';
+        $company->listed_shares = '18650000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hbt.gif';
+        $company->total_paid_up_value = '1865000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Jawalakhel, Lalitpur';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5522010';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HDL';
+        $company->name = 'Himalayan Distillery Ltd.';
+        $company->listed_shares = '4130000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hdl.gif';
+        $company->total_paid_up_value = '413000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JSM';
+        $company->name = 'Jyoti Sinning Mills Ltd.';
+        $company->listed_shares = '1270288';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jsm.gif';
+        $company->total_paid_up_value = '127028800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBBU';
+        $company->name = 'Nepal Bitumin And Barrel Udhyog Ltd.';
+        $company->listed_shares = '210680';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbbu.gif';
+        $company->total_paid_up_value = '21068000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NKU';
+        $company->name = 'Nepal Khadya Udhyog Ltd.';
+        $company->listed_shares = '90000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nku.gif';
+        $company->total_paid_up_value = '9000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Jhamsikhel, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5545891';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLO';
+        $company->name = 'Nepal Lube Oil Ltd.';
+        $company->listed_shares = '244723';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nlo.gif';
+        $company->total_paid_up_value = '24472300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NVG';
+        $company->name = 'Nepal Vanaspati Ghee Udhyog Ltd.';
+        $company->listed_shares = '101250';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nvg.gif';
+        $company->total_paid_up_value = '10125000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Ganabahal, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4250001';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RJM';
+        $company->name = 'Raghupati Jute Mills Ltd.';
+        $company->listed_shares = '1806966';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rjm.gif';
+        $company->total_paid_up_value = '180696600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'New Baneshwor, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4474640';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBPP';
+        $company->name = 'Shree Bhrikuti Pulp And Paper Ltd.';
+        $company->listed_shares = '3500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'sbpp.gif';
+        $company->total_paid_up_value = '350000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Garudha, Rautahat, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-529506';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SRS';
+        $company->name = 'Shree Ram Sugar Mills Ltd.';
+        $company->listed_shares = '3045990';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'srs.gif';
+        $company->total_paid_up_value = '304599000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UNL';
+        $company->name = 'Uniliver Nepal Ltd.';
+        $company->listed_shares = '920700';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'unl.gif';
+        $company->total_paid_up_value = '92070000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@laxmicapital.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Pulchowk, Lalitpur, Nepal';
+        $companydetail->web = 'www.laxmicapital.com.np';
+        $companydetail->profile = 'Laxmi Capital has partnered with the parent company, Laxmi Bank Limited to act as the Fund Manager and Depository for the Bank’s forthcoming Laxmi Mutual Fund named as Laxmi Value Fund-I. In this regard, the company is working closely with Laxmi Bank for the launching of Laxmi Mutual Fund. After detailed study and analysis of the scope of launching Mutual Fund in the capital market of Nepal as one new investment tool, the company is all geared to issue Laxmi Value Fund-I in the next couple of weeks.';
+        $companydetail->phone = '1-5551363';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LVF1';
+        $company->name = 'Laxmi Value Fund-1';
+        $company->listed_shares = '50000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'lvf1.gif';
+        $company->total_paid_up_value = '500000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'nabilinvest@nabilbank.com ';
+        $companydetail->issue_manager_id = '7';
+        $companydetail->address = 'Naxal, Ktm, Nepal';
+        $companydetail->web = 'www.nabilinvest.com.np';
+        $companydetail->profile = 'Nabil Bank Limited with its mission to be the 1st Choice Provider of Complete Financial Solutions ventured into capital market related activities and incepted its subsidiary – ""Nabil Investment Banking Ltd. (Nabil Invest)"" along with CG FINCO Pvt. Ltd. as the institutional shareholder to render investment banking related services to the masses.';
+        $companydetail->phone = '1-4411604';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBF1';
+        $company->name = 'Nabil Balance Fund 1';
+        $company->listed_shares = '75000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'nbf1.gif';
+        $company->total_paid_up_value = '750000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@ncml.com.np';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Kamalphokhari, Ktm, Nepal';
+        $companydetail->web = 'www.ncml.com.np';
+        $companydetail->profile = 'Founded in 2049 under the initiation of Nepal industrial development corporation along with participation of other institutions such as National Life & General insurance, National Productivity, Rastriya Beema Sansthan, RBB, Nabil Bank and NRCS. Our aim is to become the leading  Financial institution in Nepal.';
+        $companydetail->phone = '1-4423219';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCMMF';
+        $company->name = 'NCM Mutual Fund';
+        $company->listed_shares = '10000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'ncmmf.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@niblcapital.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Lazimpat, Ktm, Nepal';
+        $companydetail->web = 'www.niblcapital.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '1-4005058';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NIBSF1';
+        $company->name = 'NIBL Samriddhi Fund 1';
+        $company->listed_shares = '75000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'nibsf1.gif';
+        $company->total_paid_up_value = '750000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@nmbcl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Babar Mahal, Ktm, Nepal';
+        $companydetail->web = 'www.nmbcapital.com.np';
+        $companydetail->profile = 'NMBCL is in process to institute as a strong fund house of the country by introducing various Mutual Funds schemes and customized Portfolio Management Services. We aim to be one stop solution for raising any forms of capital and its administration. It is committed and sensitive to maintain the supremacy gained in years of service and strongly value in maintaining the legacy by empowering development with financial justice and uncompromising prudence.';
+        $companydetail->phone = '1-4253096';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NMBSF1';
+        $company->name = 'NMB Sulav Investment Fund-1';
+        $company->listed_shares = '75000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'nmbsf1.gif';
+        $company->total_paid_up_value = '750000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'scl@siddharthacapital.com ';
+        $companydetail->issue_manager_id = '11';
+        $companydetail->address = 'Babar Mahal, Ktm, Nepal';
+        $companydetail->web = 'www.siddharthacapital.com';
+        $companydetail->profile = 'Siddhartha Capital Limited has allotted 80 million units of its second mutual fund scheme -Siddhartha Equity Oriented Scheme (SEOS) worth Rs 800 million (face value Rs. 10 each) on 7th Shrawan, 2071.  The money will refunded to the non-allottee investors from 12th Shrawan, 2071.';
+        $companydetail->phone = '1-4257767';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SEOS';
+        $company->name = 'Siddhartha Equity Orineted Scheme';
+        $company->listed_shares = '100000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'seos.gif';
+        $company->total_paid_up_value = '1000000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'scl@siddharthacapital.com ';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Babar Mahal, Ktm, Nepal';
+        $companydetail->web = 'www.siddharthacapital.com';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '1-4257768';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='8';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SIGS1';
+        $company->name = 'Siddhartha Investment Growth Scheme-1';
+        $company->listed_shares = '50000000';
+        $company->listed = '1';
+        $company->face_value = '10';
+        $company->issue_status='1';
+        $company->logo = 'sigs1.gif';
+        $company->total_paid_up_value = '500000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'support@ntc.net.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Jawalakhel, Lalitpur, Nepal';
+        $companydetail->web = 'www.ntc.net.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5010722';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='9';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NTC';
+        $company->name = 'Nepal Doorsanchar Comapany Ltd.';
+        $company->listed_shares = '150000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ntc.gif';
+        $company->total_paid_up_value = '15000000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'fdbnepal@gmail.com';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Chabahil, Ktm, Nepal';
+        $companydetail->web = 'www.film.gov.np';
+        $companydetail->profile = 'Film Development Board (FDB) is established on 30 June 2000 by the Government of Nepal according to the existed Motion Picture (Production, Exhibition and Distribution) Act amended on 20th November 1991. The constitution of the Film Development Board was with the Government\'s deep interest in development and promotion of motion picture sector in Nepal. It has obviously created an environment of supporting for the promotion of differential aspect of motion picture in Nepal. The Board thus, is indeed a liaison to facilitate the conceptualisation, making, distribution and exhibition of films in Nepal. It also attempts abridging the gap between the film entrepreneurship and the government processes. However, the Board is bound to take care of safety of the people and support to interest for the inspiring films of the common populace. The Board is in reality a balance among the people at large, government and the process of filmmaking. It is therefore, the safeguard of the interest of people, watchdog of government and facilitator of filmmakers.';
+        $companydetail->phone = '01-4812332';
+        $companydetail->operation_date = '2000';
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='9';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NFD';
+        $company->name = 'Nepal Film Development Company Ltd.';
+        $company->listed_shares = '491285';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nfd.gif';
+        $company->total_paid_up_value = '49128500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@everstbankltd.com';
+        $companydetail->issue_manager_id = '0';
+        $companydetail->address = 'Lazimpat, Kathmandu, Nepal';
+        $companydetail->web = 'www.everestbankltd.com';
+        $companydetail->profile = 'Catering to more than 6.5 lacs customers, Everest Bank Limited (EBL) is a name you can depend on for professionalized & efficient banking services. Founded in 1994, the Bank has been one of the leading banks of the country and has been catering its services to various segments of the society. With clients from all walks of life, the Bank has helped develop the nation corporately, agriculturally & industrially. Joint Venture Partner Punjab National Bank (PNB), our joint venture partner (holding 20% equity) is the largest nationalized bank in India having presence virtually in all important centers. Owing to its performance during the year 2012-13, the Bank earned many laurels & accolades in recognition to its service & overall performance. Recently, PNB was awarded with ""IDRBT Banking Technology Excellence Award"" under Customer Management & Intelligence Initiatives. The Bank also bagged ""Golden Peacock Business Excellence Award 2013"" by Institute of Directors. Similarly, the Bank was recognized as \'Best Public Sector Bank\' by CNBC TV 18. The bank has now more than 6,000 branches and 7000 ATMs spread all across the India. As a joint-venture partner, PNB has been providing top management support to EBL under Technical Service Agreement.';
+        $companydetail->phone = '977-1-4443377';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='10';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EBLCP';
+        $company->name = 'Everest Bank Ltd. Con. Pref.';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'eblcp.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Boudha Rd, Ktm, Nepal';
+        $companydetail->web = 'www.kathmandu.regency.hyatt.com';
+        $companydetail->profile = 'Taragaon, owned by Hyatt Regency Kathmandu Nepal is a deluxe five (5) star hotels in Kathmandu situated in the centre of the city lying near to the Tribhuvan International Airport. The four exciting restaurants and bars at the hotel ensure the perfect dining experience with an array of cuisine options. The Hyatt hotel Kathmandu also consists of Club Oasis spa, a place of sanctuary of calm in Kathmandu, Nepal. With Nepal\'s rich fascinating culture represented in arts and architecture, Hyatt Regency consist of 290 rooms offering luxurious and deluxe accommodation with warm hospitality, for which Nepalese are renowned to the traveler proving it to be the best among the five (5) star hotels in Nepal.';
+        $companydetail->phone = '01-4491234';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='10';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TRHPR';
+        $company->name = 'Taragaon Regency Hotels Ltd. Preference Share';
+        $company->listed_shares = '2121750';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'trhpr.gif';
+        $company->total_paid_up_value = '212175000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ACEDPO';
+        $company->name = 'ACE Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '1920000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aced.gif';
+        $company->total_paid_up_value = '192000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AEFLPO';
+        $company->name = 'Alpic Everest Finance Ltd. Promotor Share';
+        $company->listed_shares = '585000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aefl.gif';
+        $company->total_paid_up_value = '58500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'AICPO';
+        $company->name = 'Alliance Insurance Company Ltd. Promoter';
+        $company->listed_shares = '1180000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aic.gif';
+        $company->total_paid_up_value = '118000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ALDBLP';
+        $company->name = 'Alpine Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aldblp.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ALICLP';
+        $company->name = 'Asian Life Insurance Co. Ltd Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'aliclp.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'APEXPO';
+        $company->name = 'Apex Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '6665596';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'apex.gif';
+        $company->total_paid_up_value = '666559600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ARDBLP';
+        $company->name = 'Araniko Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ardblp.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ARUNPO';
+        $company->name = 'Arun Finance Limited Promoter Share';
+        $company->listed_shares = '1500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'arun.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BBBLNP';
+        $company->name = 'Bagheshowari Development Bank Ltd. Promoer Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bbblnp.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BBBLPO';
+        $company->name = 'Bhrikuti Bikash Bank Ltd. Promoter Share';
+        $company->listed_shares = '1480389';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bbbl.gif';
+        $company->total_paid_up_value = '148038900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BFLPO';
+        $company->name = 'Butwal Finance Ltd. Promoter Share';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bfl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BGDBLP';
+        $company->name = 'Bagmati Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bgdbl.gif';
+        $company->total_paid_up_value = '50000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BHBLPO';
+        $company->name = 'Bhargav Bikash Bank Ltd. Promoter Share';
+        $company->listed_shares = '944860';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bhbl.gif';
+        $company->total_paid_up_value = '94486000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BLDBLP';
+        $company->name = 'Biratlaxmi Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '100';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bldbl.gif';
+        $company->total_paid_up_value = '10000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BOKPO';
+        $company->name = 'Bank of Kathmandu Ltd. Promoter Share';
+        $company->listed_shares = '2472879';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bok.gif';
+        $company->total_paid_up_value = '247287900';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BSBLPO';
+        $company->name = 'Bishwa Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '2400000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bsbl.gif';
+        $company->total_paid_up_value = '240000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BUDBLP';
+        $company->name = 'Business Universal Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '300000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'budbl.gif';
+        $company->total_paid_up_value = '30000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CBLPO';
+        $company->name = 'Civil Bank Ltd. Promoter Share';
+        $company->listed_shares = '21400000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cbl.gif';
+        $company->total_paid_up_value = '2140000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CCBLPO';
+        $company->name = 'Century Commercial Bank Ltd. Promoter Share';
+        $company->listed_shares = '21200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ccbl.gif';
+        $company->total_paid_up_value = '2120000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CDBLPO';
+        $company->name = 'City Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cdbl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CEDBLP';
+        $company->name = 'Clean Energy Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '6528000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cedbl.gif';
+        $company->total_paid_up_value = '652800000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CFCLPO';
+        $company->name = 'Central Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '1500000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cfcl.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CMBFLP';
+        $company->name = 'Capital Merchant Bank. & Fin. Ltd. Promoter Share';
+        $company->listed_shares = '700000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cmbfl.gif';
+        $company->total_paid_up_value = '70000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CMBFPO';
+        $company->name = 'CMB Finance Ltd. Promoter Share';
+        $company->listed_shares = '450306';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cmbf.gif';
+        $company->total_paid_up_value = '45030600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CMBSLp';
+        $company->name = 'Civil Merchant Bittiya Sanstha Ltd. Promoter Share';
+        $company->listed_shares = '600000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cmbsl.gif';
+        $company->total_paid_up_value = '60000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CNDBLP';
+        $company->name = 'Country Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '3200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'cndbl.gif';
+        $company->total_paid_up_value = '320000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CSDBLP';
+        $company->name = 'Cosmos Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '437500';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'csdbl.gif';
+        $company->total_paid_up_value = '43750000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CZBILP';
+        $company->name = 'Citizens Bank Internatioal Ltd. Promoter Share';
+        $company->listed_shares = '10000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'czbil.gif';
+        $company->total_paid_up_value = '1000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'DDBLPO';
+        $company->name = 'Deprosc Laghubitta Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '50000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ddbl.gif';
+        $company->total_paid_up_value = '5000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'DBBLPO';
+        $company->name = 'Dev BikasBank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'dbbl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EBLPO';
+        $company->name = 'Everest Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ebl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EDBLPO';
+        $company->name = 'Excel Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'edbl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EFLPO';
+        $company->name = 'Everest Finance Ltd. Promoter Share';
+        $company->listed_shares = '120000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'efl.gif';
+        $company->total_paid_up_value = '12000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'EKBLPO';
+        $company->name = 'Ekata Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '2000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ekbl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'FFCLPO';
+        $company->name = 'Fewa Finance Company Ltd. Promoter Share';
+        $company->listed_shares = '420000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ffcl.gif';
+        $company->total_paid_up_value = '42000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GABLPO';
+        $company->name = 'Gaumukhee Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '432000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gabl.gif';
+        $company->total_paid_up_value = '43200000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GBBLPO';
+        $company->name = 'Garima Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gbbl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GBIMEP';
+        $company->name = 'Global IME Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gbime.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GDBLPO';
+        $company->name = 'Gandaki Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '3520000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gdbl.gif';
+        $company->total_paid_up_value = '352000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GFCLPO';
+        $company->name = 'Goodwill Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '461896';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gfcl.gif';
+        $company->total_paid_up_value = '46189600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GFLKPO';
+        $company->name = 'Gorkha Finance Ltd. Promoter Share';
+        $company->listed_shares = '357300';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gflk.gif';
+        $company->total_paid_up_value = '35730000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GFLPO';
+        $company->name = 'General Finance Ltd. Promoter Share';
+        $company->listed_shares = '145460';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gfl.gif';
+        $company->total_paid_up_value = '14546000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GLICLP';
+        $company->name = 'Guras Life Insurance Company Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'glicl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GRANDP';
+        $company->name = 'Grand Bank Ltd. Promoter Share';
+        $company->listed_shares = '1680000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'grand.gif';
+        $company->total_paid_up_value = '168000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GSDBLP';
+        $company->name = 'Gaurishankar Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '1000000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gsdbl.gif';
+        $company->total_paid_up_value = '100000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HAMAPO';
+        $company->name = 'Hama Merchant & Finance Ltd. Promoter Share';
+        $company->listed_shares = '200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hama.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HAMROP';
+        $company->name = 'Hamro Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '601000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hamro.gif';
+        $company->total_paid_up_value = '60100000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HBDLPO';
+        $company->name = 'H & B Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hbdl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HBLPO';
+        $company->name = 'Himalayan Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hbl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ICFCPO';
+        $company->name = 'ICFC Finance Ltd. Promotor Share';
+        $company->listed_shares = '2223340';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'icfc.gif';
+        $company->total_paid_up_value = '222334000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'IDBLPO';
+        $company->name = 'Infrastructure Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '2464000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'idbl.gif';
+        $company->total_paid_up_value = '246400000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'IFILPO';
+        $company->name = 'Imperial Finance Ltd. Promoter Share';
+        $company->listed_shares = '200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ifil.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'INDBPO';
+        $company->name = 'Innovative Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '1473212';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'indb.gif';
+        $company->total_paid_up_value = '147321200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'IMEFIP';
+        $company->name = 'IME Financial Institution Ltd. Promoter Share';
+        $company->listed_shares = '1621491';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'imefi.gif';
+        $company->total_paid_up_value = '162149100';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JBBLPO';
+        $company->name = 'Jyoti Bikash Bank Ltd. Promoter Share';
+        $company->listed_shares = '100000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jbbl.gif';
+        $company->total_paid_up_value = '10000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JBNLPO';
+        $company->name = 'Janata Bank Nepal Ltd. Promoter Share';
+        $company->listed_shares = '20600000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jbnl.gif';
+        $company->total_paid_up_value = '2060000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JEFLPO';
+        $company->name = 'Jebils Finance Ltd. Promoter Share';
+        $company->listed_shares = '2200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jefl.gif';
+        $company->total_paid_up_value = '220000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JFLPO';
+        $company->name = 'Janaki Finance Ltd. Promoter Share';
+        $company->listed_shares = '240000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jfl.gif';
+        $company->total_paid_up_value = '24000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'JHBLPO';
+        $company->name = 'Jhimruk Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '400000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'jhbl.gif';
+        $company->total_paid_up_value = '40000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KAFILP';
+        $company->name = 'Kaski Finanace Ltd. Promoter Share';
+        $company->listed_shares = '1685208';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kafil.gif';
+        $company->total_paid_up_value = '168520800';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KBBLPO';
+        $company->name = 'Kailash Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '1008000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kbbl.gif';
+        $company->total_paid_up_value = '100800000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KBLPO';
+        $company->name = 'Kumari Bank Ltd. Promotor Share';
+        $company->listed_shares = '5250000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kbl.gif';
+        $company->total_paid_up_value = '525000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KDBLPO';
+        $company->name = 'Kasthamandap Dev. Bank Ltd. Promoter Share';
+        $company->listed_shares = '200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kdbl.gif';
+        $company->total_paid_up_value = '20000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KFLPO';
+        $company->name = 'Kathmandu Finance Ltd. Promoter Share';
+        $company->listed_shares = '198000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kfl.gif';
+        $company->total_paid_up_value = '19800000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KISTPO';
+        $company->name = 'KIST Bank Ltd. Promoter Share';
+        $company->listed_shares = '1200000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kist.gif';
+        $company->total_paid_up_value = '120000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KMBLPO';
+        $company->name = 'Kamana Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '2300000';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kmbl.gif';
+        $company->total_paid_up_value = '230000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bishalbazar.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'New Road, Ktm, Nepal';
+        $companydetail->web = 'www.bishalbazar.com.np';
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-4242185';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='12';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BBC';
+        $company->name = 'Bishal Bazar Company Limited';
+        $company->listed_shares = '491400';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'bbc.gif';
+        $company->total_paid_up_value = '49140000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'ntl@ccsl.com.np';
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = 'Sanepa, Ktm, Nepal';
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = '01-5522941';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='12';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NTL';
+        $company->name = 'Nepal Tading Limited';
+        $company->listed_shares = '50000';
+        $company->listed = '1';
+        $company->face_value = '50';
+        $company->issue_status='1';
+        $company->logo = 'ntl.gif';
+        $company->total_paid_up_value = '2500000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='12';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NWC';
+        $company->name = 'Nepal Welfare Company Limited';
+        $company->listed_shares = '41000';
+        $company->listed = '1';
+        $company->face_value = '50';
+        $company->issue_status='1';
+        $company->logo = 'nwc.gif';
+        $company->total_paid_up_value = '2050000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = 'info@stcnepal.com';
+        $companydetail->issue_manager_id = '9';
+        $companydetail->address = 'Kalimati, Ktm, Nepal';
+        $companydetail->web = 'www.stcnepal.com';
+        $companydetail->profile = 'Salt Trading Corporation (STC) Limited is one of the largest business organization in Nepal established as an experiment of the utility of Public Private Partnership (PPP) for a developing country under PPP act of Government of Nepal. About 48 years ago (established in 1963 AD), the corporation was launched with objective to avail iodized common salt (since salt is not produced in Nepal and depends on import from India and China) for all citizens throughout the country. In the long run of its dedicated service to the nation, STC has great contribution to ensure proper supply and distribution of essential daily consumable goods (listed in Nepal Governmentâ€™s Gadget), erode black-marketing (regulate market & artificial scarcity) and industrial development in Nepal. With the proportion of 79:21 investment from private- public (state owned National Trading Limited), STC is managed by joint effort of state (Government) and private (shareholders). In the business journey, Salt Trading Corporation is a brilliant example of success that provides its services through 93 offices (22 Offices and 71 liaison offices) that include nearly whole population of the country as customers. STC has over 400 staff and has provided opportunities for over 1000 workers and laborers. The group has branches in all major towns in Nepal. STC has 5 production oriented factories. Salt Trading Corporation Limited makes all efforts to provide goods and services to the common people that have made STC a major catalyst in bringing about the desired economic changes and growth in Nepal. STC is not only focusing on providing its services to urban people (residing in towns and metropolis), it also reaches out to the poor and needy people of remote districts of Nepal (e.g. Himalayan regions). Realizing the need of quality products throughout the country by following the Government of Nepalâ€™s policy, Salt Trading Corporation is moving towards business diversification by searching for new products, innovative thoughts and new markets. The organization engaged itself in corporate activities such as trade, import, export, manufacturing (production), processing, supply and distribution of a vast diversity of goods and services. Food products, agricultural products, construction materials, machinery and tools, paper products and other goods are the main commodities for trade and business. The central corporate office of Salt Trading Corporation is located at Kalimati, Kathmandu, with its zonal, branch, sub-branch and depot offices in different other parts of the country.';
+        $companydetail->phone = '01-4271418';
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='12';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'STC';
+        $company->name = 'Salt Trading Corporation';
+        $company->listed_shares = '710343';
+        $company->listed = '1';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'stc.gif';
+        $company->total_paid_up_value = '71034300';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'DIYALO';
+        $company->name = 'Diyalo Bikas Bank Ltd';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'diyalo.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GBL';
+        $company->name = 'Global Bank Limited';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gbl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GMFILP';
+        $company->name = 'Guheyshwori Mer. Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gmfilp.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'GSDBL';
+        $company->name = 'Gaurishankar Development Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'gsdbl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'HBBL';
+        $company->name = 'Himchuli Bikash Bank Ltd';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'hbbl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'KIST';
+        $company->name = 'KIST Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'kist.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MFCLPO';
+        $company->name = 'Merchant Finance Company Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'mfclpo.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='7';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MSM';
+        $company->name = 'Morang Sugar Mills Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'msm.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='6';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBFL';
+        $company->name = 'Nepal Bangladesh Fin. & Leasing Co. Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nbfl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NDEP';
+        $company->name = 'NDEP Development Bank Limited';
+        $company->listed_shares = '5824512';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ndep.gif';
+        $company->total_paid_up_value = '582451200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NFC';
+        $company->name = 'National Finance Co. Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nfc.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NFL';
+        $company->name = 'Narayani Finance Limited.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nfl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NHMF';
+        $company->name = 'Nepal Housing & Merchant Finance Ltd.';
+        $company->listed_shares = '2202965';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nhmf.gif';
+        $company->total_paid_up_value = '220296500';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NICB';
+        $company->name = 'Nepal Industrial & Co. Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nicb.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NICBPO';
+        $company->name = 'Nepal Industrial & Co. Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'nicbpo.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PDB';
+        $company->name = 'Public Development Bank Ltd.';
+        $company->listed_shares = '1500000';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pdb.gif';
+        $company->total_paid_up_value = '150000000';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFCL';
+        $company->name = 'Peoples Finance Limited.';
+        $company->listed_shares = '2887906';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'pfcl.gif';
+        $company->total_paid_up_value = '288790600';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRBBL';
+        $company->name = 'Prabhu Bikas Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prbbl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRFL';
+        $company->name = 'Prabhu Finance Company Limited';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prfl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRINPO';
+        $company->name = 'Prabhu Insurance Company Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'prinpo.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PSDBL';
+        $company->name = 'Pashupati Development Bank Limited';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'psdbl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RDBL';
+        $company->name = 'Rising Development Bank Ltd.';
+        $company->listed_shares = '2141362';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rdbl.gif';
+        $company->total_paid_up_value = '214136200';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RIBSL';
+        $company->name = 'Reliable Finance Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ribsl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RIBSLP';
+        $company->name = 'Reliable Finance Co. Ltd Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'ribslp.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RMBFI';
+        $company->name = 'Royal Merchant Banking & Finance Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'rmbfi.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+        $companydetail = new CompanyDetail;
+        $companydetail->email = NULL;
+        $companydetail->issue_manager_id = NULL;
+        $companydetail->address = NULL;
+        $companydetail->web = NULL;
+        $companydetail->profile = NULL;
+        $companydetail->phone = NULL;
+        $companydetail->operation_date = NULL;
+        $companydetail->save();
+
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ZFL';
+        $company->name = 'Zenith Finance Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '0';
+        $company->face_value = '100';
+        $company->issue_status='1';
+        $company->logo = 'zfl.gif';
+        $company->total_paid_up_value = '0';
+        $company->save();
+		
+				$companydetail = new CompanyDetail;
+        $companydetail->email = 'info@bktfinance.com';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = 'Chyamhasinha-2, Bhaktapur, Nepal';
+        $companydetail->web = 'www.bktfinance.com';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BFCL';
+        $company->name = 'Bhaktapur Finance Co. Ltd.';
+        $company->listed_shares = '2000000';
+        $company->listed = 'Y';
+        $company->face_value = '100';
+        $company->issue_status='Y';
+        $company->logo = 'bfcl.gif';
+        $company->total_paid_up_value = '200000000';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ABBL';
+        $company->name = 'Annapurna Bikash Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'ABBLPO';
+        $company->name = 'Annapurna Bikash Bank Ltd Promoter Share.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BBBLN';
+        $company->name = 'Bageshwori Development Bank Ltd';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BDBL';
+        $company->name = 'Business Development Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='3';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BFL';
+        $company->name = 'Butwal Finance Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BOAN';
+        $company->name = 'Bank of Asia Nepal Limited';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'BRTBL';
+        $company->name = 'Bright Development Bank Limited.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='1';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'CTBNL';
+        $company->name = 'Commerz and Trust Bank Nepal Limited.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LBLPO';
+        $company->name = 'Laxmi Bank Limited Promotor Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LFCPO';
+        $company->name = 'Lalitpur Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LFLCPO';
+        $company->name = 'Lumbini Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'LUBLPO';
+        $company->name = 'Lumbini Bank Limited Promotor Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MBBLPO';
+        $company->name = 'Mahakali Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MBLPO';
+        $company->name = 'Machhachapuchhre Bank Ltd. Promotor Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MDBLPO';
+        $company->name = 'Malika Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MDBPO';
+        $company->name = 'Miteri Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MFLPO';
+        $company->name = 'Maha Laxmi Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='2';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MKDBL';
+        $company->name = 'Manakamana Development Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'MNBBLP';
+        $company->name = 'Muktinath Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NABBPO';
+        $company->name = 'Nepal Aawas Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NABILP';
+        $company->name = 'Nabil Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBBPO';
+        $company->name = 'Nepal Bangladesh Bank Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NBILPO';
+        $company->name = 'NB Insurance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCCBPO';
+        $company->name = 'Nepal Credit & Commercial Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NCMPO';
+        $company->name = 'NIDC Capital Markets Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NDBPO';
+        $company->name = 'Nepal Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NDEPPO';
+        $company->name = 'NDEP Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NEFLPO';
+        $company->name = 'Nepal Express Finance Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NHMFPO';
+        $company->name = 'Nepal Housing & Merchant Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NIBPO';
+        $company->name = 'Nepal Investment Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NICAP';
+        $company->name = 'NICA Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NILPO';
+        $company->name = 'Neco Insurace Co. Ltd. Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLICLP';
+        $company->name = 'National Life Insurance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NLICP';
+        $company->name = 'Nepal Life Insurance Co. Ltd. Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NMBPO';
+        $company->name = 'NMB Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NNFCPO';
+        $company->name = 'Narayani National Company Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'NSMPO';
+        $company->name = 'Nepal Share Markets Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'OFLPO';
+        $company->name = 'Om Finance Ltd. Promoter Share ';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PADBLP';
+        $company->name = 'Pacific Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PCBLP';
+        $company->name = 'Prime Commercial Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PDBLPO';
+        $company->name = 'Paschimanchal Bikash Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFCLPO';
+        $company->name = 'Peoples Finance Co. Ltd Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFCPO';
+        $company->name = 'Paschimanchal Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFLBSP';
+        $company->name = 'Patan Finance Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PFLPO';
+        $company->name = 'Pokhara Finance Company Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRDBLP';
+        $company->name = 'Professional Diyalo Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRFLPO';
+        $company->name = 'Prabhu Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PROFLP';
+        $company->name = 'Progressive Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PRVUPO';
+        $company->name = 'Prabhu Bank Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'PSDBLP';
+        $company->name = 'Pashupati Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RBCLPO';
+        $company->name = 'Rastriya Beema Company Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'REDBLP';
+        $company->name = 'Reliable Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'RMBFPO';
+        $company->name = 'Royal Merchant Bank & Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBBLJP';
+        $company->name = 'Sahayogi Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBBLPO';
+        $company->name = 'Sanima Bank Ltd.Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBIPO';
+        $company->name = 'Nepal SBI Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SBLPO';
+        $company->name = 'Siddhartha Bank Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SDBLPO';
+        $company->name = 'Siddhartha Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SETIPO';
+        $company->name = 'Seti Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SEWAPO';
+        $company->name = 'Sewa Bikas Bank Ltd. Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SFCPO';
+        $company->name = 'Samjhana Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SFFILP';
+        $company->name = 'Shrijana Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SFLPO';
+        $company->name = 'Siddhartha Finance Ltd. Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SHDBL';
+        $company->name = 'Shine Development Bank Ltd.';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SICLPO';
+        $company->name = 'Shikhar Insurance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SICPO';
+        $company->name = 'Sagarmatha Insurance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SIFCPO';
+        $company->name = 'Shree Investment & Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SILPO';
+        $company->name = 'Siddhartha Insurance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SLICLP';
+        $company->name = 'Surya Life Insurance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SRBLPO';
+        $company->name = 'Sunrise Bank Ltd Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'STFLPO';
+        $company->name = 'Standard Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SUBBLP';
+        $company->name = 'Subbecha Bikas Bank Ltd. Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SUPRMP';
+        $company->name = 'Supreme Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SWBBLP';
+        $company->name = 'Swabalamban Bikas Bank Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'SYFLPO';
+        $company->name = 'Synergy Finance Limited Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TBBLP';
+        $company->name = 'Triveni Bikash Bank Ltd Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'TNBLPO';
+        $company->name = 'Tinau Development Bank Ltd. Promoter';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UFCLPO';
+        $company->name = 'Union Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'UFLPO';
+        $company->name = 'United Finance Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'VBBLPO';
+        $company->name = 'Vibor Bikas Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'WDBLPO';
+        $company->name = 'Western Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'WMBFPO';
+        $company->name = 'World Merchant Bank & Fin. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'YETIPO';
+        $company->name = 'Yeti Development Bank Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+
+		$companydetail = new CompanyDetail;
+        $companydetail->email = '';
+        $companydetail->issue_manager_id = '';
+        $companydetail->address = '';
+        $companydetail->web = '';
+        $companydetail->profile = '';
+        $companydetail->phone = '';
+        $companydetail->operation_date = '';
+
+        $companydetail->save();
+        $company=new Company;
+        $company->sector_id='11';
+        $company->detail_id=$companydetail->id;
+        $company->quote = 'YFLPO';
+        $company->name = 'Yeti Finance Co. Ltd. Promoter Share';
+        $company->listed_shares = '0';
+        $company->listed = '';
+        $company->face_value = '100';
+        $company->issue_status='';
+        $company->logo = '';
+        $company->total_paid_up_value = '0';
+        $company->save();
+    }
+}
+class BullionEnergyCurrencyIndexTypeSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('bullion_type')->truncate();
+        $bulliontype1 = new BullionType;
+        $bulliontype1->name = 'Hallmark Gold';
+        $bulliontype1->unit = '10 Gram';
+        $bulliontype1->save();
+
+        $bulliontype1 = new BullionType;
+        $bulliontype1->name = 'Tejabi Gold';
+        $bulliontype1->unit = '10 Gram';
+        $bulliontype1->save();
+        
+        $bulliontype2 = new BullionType;
+        $bulliontype2->name = 'Silver';
+        $bulliontype2->unit = '10 Gram';
+        $bulliontype2->save();
+
+        DB::table('energy_type')->truncate();
+        $energytype1 = new EnergyType;
+        $energytype1->name = 'Petrol';
+        $energytype1->unit = '1';
+        $energytype1->save();
+
+        $energytype2 = new EnergyType;
+        $energytype2->name = 'Diesel';
+        $energytype2->unit = '1';
+        $energytype2->save();
+
+        $energytype3 = new EnergyType;
+        $energytype3->name = 'Gas';
+        $energytype3->unit = '1';
+        $energytype3->save();
+
+        $energytype4 = new EnergyType;
+        $energytype4->name = 'Kerosene';
+        $energytype4->unit = '1';
+        $energytype4->save();
+
+        DB::table('currency_type')->truncate();
+        $currencytype1 = new CurrencyType;
+        $currencytype1->name = 'US$';
+        $currencytype1->unit = '1';
+        $currencytype1->country_name ='United States';
+        $currencytype1->save();
+
+        $currencytype2 = new CurrencyType;
+        $currencytype2->name = 'Indian Rupee';
+        $currencytype2->unit = '1';
+        $currencytype2->country_name ='India';
+        $currencytype2->save();
+
+        $currencytype3 = new CurrencyType;
+        $currencytype3->name = 'Euro';
+        $currencytype3->unit = '1';
+        $currencytype3->country_name ='Europe';
+        $currencytype3->save();
+
+        $currencytype4 = new CurrencyType;
+        $currencytype4->name = 'St. Pound';
+        $currencytype4->unit = '1';
+        $currencytype4->country_name ='United Kingdom';
+        $currencytype4->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Swiss Franc';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Switzerland';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Aus$';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Australia';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Can$';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Canada';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Sin$';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Singapore';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'J. Yen';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Japan';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'China Yuan';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='China';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Swedish Kr.';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Sweden';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Danish Kr.';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Denmark';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'HKG$';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Hong Kong';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'SA Riyal';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Saudi Arabia';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Qat. Riyal';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Quarter';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Th. Baht';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Thailand';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Dirham';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='UAE';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Ringgit';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Malaysian';
+        $currencytype->save();
+
+        $currencytype = new CurrencyType;
+        $currencytype->name = 'Korean Won';
+        $currencytype->unit = '1';
+        $currencytype->country_name ='Korean';
+        $currencytype->save();
+
+        DB::table('index_type')->truncate();
+        $indextype1 = new IndexType;
+        $indextype1->name = 'nepse';
+        $indextype1->save();
+
+        $indextype2 = new IndexType;
+        $indextype2->name = 'sensitive';
+        $indextype2->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'float index';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'sensitive float';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'banking';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'hotels';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'development';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'hydroPower';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'finance';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'insurance';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'manu and processing';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'trading';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'market capitalization';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'float mkt capitalization';
+        $indextype3->save();
+
+        $indextype3 = new IndexType;
+        $indextype3->name = 'others';
+        $indextype3->save();
+    }
+}
+
+// class AnnouncementSeeder extends Seeder
+// {
+//     public function run()
+//     {
+//         DB::table('announcement_type')->truncate()
+// ;
+//         $anntype1 = new AnnouncementType;
+//         $anntype1->id = '1';
+//         $anntype1->label = 'issue open';
+//         $anntype1->save();
+
+//         $anntype2 = new AnnouncementType;
+//         $anntype2->id = '2';
+//         $anntype2->label = 'issue close';
+//         $anntype2->save();
+
+//         $anntype3 = new AnnouncementType;
+//         $anntype3->id = '3';
+//         $anntype3->label = 'issue auction';
+//         $anntype3->save();
+
+//         $anntype4 = new AnnouncementType;
+//         $anntype4->id = '4';
+//         $anntype4->label = 'certificate and dividend distribution';
+//         $anntype4->save();
+
+//         $anntype5 = new AnnouncementType;
+//         $anntype5->id = '5';
+//         $anntype5->label = 'share allotment and cash return to non-allotted';
+//         $anntype5->save();
+
+//         $anntype6 = new AnnouncementType;
+//         $anntype6->id = '6';
+//         $anntype6->label = 'financial report';
+//         $anntype6->save();
+
+//         $anntype7 = new AnnouncementType;
+//         $anntype7->id = '7';
+//         $anntype7->label = 'annual general meeting';
+//         $anntype7->save();
+
+//         $anntype8 = new AnnouncementType;
+//         $anntype8->id = '8';
+//         $anntype8->label = 'book closure';
+//         $anntype8->save();
+
+//         $anntype9 = new AnnouncementType;
+//         $anntype9->id = '9';
+//         $anntype9->label = 'press release';
+//         $anntype9->save();
+
+//         $anntype9 = new AnnouncementType;
+//         $anntype9->id = '10';
+//         $anntype9->label = 'bod approved';
+//         $anntype9->save();
+
+//         DB::table('announcement_subtype')->truncate()
+// ;
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'ipo';
+//         $annsubtype1->save();
+
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'fpo';
+//         $annsubtype1->save();
+
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'mutual fund';
+//         $annsubtype1->save();
+
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'right';
+//         $annsubtype1->save();
+
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'bond';
+//         $annsubtype1->save();
+
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'debenture';
+//         $annsubtype1->save();
+
+//         $annsubtype1 = new AnnouncementSubType;
+//         $annsubtype1->announcement_type_id = 1;
+//         $annsubtype1->label = 'treasury bill';
+//         $annsubtype1->save();
+
+//         $annsubtype2 = new AnnouncementSubType;
+//         $annsubtype2->announcement_type_id = 2;
+//         $annsubtype2->label = 'ipo';
+//         $annsubtype2->save();
+
+//         $annsubtype2 = new AnnouncementSubType;
+//         $annsubtype2->announcement_type_id = 2;
+//         $annsubtype2->label = 'fpo';
+//         $annsubtype2->save();
+
+//         $annsubtype2 = new AnnouncementSubType;
+//         $annsubtype2->announcement_type_id = 2;
+//         $annsubtype2->label = 'mutual fund';
+//         $annsubtype2->save();
+
+//         $annsubtype2 = new AnnouncementSubType;
+//         $annsubtype2->announcement_type_id = 2;
+//         $annsubtype2->label = 'right';
+//         $annsubtype2->save();
+
+//         $annsubtype2 = new AnnouncementSubType;
+//         $annsubtype2->announcement_type_id = 2;
+//         $annsubtype2->label = 'debenture';
+//         $annsubtype2->save();
+
+//         $annsubtype3 = new AnnouncementSubType;
+//         $annsubtype3->announcement_type_id = 3;
+//         $annsubtype3->label = 'ordinary';
+//         $annsubtype3->save();
+
+//         $annsubtype3 = new AnnouncementSubType;
+//         $annsubtype3->announcement_type_id = 3;
+//         $annsubtype3->label = 'promoter';
+//         $annsubtype3->save();
+
+//         $annsubtype3 = new AnnouncementSubType;
+//         $annsubtype3->announcement_type_id = 3;
+//         $annsubtype3->label = 'ordinary and promoter';
+//         $annsubtype3->save();
+
+//         //certificate & dividend distribution
+//         $cdds = ['ipo','right','bonus','dividend','debenture'];
+//         foreach($cdds as $cdd){
+//             $annsubtype3 = new AnnouncementSubType;
+//             $annsubtype3->announcement_type_id = 4;
+//             $annsubtype3->label = $cdd;
+//             $annsubtype3->save();
+//         }
+
+//         //share allotment & cash return to non-allotted
+//         $sacrnas = ['ipo','right','mutual fund','auction'];
+//         foreach($sacrnas as $sacrna){
+//             $annsubtype3 = new AnnouncementSubType;
+//             $annsubtype3->announcement_type_id = 5;
+//             $annsubtype3->label = $sacrna;
+//             $annsubtype3->save();
+//         }
+
+//         //financial report
+//         $frs = ['monthly','1st quarter','2nd quarter','3rd quarter','4th quarter','annual'];
+//         foreach($frs as $fr){
+//             $annsubtype3 = new AnnouncementSubType;
+//             $annsubtype3->announcement_type_id = 6;
+//             $annsubtype3->label = $fr;
+//             $annsubtype3->save();
+//         }
+
+//         //AGM
+//         $agms = ['special','agm','agm minute'];
+//         foreach($agms as $agm){
+//             $annsubtype3 = new AnnouncementSubType;
+//             $annsubtype3->announcement_type_id = 7;
+//             $annsubtype3->label = $agm;
+//             $annsubtype3->save();
+//         }
+
+//         //bod approved
+//         $annsubtype3 = new AnnouncementSubType;
+//         $annsubtype3->announcement_type_id = 10;
+//         $annsubtype3->label = 'bonus and cash dividend';
+//         $annsubtype3->save();
+//     }
+// }

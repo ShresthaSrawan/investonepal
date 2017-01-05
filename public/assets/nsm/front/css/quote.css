@@ -1,0 +1,342 @@
+.nav-tabs >li>a{
+    border-radius: 0px;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    border-top: 2px solid #268ECC !important;
+}
+.tab-content > .tab-pane {
+    border-top: none;
+}
+.bleft{
+    border-left: 1px dotted rgba(150,150,150,0.2);
+}
+.borderless{
+    width: 100%;
+}
+.company-heading{
+    background: #ececec;
+    padding: 10px 0;
+}
+.container-no-padding{
+    margin: -20px -15px;
+}
+.company-heading h1{
+    margin: 5px 10px;
+}
+.company-heading h4{
+    margin: 0px;
+}
+.company-data>div:nth-child(1){
+	color: #fff;
+}
+.company-data{
+    background: linear-gradient(#2B2B2C,#343436);
+    background: -webkit-linear-gradient(#2B2B2C,#343436);
+    background: -o-linear-gradient(#2B2B2C,#343436);
+    background: -moz-linear-gradient(#2B2B2C,#343436);
+    text-transform: uppercase;
+}
+.company-heading>.row{
+    padding: 0 !important;
+}
+.company-data>div{
+    padding: 20px !important;
+}
+.close-price-wrapper .rs{
+  font-size: 1em;
+  position: relative;
+  top: -32px;
+}
+.close-price{
+    font-size: 4em;
+    font-weight: 200;
+    line-height: 1;
+}
+.change{
+    font-size: 1.5em;
+}
+.gain:before{
+    content: "\f077";
+    color: #188811;
+}
+.loss:before{
+    content: "\f078";
+    color: #f00;
+}
+.trans-data{
+    font-size: 1.5em;
+    margin-bottom: 8px;
+}
+div.data-collection:first-child{
+    border-top: 1px solid rgba(100,100,100,0.9) !important;
+}
+.data-collection{
+    padding: 10px 0px;
+}
+.data-collection>.row{
+    margin-top: 10px;
+}
+.data-collection>.row>div{
+    padding: 0 5px !important;
+}
+.data-header{
+    font-size: 0.8em;
+}
+.data-data{
+    font-size: 1.1em;
+}
+.tabs-below{
+	border-bottom: 0;
+}
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: none;
+}
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+.tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+tabs-below > .nav-tabs > li > a {
+  -webkit-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+}
+
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #ddd;
+  border-bottom-color: transparent;
+}
+
+.tabs-below > .nav-tabs > .active > a,
+.tabs-below > .nav-tabs > .active > a:hover,
+.tabs-below > .nav-tabs > .active > a:focus {
+  border-color: transparent #ddd #ddd #ddd;
+}
+.tab-content > .active,
+.pill-content > .active {
+  display: block;
+}
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+}
+.tabs-container{
+    margin-top: 30px;
+}
+.bod table{
+    border-color: #2c3e50;
+}
+.bod table thead{
+    background-color: #2c3e50;
+}
+.legend{
+  font-size: 0.9em;
+  padding: 2px 8px;
+  position: relative;
+}
+.legend-box{
+  content: "\00a0";
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  top: 4px;
+  left: -1px;
+}
+.legend-buy .legend-box{
+  background: #18bc9c;
+}
+.legend-sell .legend-box{
+  background: #e74c3c;
+}
+.legend-hold .legend-box{
+  background: #ecf0f1;
+}
+.ratings-wrapper{
+  margin-top: 75px;
+  margin-bottom: 10px;
+}
+.review{
+    position: absolute;
+    display: none;
+}
+.popover.bottom{
+    top: 30px;
+    max-width: 380px;
+    width: 100%;
+    line-height: 1.9;
+}
+.popover-title{
+    padding: 8px 4px 8px 14px;
+}
+.review-close{
+    border: none;
+    background-color: transparent;
+    font-size: 1.5em;
+    margin-top: -5px;
+}
+.review-button{
+    height: 39px;
+}
+.review-submit{
+    padding: 2px;
+    width: 60px;
+    height: 30px;
+}
+/*Toggle Button*/
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.cmn-toggle + label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+   outline: none;
+  user-select: none;
+}
+input.cmn-toggle-yes-no + label {
+  padding: 2px;
+  width: 60px;
+  height: 30px;
+}
+input.cmn-toggle-yes-no + label:before,
+input.cmn-toggle-yes-no + label:after {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+  text-align: center;
+}
+input.cmn-toggle-yes-no + label:before {
+  background-color: #dddddd;
+  content: attr(data-off);
+  transition: transform 0.5s;
+  backface-visibility: hidden;
+}
+input.cmn-toggle-yes-no + label:after {
+  background-color: #8ce196;
+  content: attr(data-on);
+  transition: transform 0.5s;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+input.cmn-toggle-yes-no:checked + label:before {
+  transform: rotateY(180deg);
+}
+input.cmn-toggle-yes-no:checked + label:after {
+  transform: rotateY(0);
+}
+
+.thumbnail {
+    padding:0px;
+}
+.review-container .panel {
+    position:relative;
+}
+.review-container .panel>.panel-heading:after,.review-container .panel>.panel-heading:before{
+    position:absolute;
+    top:11px;left:-16px;
+    right:100%;
+    width:0;
+    height:0;
+    display:block;
+    content:" ";
+    border-color:transparent;
+    border-style:solid solid outset;
+    pointer-events:none;
+}
+.review-container .panel>.panel-heading:after{
+    border-width:7px;
+    border-right-color:#A5A5A5;
+    margin-top:1px;
+    margin-left:2px;
+}
+.review-container .panel>.panel-heading:before{
+    border-right-color:#ddd;
+    border-width:8px;
+}
+.vote
+{
+    background: transparent;
+    border: none;
+    color: #ddd;
+}
+.vote:hover{
+    color: #fff;
+}
+.quote-tabs .panel-default
+{
+  border: none;
+}
+.panel-default
+{
+  border-top: none;
+}
+.panel{
+  box-shadow: none;
+}
+.panel-body>.row{
+  padding: 0 15px;
+}
+h1.cover-heading>span{
+  font-size: 0.7em;
+  color: #999;
+}
+.date h3{
+  display: inline-block;
+  font-size: 1.3em;
+  color: #fff;
+}
+.date{
+  color: #888;
+}
+
+/*Financial Highlights*/
+.fh-column{
+    padding-right: 5%;
+}
+.fh-data{
+  border-bottom: 0.1625rem #999 dotted;
+  margin-top: 1.25rem;
+  padding-bottom: 0.3125rem;
+  padding-left: 0;
+}
+.nav-tabs{
+  padding-left: 25px;
+}
+.company-profile{
+  padding: 10px 50px;
+}
+.category-heading{
+  color: #268ECC !important;
+}
+
+.fh-data-pro{
+  border-bottom: 0.1625rem #999 solid;
+  margin-top: 1.25rem;
+  padding-bottom: 0.3125rem;
+  padding-left: 0;
+}
+@media screen and (max-width: 768px) {
+    .ratings-wrapper{
+        text-align: center;
+    }
+    .company-data>div:first-child{
+        text-align: center;
+        font-size: 20px;
+    }
+}
+.financial-report-table{padding:0 120px;}
+.sub-menu{
+    margin-top: -40px;
+    margin-bottom: 4px;
+	float:right;
+}

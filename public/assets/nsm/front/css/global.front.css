@@ -1,0 +1,361 @@
+body {
+    background-color: #f1f1f1;
+    font-family: Segoe UI, Arial, sans-serif;
+    font-size: 62.5%;
+    /*font-family: 'Lato', Calibri, Arial, sans-serif;*/
+    color: #333;
+}
+
+header.container-fluid{
+    background: #fff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: none;
+    /*transition: all 0.5s ease;*/
+    z-index: 100;
+}
+.sticky-header{
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5) !important;
+    transition: all 0.1s ease !important;
+}
+
+*, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body, html {
+    font-size: 1.1em;
+    padding: 0;
+    margin: 0;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+a {
+    color: #f0f0f0;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #000;
+}
+.herobar {
+    width: 90%;
+    max-width: 69em;
+    margin: 0 auto;
+    padding: 1em 0.5em 0.5em 0.5em;
+}
+
+.herobar h1 {
+    font-size: 1.5em;
+    line-height: 1;
+    margin: 0 0 0.6em 0;
+    float: left;
+    font-weight: 400;
+}
+
+.herobar > span {
+    display: block;
+    position: relative;
+    z-index: 9999;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    padding: 0 0 0.6em 0.1em;
+}
+
+.herobar > span span:after {
+    width: 30px;
+    height: 30px;
+    left: -12px;
+    font-size: 50%;
+    top: -8px;
+    font-size: 75%;
+    position: relative;
+}
+
+.herobar > span span:hover:before {
+    content: attr(data-content);
+    text-transform: none;
+    text-indent: 0;
+    letter-spacing: 0;
+    font-weight: 300;
+    font-size: 110%;
+    padding: 0.8em 1em;
+    line-height: 1.2;
+    text-align: left;
+    left: auto;
+    margin-left: 4px;
+    position: absolute;
+    color: #fff;
+    background: #47a3da;
+}
+
+.herobar nav {
+    float: right;
+    text-align: center;
+}
+
+.herobar nav a {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    width: 2.5em;
+    height: 2.5em;
+    background: #fff;
+    border-radius: 50%;
+    margin: 0 0.1em;
+    border: 4px solid #47a3da;
+}
+
+
+.herobar nav a > span {
+    display: none;
+}
+
+.herobar nav a:hover:before {
+    content: attr(data-info);
+    color: #47a3da;
+    position: absolute;
+    width: 600%;
+    top: 120%;
+    text-align: right;
+    right: 0;
+    pointer-events: none;
+}
+
+.herobar nav a:hover {
+    background: #47a3da;
+}
+
+.bp-icon:after {
+    font-family: 'bpicons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-align: center;
+    color: #47a3da;
+    -webkit-font-smoothing: antialiased;
+}
+
+.herobar nav .bp-icon:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 2;
+    text-indent: 0;
+}
+
+.herobar nav a:hover:after {
+    color: #fff;
+}
+
+.bp-icon-next:after {
+    content: "\e000";
+}
+
+.bp-icon-drop:after {
+    content: "\e001";
+}
+
+.bp-icon-archive:after {
+    content: "\e002";
+}
+
+.bp-icon-about:after {
+    content: "\e003";
+}
+
+.bp-icon-prev:after {
+    content: "\e004";
+}
+
+@media screen and (max-width: 55em) {
+
+    .herobar h1,
+    .herobar nav {
+        float: none;
+    }
+
+    .herobar > span,
+    .herobar h1 {
+        text-align: center;
+    }
+
+    .herobar nav {
+        margin: 0 auto;
+    }
+
+    .herobar > span {
+        text-indent: 30px;
+    }
+}
+
+.main-content {
+    margin: 20px auto;
+    margin-top: 85px;
+    background: #fff;
+    padding-top: 20px;
+    box-shadow: 0 0 1px 1px rgba(0,0,0,0.1);
+    font-size: 0.8em;
+}
+
+/* market summary */
+.market-summary {
+    width: 100%;
+    border-bottom: solid 1px #ccc;
+    margin-bottom: 15px;
+}
+
+.market-summary-row {
+    margin: 0 auto;
+    width: 1170px;
+}
+
+.market-summary-categories > li > a {
+    padding: 1px 3px;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.market-summary-categories > li.active > a {
+    background: #eee;
+}
+
+.market-summary-categories-wrapper {
+    border-right: 1px dotted #999;
+}
+
+.market-summary-data {
+    display: inline-block !important;
+}
+
+.market-summary-data:not(:last-child) {
+    border-right: 1px dotted #999;
+}
+
+.market-summary-detail-price-change {
+    font-size: 1.3em;
+}
+
+.market-summary-detail-price {
+    font-size: 0.8em;
+}
+
+.market-summary-detail-percent-change {
+    font-size: 0.7em;
+}
+
+.market-summary-detail-bottom time {
+    font-size: 0.6em;
+}
+
+[data-value="up"] {
+    color: #188811;
+}
+
+[data-value="down"] {
+    color: #f00;
+}
+
+.news-carousel-wrapper {
+    display: table;
+}
+
+.news-carousel-content, .news-carousel-list, .news-headline {
+    float: none;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.news-carousel-content {
+    background: #efefef;
+}
+
+.news-carousel-list {
+    background: #333;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.news-carousel-nav > li > a {
+    text-decoration: none;
+    color: #fff;
+    width: 100%;
+}
+
+.news-carousel-nav > li.active a {
+    color: #000;
+    background: #efefef;
+}
+
+.news-carousel-nav > li > a:hover, .news-carousel-nav > li > a:active {
+    color: #000;
+    background: #efefef;
+}
+
+.company-quote {
+    color: #2A37E0;
+}
+.news-heading{
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.news-detail{
+    font-size: 0.7em;
+}
+.featured-news{
+    padding: 5px 0;
+    margin-left: 10px;
+    border-bottom: 1px dotted   #ddd;
+}
+footer {
+    padding: 30px 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 300px;
+    color: #000;
+}
+footer .row{
+    margin-top: 50px;
+}
+nav h4{
+    text-transform: uppercase;
+}
+.cbp-hrmenu > ul > li:hover>.cbp-hrsub,.cbp-hrmenu > ul > li:hover>a{
+    display: block;
+    background: #268ECC !important;
+    color: #fff;
+}
+.cbp-hrmenu > ul > li > a {
+    font-weight: 10 !important;
+}
+.main-content .row{
+    margin: 0;
+}
+/*.main-content .row>div{
+    padding-bottom: 15px !important;
+    padding-top: 10px !important;
+}*/
+.input-block-level {
+    display: block !important;
+    width: 100% !important;
+    min-height: 28px !important;
+    box-sizing:border-box !important;
+}
