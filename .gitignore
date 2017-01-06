@@ -1,0 +1,10 @@
+/vendor
+/node_modules
+/composer.lock
+/database_backup
+emaillog.txt
+nsmdb_dump.sql
+/.idea
+Homestead.json
+Homestead.yaml
+.env
