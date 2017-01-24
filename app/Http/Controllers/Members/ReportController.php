@@ -38,8 +38,8 @@ class ReportController extends Controller
 
     public function stockPerformance(Request $request)
     {
-		//TODO
-		return [];
+		  //TODO
+		    return [];
         $close_price = "select `company_id`, `date` as `tran_date`, `close` as `close_price`
                 from todays_price where (company_id, date) in
                 ( select company_id, max(date)
@@ -72,29 +72,32 @@ class ReportController extends Controller
 
     public function stockBuyReport(Request $request)
     {
-		$basket = $request->get('basket');
-        $from = $request->get('from_date');
-        $to = $request->get('to_date');
+      $basket = $request->get('basket');
+      $from = $request->get('from_date');
+      $to = $request->get('to_date');
 
-        $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
-                      , `price`.`close` as `close_price` from `todays_price` as `price`
-                      INNER JOIN `last_traded_price` as `ltp`
-                      on `price`.`company_id` = `ltp`.`company_id`
-                      and `price`.`date` = `ltp`.`date`";
+      $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
+                    , `price`.`close` as `close_price` from `todays_price` as `price`
+                    INNER JOIN `last_traded_price` as `ltp`
+                    on `price`.`company_id` = `ltp`.`company_id`
+                    and `price`.`date` = `ltp`.`date`";
 
-        $stocks = StockBuy::with(['company'=>function($q){
-            $q->select('id','name','quote');
-        }])->with(['type'=>function($q){
-            $q->select('id','name');
-        }])->where('basket_id',$basket)
-          ->where('basket.user_id',auth()->id())
-          ->join('am_stock_basket as basket','basket.id','=','am_stocks_buy.basket_id')
-          ->leftJoin(\DB::raw('('.$lastPrices.') as latest_price'),'am_stocks_buy.company_id','=','latest_price.cid')
-          ->select('am_stocks_buy.id','basket_id','type_id',
-                    'company_id','shareholder_number','certificate_number',
-                    'owner_name','buy_date','quantity','buy_rate','commission',
-                    'close_date','close_price',
-                    \DB::raw('(buy_rate * quantity)+commission as investment'));
+      $stocks = \DB::table('am_stocks_buy as stock')
+        ->leftJoin(\DB::raw('('.$lastPrices.') as latest_price'),'stock.company_id','=','latest_price.cid')
+        ->join('am_stock_basket as basket', 'basket.id', '=', 'stock.basket_id')
+        ->join('company', 'company.id', '=', 'stock.company_id')
+        ->join('am_stock_types', 'am_stock_types.id', '=', 'stock.type_id')
+        ->select(
+          'latest_price.close_date', 'latest_price.close_price',
+          'company.name as company_name', 'company.quote',
+          'stock.buy_date', 'stock.owner_name', 'stock.shareholder_number', 'stock.certificate_number', 
+          'stock.buy_rate',
+          'stock.quantity', 'stock.commission',
+          'am_stock_types.name as stock_type_name',
+          \DB::raw('(commission / quantity) as commission_rate_per_quantity')
+        )
+        ->where('basket_id', $basket)
+        ->where('basket.user_id', auth()->id());
 
         if($from != '' && $to != ''):
             $stocks->whereBetween('buy_date',[$from,$to]);
@@ -104,31 +107,21 @@ class ReportController extends Controller
             $stocks->where('buy_date','<=',$to);
         endif;
 
-        return Datatables::of($stocks)->make(true);
-        /**$basket = $request->get('basket');
-        $from = $request->get('from_date');
-        $to = $request->get('to_date');
+        $stockWithComputedValues = \DB::table(
+            \DB::raw('('.$stocks->toSql().') as stocks')
+        )->select(
+          'close_date', 'close_price', 'company_name','quote', 'company_name', 'quote', 'buy_date', 
+          'owner_name', 'shareholder_number', 'certificate_number', 'buy_rate','quantity', 'commission',
+          'stock_type_name', 'commission_rate_per_quantity'
+        )
+        ->selectRaw(
+          '(@buy_rate_with_commission:= (buy_rate + commission_rate_per_quantity)) as buy_rate_with_commission,
+           (@investment:= (quantity * (buy_rate + commission_rate_per_quantity))) as investment,
+           (@market_value:= (quantity * close_price)) as market_value,
+           (@market_value - @investment) as profit_loss'
+        )->addBinding($stocks->getBindings());
 
-        $stocks = DB::table('am_stocks_buy as buy')
-            ->join('am_stock_basket as basket','basket.id','=','buy.basket_id')
-            ->join('company','company.id','=','buy.company_id')
-            ->join('am_stock_types as type','type.id','=','buy.type_id')
-            ->where('basket.user_id',Auth::id())
-            ->where('basket.id',$basket)
-            ->select('buy.buy_date','buy.buy_rate','buy.owner_name as owner','buy.quantity'
-                ,'company.name as company_name','company.quote as company_quote','buy.commission'
-                ,'type.name as type_name','buy.shareholder_number','buy.certificate_number'
-                ,DB::raw('(buy_rate*quantity+commission) as investment'));
-
-        if($from != '' && $to != ''):
-            $stocks->whereBetween('buy.buy_date',[$from,$to]);
-        elseif($from != ''):
-            $stocks->where('buy.buy_date','>=',$from);
-        elseif($to != ''):
-            $stocks->where('buy.buy_date','<=',$to);
-        endif;
-
-        return Datatables::of($stocks)->make(true);**/
+        return Datatables::of($stockWithComputedValues)->make(true);
     }
 
     public function stockSellReport(Request $request)
@@ -140,17 +133,17 @@ class ReportController extends Controller
         $stocks = DB::table('am_stock_basket as basket')
             ->join('am_stocks_buy as buy','basket.id','=','buy.basket_id')
             ->join('company','company.id','=','buy.company_id')
-            ->leftJoin('am_stocks_sell as sell','buy.id','=','sell.buy_id')
+            ->join('am_stocks_sell as sell','buy.id','=','sell.buy_id')
             ->select('basket.name as basket_name','company.name as company_name',
-                'company.quote as company_quote','sell.sell_date'
-                ,'sell.quantity as sell_quantity','sell.sell_rate','sell.commission as sell_commission'
-                ,'sell.total_tax as tax'
-                ,DB::raw('(buy.buy_rate + buy.commission/buy.quantity) as buy_rate
-                ,(buy.buy_rate + buy.commission/buy.quantity)*sell.quantity as buy_price
-                ,((sell.quantity*sell.sell_rate) - (sell.commission + sell.total_tax)) as total_sales
-                , (sell.quantity*(sell.sell_rate -(buy.buy_rate+(buy.commission/buy.quantity))) - (sell.commission + sell.total_tax)) as income ')
+                'company.quote as company_quote','sell.sell_date',
+                'sell.quantity as sell_quantity','sell.sell_rate','sell.commission as sell_commission'
+                ,'sell.total_tax as tax',
+                DB::raw('(buy.buy_rate + buy.commission/buy.quantity) as buy_rate'),
+                DB::raw('(buy.buy_rate + buy.commission/buy.quantity)*sell.quantity as buy_price'),
+                DB::raw('((sell.quantity*sell.sell_rate) - (sell.commission + sell.total_tax)) as total_sales'),
+                DB::raw('(sell.quantity*(sell.sell_rate -(buy.buy_rate+(buy.commission/buy.quantity))) - (sell.commission + sell.total_tax)) as income')
             )->where('basket.id',$request->get('basket'))
-            ->where('basket.user_id',Auth::id())
+            ->where('basket.user_id', auth()->id())
             ->whereNotNull('sell.quantity');
 
         if($from != '' && $to != ''):
@@ -161,13 +154,21 @@ class ReportController extends Controller
             $stocks->where('sell.sell_date','<=',$to);
         endif;
 
-        return Datatables::of($stocks)->make(true);
+        $stockWithComputedValues = \DB::table(
+            \DB::raw('('.$stocks->toSql().') as stocks')
+        )->select(
+          'basket_name','company_name','company_quote','sell_date','sell_quantity','sell_rate',
+          'sell_commission','tax','buy_rate','buy_price','total_sales','income'
+        )
+        ->addBinding($stocks->getBindings());
+
+        return Datatables::of($stockWithComputedValues)->make(true);
     }
 
     public function stockFundamentalAnalysis(Request $request)
     {
-		//TODO
-		return [];
+		  //TODO
+		  return [];
         $close_price = "select `company_id`, `date` as `tran_date`, `close` as `close_price`
                 from todays_price where (company_id, date) in
                 ( select company_id, max(date)
@@ -215,7 +216,7 @@ class ReportController extends Controller
 
     public function property(Request $request)
     {
-        return view('members.report.property');
+      return view('members.report.property');
     }
 
     public function propertyBuyReport(Request $request)
@@ -282,8 +283,8 @@ class ReportController extends Controller
 
     public function currency(Request $request)
     {
-        $currency = collect(\DB::table('currency_type')->select('id','name')->get())->lists('name','id')->toArray();
-        return view('members.report.currency',compact('currency'));
+      $currency = collect(\DB::table('currency_type')->select('id','name')->get())->lists('name','id')->toArray();
+      return view('members.report.currency',compact('currency'));
     }
 
     public function currencyBuyReport(Request $request)
@@ -422,90 +423,45 @@ class ReportController extends Controller
 
     public function bullion(Request $request)
     {
-        $bullion = BullionType::select('id','name')->get()->lists('name','id')->toArray();
-        return view('members.report.bullion',compact('bullion'));
+      $bullion = BullionType::select('id','name')->get()->lists('name','id')->toArray();
+
+      return view('members.report.bullion',compact('bullion'));
     }
 
     public function bullionBuyReport(Request $request)
     {
-		$lastDate = BullionRecord::selectRaw('id,max(date) as date')->toSql();
+      $lastDate = BullionRecord::selectRaw('id,max(date) as date')->toSql();
 
-        $lastbullionPrice = \DB::table('bullion_price')
-          ->join(\DB::raw('('.$lastDate.') as bullion'),'bullion.id','=','bullion_price.bullion_id')
-          ->select('bullion.date','bullion_price.price','bullion_price.type_id')
-          ->toSql();
+      $lastbullionPrice = \DB::table('bullion_price')
+        ->join(\DB::raw('('.$lastDate.') as bullion'),'bullion.id','=','bullion_price.bullion_id')
+        ->select('bullion.date','bullion_price.price','bullion_price.type_id')
+        ->toSql();
 
-        $bullion = Bullion::with(['type'=>function($type){
-            $type->select('id','name','unit');
-        }])
-          ->leftJoin(
-            \DB::raw('('.$lastbullionPrice.') as last_price'),
-            'last_price.type_id','=','am_bullion.type_id'
-          )->join('bullion_type as bt','bt.id','=','am_bullion.type_id')
-          ->select('last_price.date as last_date','last_price.price as last_price',
-            'am_bullion.id','am_bullion.buy_date',
-            'am_bullion.quantity','am_bullion.type_id','am_bullion.total_amount as investment',
-            \DB::raw('(am_bullion.total_amount/am_bullion.quantity) as buy_rate'),
-            \DB::raw('(@market_rate:=(last_price.price / (case when ((@unit:=CAST(bt.unit AS DECIMAL)) = 0) THEN 1 ELSE @unit END))) as market_rate'),
-            \DB::raw('(@market_val:=(am_bullion.quantity*@market_rate)) as market_value'),
-            \DB::raw('(am_bullion.total_amount - @market_val) as difference')
-          )->where('user_id','=',auth()->id());
-		  
-		if($request->has('from') && $request->has('to')){
-			$bullion = $bullion->whereBetween('am_bullion.buy_date',[$request->from,$request->to]);
-		}elseif($request->has('from')){
-          $bullion = $bullion->where('am_bullion.buy_date','>=',$request->from);
-        }elseif($request->has('to')){
-          $bullion = $bullion->where('am_bullion.buy_date','<=',$request->to);
-        }
-		
-		return \Datatables::of($bullion)->make(true);
-        /*return \Datatables::of($bullion)->make(true);
-		
-		
-        $latest = \DB::table('bullion_price as price')
-        ->join('bullion','bullion.id','=','price.bullion_id')->groupBy('price.type_id')
-        ->select('price.type_id as type_id',DB::raw('max(bullion.date) as bullion_date'));
+      $bullion = Bullion::with(['type'=>function($type){
+          $type->select('id','name','unit');
+      }])
+        ->leftJoin(
+          \DB::raw('('.$lastbullionPrice.') as last_price'),
+          'last_price.type_id','=','am_bullion.type_id'
+        )->join('bullion_type as bt','bt.id','=','am_bullion.type_id')
+        ->select('last_price.date as last_date','last_price.price as last_price',
+          'am_bullion.id','am_bullion.buy_date',
+          'am_bullion.quantity','am_bullion.type_id','am_bullion.total_amount as investment',
+          \DB::raw('(am_bullion.total_amount/am_bullion.quantity) as buy_rate'),
+          \DB::raw('(@market_rate:=(last_price.price / (case when ((@unit:=CAST(bt.unit AS DECIMAL)) = 0) THEN 1 ELSE @unit END))) as market_rate'),
+          \DB::raw('(@market_val:=(am_bullion.quantity*@market_rate)) as market_value'),
+          \DB::raw('(am_bullion.total_amount - @market_val) as difference')
+        )->where('user_id','=',auth()->id());
 
-        
-        $latestRate = \DB::table('bullion_price as price')
-        ->join('bullion','bullion.id','=','price.bullion_id')
-        ->whereRaw('(price.type_id,bullion.date) in ('.$latest->toSql().')')
-        ->select('price.type_id','price.price as last_price','bullion.date as last_date');
+      if($request->has('from') && $request->has('to')){
+      $bullion = $bullion->whereBetween('am_bullion.buy_date',[$request->from,$request->to]);
+      }elseif($request->has('from')){
+        $bullion = $bullion->where('am_bullion.buy_date','>=',$request->from);
+      }elseif($request->has('to')){
+        $bullion = $bullion->where('am_bullion.buy_date','<=',$request->to);
+      }
 
-        $bullions = \DB::table('am_bullion as amb')
-        ->join('bullion_type as type','amb.type_id','=','type.id')
-        ->leftJoin(DB::raw('('.$latestRate->toSql().') as latest'),'amb.type_id','=','latest.type_id')
-        ->where('amb.user_id',\Auth::id())
-        ->select('amb.total_amount','amb.buy_date','amb.quantity',
-            'type.name','type.unit','latest.last_price','latest.last_date');
-
-        if($request->has('from') && $request->from != ''){
-            $bullions->where('amb.buy_date','>=',$request->from);
-        }
-
-        if($request->has('to') && $request->to != ''){
-            $bullions->where('amb.buy_date','<=',$request->to);
-        }
-
-        $bullions = $bullions->get();
-
-        foreach ($bullions as $bullion) {
-            $unit = explode(' ', $bullion->unit);
-            $unit_num = floatval($bullion->unit);
-            $unit_prefix = end($unit);
-
-            $bullion->last_rate = $bullion->last_price/$unit_num;
-            $bullion->slast_rate = $bullion->last_rate.'/'.$unit_prefix;
-            $bullion->buy_rate = $bullion->total_amount/$bullion->quantity;
-            $bullion->sbuy_rate = $bullion->buy_rate.'/'.$unit_prefix;
-            
-            $bullion->last_value = $bullion->quantity * $bullion->last_rate;
-            $bullion->change = $bullion->last_value - $bullion->total_amount;
-            $bullion->change_percent = $bullion->change*100/$bullion->total_amount;
-        }
-        
-        return \Datatables::of(collect($bullions))->make(true);*/
+      return \Datatables::of($bullion)->make(true);
     }
 
     public function bullionSellReport(Request $request)
@@ -554,121 +510,52 @@ class ReportController extends Controller
 
     public function bullionSummary(Request $request)
     {
-		$lastDate = BullionRecord::selectRaw('id,max(date) as date')->toSql();
+		  $lastDate = BullionRecord::selectRaw('id,max(date) as date')->toSql();
 
-        $lastbullionPrice = \DB::table('bullion_price')
-          ->join(\DB::raw('('.$lastDate.') as bullion'),'bullion.id','=','bullion_price.bullion_id')
-          ->select('bullion.date','bullion_price.price','bullion_price.type_id')
-          ->toSql();
+      $lastbullionPrice = \DB::table('bullion_price')
+        ->join(\DB::raw('('.$lastDate.') as bullion'),'bullion.id','=','bullion_price.bullion_id')
+        ->select('bullion.date','bullion_price.price','bullion_price.type_id')
+        ->toSql();
 
-        $bullion = Bullion::with(['sell'=>function($sell){
-            $sell->select('id','buy_id','quantity','remarks','sell_date','sell_price');
-        },'type'=>function($type){
-            $type->select('id','name','unit');
-        }])
-          ->leftJoin(
-            \DB::raw('('.$lastbullionPrice.') as last_price'),
-            'last_price.type_id','=','am_bullion.type_id'
-          )->select('last_price.date as last_date','last_price.price as last_price',
-            'am_bullion.id','am_bullion.buy_date','am_bullion.owner_name',
-            'am_bullion.quantity','am_bullion.type_id','am_bullion.total_amount'
-          )->where('user_id','=',auth()->id());
+      $bullion = Bullion::with(['sell'=>function($sell){
+          $sell->select('id','buy_id','quantity','remarks','sell_date','sell_price');
+      },'type'=>function($type){
+          $type->select('id','name','unit');
+      }])
+        ->leftJoin(
+          \DB::raw('('.$lastbullionPrice.') as last_price'),
+          'last_price.type_id','=','am_bullion.type_id'
+        )->select('last_price.date as last_date','last_price.price as last_price',
+          'am_bullion.id','am_bullion.buy_date','am_bullion.owner_name',
+          'am_bullion.quantity','am_bullion.type_id','am_bullion.total_amount'
+        )->where('user_id','=',auth()->id());
 
-        if($request->has('show_sold') && $request->get('show_sold') == 0){
-            $bullionSoldQuantity = Bullion::where('am_bullion.user_id','=',auth()->id())
-              ->leftJoin('am_bullion_sell as sell','sell.buy_id','=','am_bullion.id')
-              ->selectRaw('am_bullion.id, am_bullion.quantity - ifnull(sum(sell.quantity), 0) as remaining_quantity')
-              ->groupBy('am_bullion.id');
+      if($request->has('show_sold') && $request->get('show_sold') == 0){
+          $bullionSoldQuantity = Bullion::where('am_bullion.user_id','=',auth()->id())
+            ->leftJoin('am_bullion_sell as sell','sell.buy_id','=','am_bullion.id')
+            ->selectRaw('am_bullion.id, am_bullion.quantity - ifnull(sum(sell.quantity), 0) as remaining_quantity')
+            ->groupBy('am_bullion.id');
 
-            $bullionOnlyRemaining = \DB::table(\DB::raw('('.$bullionSoldQuantity->toSql().') as bullion'))
-              ->addBinding($bullion->getBindings())
-              ->select('bullion.id')
-              ->where('bullion.remaining_quantity','>',0)->lists('id');
+          $bullionOnlyRemaining = \DB::table(\DB::raw('('.$bullionSoldQuantity->toSql().') as bullion'))
+            ->addBinding($bullion->getBindings())
+            ->select('bullion.id')
+            ->where('bullion.remaining_quantity','>',0)->lists('id');
 
-            $bullion->whereIn('am_bullion.id',$bullionOnlyRemaining);
-        }
+          $bullion->whereIn('am_bullion.id',$bullionOnlyRemaining);
+      }
 
-        if($request->has('from') && $request->has('to')){
-            $bullion = $bullion->whereBetween('am_bullion.buy_date',[$request->from,$request->to]);
-        }elseif($request->has('from')){
-            $bullion = $bullion->where('am_bullion.buy_date','>=',$request->from);
-        }elseif($request->has('to')){
-            $bullion = $bullion->where('am_bullion.buy_date','<=',$request->to);
-        }
+      if($request->has('from') && $request->has('to')){
+          $bullion = $bullion->whereBetween('am_bullion.buy_date',[$request->from,$request->to]);
+      }elseif($request->has('from')){
+          $bullion = $bullion->where('am_bullion.buy_date','>=',$request->from);
+      }elseif($request->has('to')){
+          $bullion = $bullion->where('am_bullion.buy_date','<=',$request->to);
+      }
 
-        if($request->has('bullion') && $request->bullion != ''){
-            $bullion = $bullion->where('am_bullion.type_id','=',$request->bullion);
-        }
+      if($request->has('bullion') && $request->bullion != ''){
+          $bullion = $bullion->where('am_bullion.type_id','=',$request->bullion);
+      }
 
-        return (new BullionTransformer())->transform(\Datatables::of($bullion))->make(true);
-		
-        /*
-		$latest = \DB::table('bullion_price as price')
-        ->join('bullion','bullion.id','=','price.bullion_id')->groupBy('price.type_id')
-        ->select('price.type_id as type_id',DB::raw('max(bullion.date) as bullion_date'));
-
-        
-        $latestRate = \DB::table('bullion_price as price')
-        ->join('bullion','bullion.id','=','price.bullion_id')
-        ->whereRaw('(price.type_id,bullion.date) in ('.$latest->toSql().')')
-        ->select('price.type_id','price.price as last_price','bullion.date as last_date');
-
-        $bullions = \DB::table('am_bullion as amb')
-        ->join('bullion_type as type','amb.type_id','=','type.id')
-        ->leftJoin(DB::raw('('.$latestRate->toSql().') as latest'),'amb.type_id','=','latest.type_id')
-        ->where('amb.user_id',\Auth::id())
-        ->select('amb.id','amb.type_id','amb.total_amount','amb.buy_date','amb.quantity',
-            'type.name','type.unit','latest.last_price','latest.last_date');
-
-        if($request->has('from') && $request->from != ''){
-            $bullions->where('amb.buy_date','>=',$request->from);
-        }
-
-        if($request->has('to') && $request->to != ''){
-            $bullions->where('amb.buy_date','<=',$request->to);
-        }
-
-        if($request->has('bullion') && $request->bullion != ''){
-            $bullions->where('amb.type_id','=',$request->bullion);
-        }
-
-        $bullions = $bullions->get();
-
-        $idx = collect($bullions)->lists('id')->toArray();
-        $sales = collect(\DB::table('am_bullion_sell')->select('buy_id','quantity')->whereIn('buy_id',$idx)->get())->groupBy('buy_id');
-
-        $newBullions = [];
-
-        foreach ($bullions as $bullion) {
-            $unit = explode(' ', $bullion->unit);
-            $unit_num = floatval($bullion->unit);
-            $unit_prefix = end($unit);
-
-            $bullion->last_rate = $bullion->last_price/$unit_num;
-            $bullion->slast_rate = $bullion->last_rate.'/'.$unit_prefix;
-            $bullion->buy_rate = $bullion->total_amount/$bullion->quantity;
-            $bullion->sbuy_rate = $bullion->buy_rate.'/'.$unit_prefix;
-
-
-            if(array_key_exists($bullion->id,$sales->toArray())){
-                $found = $sales->get($bullion->id);
-                foreach ($found as $sold) {
-                    $bullion->quantity -= $sold->quantity;
-                }
-            }
-
-            if($bullion->quantity < 1) continue;
-
-            
-            $bullion->total_amount = $bullion->quantity * $bullion->buy_rate;
-            $bullion->last_value = $bullion->quantity * $bullion->last_rate;
-            $bullion->change = $bullion->last_value - $bullion->total_amount;
-            $bullion->change_percent = $bullion->change*100/$bullion->total_amount;
-
-            unset($bullion->id);
-            $newBullions[] = $bullion;
-        }
-        
-        return \Datatables::of(collect($newBullions))->make(true);*/
+      return (new BullionTransformer())->transform(\Datatables::of($bullion))->make(true);
     }
 }

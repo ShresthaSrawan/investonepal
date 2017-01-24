@@ -1,7 +1,7 @@
 <div class="box">
     <div class="box-header with-border">
         <div class="box-title">
-            <i class="fa fa-building"></i> Stock: <span data-title></span>
+            <i class="fa fa-building"></i> Stock Sell: <span data-title></span>
         </div>
         <div class="box-tools pull-right">
             <div class="btn-group">
@@ -10,6 +10,46 @@
                 <button class="btn btn-box-tool" data-modal="sell"><i class="fa fa-minus-circle"></i> Sell Stock</button>
             </div>
         </div>
+    </div>
+    <div class="box-header">
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage text-green" data-header-investment></span>
+            <h5 class="description-header" data-header-buy-rate></h5>
+            <span class="description-text">Investment</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage text-green" data-header-market-value></span>
+            <h5 class="description-header" data-header-close-price></h5>
+            <span class="description-text">Market Value</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage text-green" data-header-change></span>
+            <h5 class="description-header" data-header-change-percent></h5>
+            <span class="description-text">Change</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage text-green" data-header-remaining-quantity></span>
+            <h5 class="description-header" data-header-quantity></h5>
+            <span class="description-text">Quantity</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+      </div>
     </div>
     <div class="box-body">
         <div class="row">

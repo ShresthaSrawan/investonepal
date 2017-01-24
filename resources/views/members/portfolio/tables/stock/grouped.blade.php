@@ -17,15 +17,49 @@
         </div>
         <div class="box-tools pull-right">
             <div class="btn-group">
+                <a class="btn btn-box-tool" href="{{route('member.stock.index')}}"><i class="fa fa-home"></i> Basket</a>
                 <a class="btn btn-box-tool" href="{{route('member.report.stock')}}"><i class="fa fa-area-chart"></i> Report</a>
                 <button class="btn btn-box-tool" data-modal="buy"><i class="fa fa-plus-circle"></i> Add Stock</button>
             </div>
         </div>
     </div>
+    <div class="box-header">
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-title>&nbsp;</span>
+            <span class="description-text">Basket Name</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-investment>0.00</span>
+            <span class="description-text">Investment</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-market-value></span>
+            <span class="description-text">Market Value</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-change></span>
+            <span class="description-text">Change</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
     <div class="box-body" style='{{$baskets->isEmpty() ? "position:relative;background:#D2D6DE" : ""}}'>
-        <h4 style="text-align: center; margin-top: 0">Basket Name: 
-            <span data-title style="font-weight: 600"></span>
-        </h4>
         <div class="row">
             <div class="col-xs-12">
                 <div class="checkbox">
@@ -44,7 +78,7 @@
                     <thead>
                         <tr>
                             <th><span data-toggle="tooltip" data-placement="top" title="Stock Quote">Quote</span></th>
-                            <th><span data-toggle="tooltip" data-placement="top" title="Average Buy Rate">Buy Rate</span></th>
+                            <th><span data-toggle="tooltip" data-placement="top" title="Average Buy Rate">Avg. Rate</span></th>
                             <th><span data-toggle="tooltip" data-placement="top" title="Total Quantity">Qty</span></th>
                             <th><span data-toggle="tooltip" data-placement="top" title="Last Close Price">Close Price</span></th>
                             <th><span data-toggle="tooltip" data-placement="top" title="Total Investment">Investment</span></th>

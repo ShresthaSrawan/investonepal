@@ -78,11 +78,11 @@
 
 	var DTS = _interopRequireWildcard(_dataTableSettings);
 
-	var _tabPaneNames = __webpack_require__(5);
+	var _tabPaneNames = __webpack_require__(6);
 
 	var TPN = _interopRequireWildcard(_tabPaneNames);
 
-	var _tabPaneElements = __webpack_require__(6);
+	var _tabPaneElements = __webpack_require__(5);
 
 	var TPE = _interopRequireWildcard(_tabPaneElements);
 
@@ -98,37 +98,49 @@
 
 	var _GroupedView2 = _interopRequireDefault(_GroupedView);
 
-	var _SellView = __webpack_require__(11);
+	var _DetailsView = __webpack_require__(11);
+
+	var _DetailsView2 = _interopRequireDefault(_DetailsView);
+
+	var _SellView = __webpack_require__(12);
 
 	var _SellView2 = _interopRequireDefault(_SellView);
 
-	var _BuyView = __webpack_require__(12);
+	var _BuyView = __webpack_require__(13);
 
 	var _BuyView2 = _interopRequireDefault(_BuyView);
 
-	var _Datatable = __webpack_require__(13);
+	var _Datatable = __webpack_require__(14);
 
 	var _Datatable2 = _interopRequireDefault(_Datatable);
 
-	var _Notify = __webpack_require__(14);
+	var _Notify = __webpack_require__(15);
 
 	var _Notify2 = _interopRequireDefault(_Notify);
 
-	var _Views = __webpack_require__(15);
+	var _Views = __webpack_require__(16);
 
 	var _Views2 = _interopRequireDefault(_Views);
 
-	var _Event = __webpack_require__(23);
+	var _Event = __webpack_require__(18);
 
 	var _Event2 = _interopRequireDefault(_Event);
 
-	var _BuyModal = __webpack_require__(17);
+	var _BuyModal = __webpack_require__(20);
 
 	var _BuyModal2 = _interopRequireDefault(_BuyModal);
 
-	var _SellModal = __webpack_require__(25);
+	var _SellModal = __webpack_require__(26);
 
 	var _SellModal2 = _interopRequireDefault(_SellModal);
+
+	var _DetailsModal = __webpack_require__(27);
+
+	var _DetailsModal2 = _interopRequireDefault(_DetailsModal);
+
+	var _DeleteModal = __webpack_require__(28);
+
+	var _DeleteModal2 = _interopRequireDefault(_DeleteModal);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -150,11 +162,11 @@
 
 		this.event = new _Event2.default(this);
 
-		this.datatables = (_datatables = {}, _defineProperty(_datatables, DTN.GROUPED, new _Datatable2.default(this, DTE.GROUPED, DTS.GROUPED)), _defineProperty(_datatables, DTN.BUY, new _Datatable2.default(this, DTE.BUY, DTS.BUY)), _defineProperty(_datatables, DTN.SELL, new _Datatable2.default(this, DTE.SELL, DTS.SELL)), _datatables);
+		this.datatables = (_datatables = {}, _defineProperty(_datatables, DTN.GROUPED, new _Datatable2.default(this, DTE.GROUPED, DTS.GROUPED)), _defineProperty(_datatables, DTN.BUY, new _Datatable2.default(this, DTE.BUY, DTS.BUY)), _defineProperty(_datatables, DTN.SELL, new _Datatable2.default(this, DTE.SELL, DTS.SELL)), _defineProperty(_datatables, DTN.DETAILS, new _Datatable2.default(this, DTE.DETAILS, DTS.DETAILS)), _datatables);
 
-		this.views = new _Views2.default(this, (_ref = {}, _defineProperty(_ref, TPN.GROUPED, new _GroupedView2.default(this, TPE.GROUPED, TPA.GROUPED, TPN.GROUPED)), _defineProperty(_ref, TPN.BUY, new _BuyView2.default(this, TPE.BUY, TPA.BUY, TPN.BUY)), _defineProperty(_ref, TPN.SELL, new _SellView2.default(this, TPE.SELL, TPA.SELL, TPN.SELL)), _ref));
+		this.views = new _Views2.default(this, (_ref = {}, _defineProperty(_ref, TPN.GROUPED, new _GroupedView2.default(this, TPE.GROUPED, TPA.GROUPED, TPN.GROUPED)), _defineProperty(_ref, TPN.DETAILS, new _DetailsView2.default(this, TPE.DETAILS, TPA.DETAILS, TPN.DETAILS)), _defineProperty(_ref, TPN.BUY, new _BuyView2.default(this, TPE.BUY, TPA.BUY, TPN.BUY)), _defineProperty(_ref, TPN.SELL, new _SellView2.default(this, TPE.SELL, TPA.SELL, TPN.SELL)), _ref));
 
-		this.modals = (_modals = {}, _defineProperty(_modals, MN.BUY, new _BuyModal2.default(this, this.datatables[DTN.BUY])), _defineProperty(_modals, MN.SELL, new _SellModal2.default(this, this.datatables[DTN.SELL])), _modals);
+		this.modals = (_modals = {}, _defineProperty(_modals, MN.BUY, new _BuyModal2.default(this, this.datatables[DTN.BUY])), _defineProperty(_modals, MN.SELL, new _SellModal2.default(this, this.datatables[DTN.SELL])), _defineProperty(_modals, MN.DETAILS, new _DetailsModal2.default(this, this.datatables[DTN.DETAILS])), _defineProperty(_modals, MN.DELETE, new _DeleteModal2.default(this, null)), _modals);
 
 		window.app = this;
 	};
@@ -190,6 +202,7 @@
 	var GROUPED = exports.GROUPED = $('table[data-table=grouped]');
 	var BUY = exports.BUY = $('table[data-table=buy]');
 	var SELL = exports.SELL = $('table[data-table=sell]');
+	var DETAILS = exports.DETAILS = $('table[data-table=details]');
 	/* end of Datatable names */
 
 /***/ },
@@ -201,11 +214,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.SELL = exports.BUY = exports.GROUPED = undefined;
+	exports.DETAILS = exports.SELL = exports.BUY = exports.GROUPED = undefined;
 
 	var _dataTableElements = __webpack_require__(3);
 
 	var DTE = _interopRequireWildcard(_dataTableElements);
+
+	var _tabPaneElements = __webpack_require__(5);
+
+	var TPE = _interopRequireWildcard(_tabPaneElements);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -216,8 +233,18 @@
 	        data: {
 	            basket_id: function basket_id() {
 	                return $('select[data-name=baskets]').val();
+	            },
+	            show_sold: function show_sold() {
+	                return TPE.GROUPED.find('#toggle-sold-stock').prop('checked') ? 1 : 0;
 	            }
 	        }
+	    },
+	    searchDelay: 350,
+	    createdRow: function createdRow(row, data, dataIndex) {
+	        var start = $(row).find('td:first-child').get(0);
+	        var end = $(row).find('td:last-child').get(0);
+
+	        $(start).nextUntil(end).attr('data-change-view', 'buy').attr('data-id', data.company_id).attr('data-name', data.company_name);
 	    },
 	    footerCallback: function footerCallback(row, data, start, end, display) {
 	        var self = this;
@@ -251,7 +278,7 @@
 	            return '<a href="/quote/' + data + '" target="_blank"><span data-toggle="tooltip" data-placement="down" title="' + row.company_name + '">' + data + '</span></a>';
 	        }
 	    }, { data: 'buy_rate', render: function render(data, type, row, meta) {
-	            return parseFloat(data).toFixed(2);
+	            return data ? parseFloat(data).toFixed(2) : '0.00';
 	        }
 	    }, { data: 'remaining_quantity', searchable: false }, { data: 'close_price', searchable: false, render: function render(data, type, row, meta) {
 	            var closeDate = moment(row.close_date).format('D MMM. YY');
@@ -264,7 +291,9 @@
 	            return parseFloat(data).toFixed(2);
 	        }
 	    }, { data: 'profit_loss', searchable: false, render: function render(data, type, row, meta) {
-	            if (!data) return 'NA';
+	            if (!data) {
+	                return '<span data-change="neutral">0.00 <small>(0.00%)</small></span>';
+	            }
 
 	            var changePercent = Math.abs(parseFloat(100 * (row.market_value - row.investment) / (row.investment || row.market_value)).toFixed(2));
 
@@ -287,10 +316,14 @@
 	                return $('select[data-name=baskets]').val();
 	            },
 	            company_id: function company_id() {
-	                return $('input[name=company_id]').val();
+	                return TPE.BUY.find('input[name=company_id]').val();
+	            },
+	            show_sold: function show_sold() {
+	                return TPE.BUY.find('input[name=toggle-sold]').prop('checked') ? 1 : 0;
 	            }
 	        }
 	    },
+	    searchDelay: 350,
 	    footerCallback: function footerCallback(row, data, start, end, display) {
 	        var investment = 0;
 	        var market_value = 0;
@@ -299,23 +332,43 @@
 	            percent: 0
 	        };
 
+	        var total_remaining_quantity = 0;
+	        var average_rate = 0;
+	        var dataChange = 'neutral';
+	        var closePrice = 0;
+
 	        $.each(data, function (i, row) {
 	            investment += row.investment;
 	            market_value += row.market_value;
 	            profit_loss.change += row.profit_loss;
+	            total_remaining_quantity += row.remaining_quantity;
+	            closePrice = row.close_price;
 	        });
 
-	        profit_loss.percent = parseFloat(Math.abs((market_value - investment) * 100 / (investment || market_value))).toFixed(2);
-	        profit_loss.change = parseFloat(profit_loss.change).toFixed(2);
-	        investment = parseFloat(investment).toFixed(2);
-	        market_value = parseFloat(market_value).toFixed(2);
+	        if (total_remaining_quantity != 0) {
+	            average_rate = parseFloat(investment / total_remaining_quantity).toFixed(2);
+
+	            profit_loss.percent = parseFloat(Math.abs((market_value - investment) * 100 / (investment || market_value))).toFixed(2);
+	            profit_loss.change = parseFloat(profit_loss.change).toFixed(2);
+	            investment = parseFloat(investment).toFixed(2);
+	            market_value = parseFloat(market_value).toFixed(2);
+	            closePrice = parseFloat(closePrice).toFixed(2);
+
+	            dataChange = profit_loss.change > 0 ? "up" : profit_loss.change < 0 ? 'down' : 'neutral';
+	        } else {
+	            average_rate = profit_loss.percent = profit_loss.change = investment = market_value = '0.00';
+	        }
 
 	        // Update footer
-	        var dataChange = profit_loss.change > 0 ? "up" : profit_loss.change < 0 ? 'down' : 'neutral';
-
-	        $('#buy-view span[data-investment]').text(investment);
-	        $('#buy-view span[data-market-value]').text(market_value);
-	        $('#buy-view span[data-change]').html('<span data-change="' + dataChange + '">' + profit_loss.change + '  <small>(' + profit_loss.percent + ' %)</small></span>');
+	        $('#buy-view tfoot [data-average-rate]').text(average_rate);
+	        $('#buy-view .box-header [data-average-rate]').text('@ ' + average_rate);
+	        $('#buy-view [data-quantity]').text(total_remaining_quantity);
+	        $('#buy-view [data-investment]').text(investment);
+	        $('#buy-view [data-market-value]').text(market_value);
+	        $('#buy-view [data-close-price]').text('@ ' + closePrice);
+	        $('#buy-view .box-header [data-change]').html('<span data-change="' + dataChange + '">' + profit_loss.change + '</span>');
+	        $('#buy-view .box-header [data-change-percent]').html('<span data-change="' + dataChange + '">' + profit_loss.percent + '%</span>');
+	        $('#buy-view tfoot span[data-change]').html('<span data-change="' + dataChange + '">' + profit_loss.change + '  <small>(' + profit_loss.percent + ' %)</small></span>');
 	    },
 
 	    columns: [{ data: 'company_quote', searchable: true, render: function render(data, type, row, meta) {
@@ -335,7 +388,9 @@
 	            return parseFloat(data).toFixed(2);
 	        }
 	    }, { data: 'profit_loss', searchable: false, render: function render(data, type, row, meta) {
-	            if (!data) return 'NA';
+	            if (!data) {
+	                return '<span data-change="neutral">0.00 <small>(0.00%)</small></span>';
+	            }
 
 	            var changePercent = Math.abs(parseFloat(100 * (row.market_value - row.investment) / (row.investment || row.market_value)).toFixed(2));
 
@@ -344,9 +399,15 @@
 	            return '<span data-change="' + dataChange + '">' + parseFloat(data).toFixed(2) + ' <small>(' + changePercent + '%)</small></span>';
 	        }
 	    }, { data: null, orderable: false, searchable: false, render: function render(data, type, row, meta) {
-	            return '\n                <button class="btn btn-box-tool" \n                    data-modal="buy" \n                    data-id="' + row.id + '"\n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Edit"\n                ><i class="fa fa-edit"></i></button>\n\n                <button class="btn btn-box-tool" \n                    data-change-view="sell" \n                    data-name="' + row.company_name + '" data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Sales"\n                ><i class="fa fa-history"></i></button>\n\n                <button class="btn btn-box-tool" \n                    data-change-view="details"\n                    data-name="' + row.company_name + '" data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Details"\n                ><i class="fa fa-info-circle"></i></button>\n\n                <button class="btn btn-box-tool"\n                    data-name="' + row.company_name + '" data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Delete"\n                ><i class="fa fa-trash"></i></button>\n            ';
+	            return '\n                <button class="btn btn-box-tool" \n                    data-modal="buy" \n                    data-id="' + row.id + '"\n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Edit"\n                ><i class="fa fa-edit"></i></button>\n\n                <button class="btn btn-box-tool" \n                    data-change-view="sell" \n                    data-name="' + row.company_name + '" data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Sales"\n                ><i class="fa fa-history"></i></button>\n\n                <button class="btn btn-box-tool" \n                    data-change-view="details"\n                    data-name="' + row.company_name + '" data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Details"\n                ><i class="fa fa-info-circle"></i></button>\n\n                <button class="btn btn-box-tool"\n                    data-name="' + row.company_name + '"\n                    data-id="' + row.id + '" \n                    data-modal="delete"\n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Delete"\n                ><i class="fa fa-trash"></i></button>\n            ';
 	        }
-	    }]
+	    }],
+	    createdRow: function createdRow(row, data, dataIndex) {
+	        var start = $(row).find('td:first-child').get(0);
+	        var end = $(row).find('td:last-child').get(0);
+
+	        $(start).nextUntil(end).attr('data-change-view', 'sell').attr('data-id', data.id).attr('data-name', data.company_name);
+	    }
 	};
 
 	var SELL = exports.SELL = {
@@ -358,10 +419,11 @@
 	                return $('select[data-name=baskets]').val();
 	            },
 	            buy_id: function buy_id() {
-	                return $('input[name=buy_id]').val();
+	                return TPE.SELL.find('input[name=buy_id]').val();
 	            }
 	        }
 	    },
+	    searchDelay: 350,
 	    footerCallback: function footerCallback(row, data, start, end, display) {
 	        var investment = 0;
 	        var sales_value = 0;
@@ -376,7 +438,7 @@
 	            profit_loss.change += row.profit_loss;
 	        });
 
-	        profit_loss.percent = parseFloat(Math.abs((sales_value - investment) * 100 / (investment || sales_value))).toFixed(2);
+	        profit_loss.percent = parseFloat(Math.abs((sales_value - investment) * 100 / (investment || sales_value)) || 0).toFixed(2);
 	        profit_loss.change = parseFloat(profit_loss.change).toFixed(2);
 	        investment = parseFloat(investment).toFixed(2);
 	        sales_value = parseFloat(sales_value).toFixed(2);
@@ -384,9 +446,9 @@
 	        // Update footer
 	        var dataChange = profit_loss.change > 0 ? "up" : profit_loss.change < 0 ? 'down' : 'neutral';
 
-	        $('#sell-view span[data-investment]').text(investment);
-	        $('#sell-view span[data-sales-value]').text(sales_value);
-	        $('#sell-view span[data-change]').html('<span data-change="' + dataChange + '">' + profit_loss.change + '  <small>(' + profit_loss.percent + ' %)</small></span>');
+	        $('#sell-view tfoot span[data-investment]').text(investment);
+	        $('#sell-view tfoot span[data-sales-value]').text(sales_value);
+	        $('#sell-view tfoot span[data-change]').html('<span data-change="' + dataChange + '">' + profit_loss.change + '  <small>(' + profit_loss.percent + '%)</small></span>');
 	    },
 
 	    columns: [{ data: 'sell_date', searchable: true, render: function render(data, type, row, meta) {
@@ -411,7 +473,27 @@
 	            return '<span data-change="' + dataChange + '">' + parseFloat(data).toFixed(2) + ' <small>(' + changePercent + '%)</small></span>';
 	        }
 	    }, { data: null, orderable: false, searchable: false, render: function render(data, type, row, meta) {
-	            return '\n                <button class="btn btn-box-tool" \n                    data-modal="sell" \n                    data-id="' + row.id + '"\n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Edit"\n                ><i class="fa fa-edit"></i></button>\n\n                <button class="btn btn-box-tool"\n                    data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Delete"\n                ><i class="fa fa-trash"></i></button>\n            ';
+	            return '\n                <button class="btn btn-box-tool" \n                    data-modal="sell" \n                    data-id="' + row.id + '"\n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Edit"\n                ><i class="fa fa-edit"></i></button>\n\n                <button class="btn btn-box-tool"\n                    data-id="' + row.id + '"\n                    data-modal="delete" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Delete"\n                ><i class="fa fa-trash"></i></button>\n            ';
+	        }
+	    }]
+	};
+
+	var DETAILS = exports.DETAILS = {
+	    ajax: {
+	        url: DTE.DETAILS.data('url'),
+	        type: 'POST',
+	        data: {
+	            basket_id: function basket_id() {
+	                return $('select[data-name=baskets]').val();
+	            },
+	            buy_id: function buy_id() {
+	                return TPE.DETAILS.find('input[name=buy_id]').val();
+	            }
+	        }
+	    },
+	    searchDelay: 350,
+	    columns: [{ data: 'fiscal_year_label', searchable: true }, { data: 'stock_dividend', searchable: false }, { data: 'cash_dividend', searchable: false }, { data: 'right_share', searchable: false }, { data: null, orderable: false, searchable: false, render: function render(data, type, row, meta) {
+	            return '\n                <button class="btn btn-box-tool" \n                    data-modal="details" \n                    data-id="' + row.id + '"\n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Edit"\n                ><i class="fa fa-edit"></i></button>\n\n                <button class="btn btn-box-tool"\n                    data-id="' + row.id + '" \n                    data-toggle="tooltip" \n                    data-placement="top" \n                    title="Delete"\n                ><i class="fa fa-trash"></i></button>\n            ';
 	        }
 	    }]
 	};
@@ -425,10 +507,10 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var GROUPED = exports.GROUPED = 'grouped';
-	var BUY = exports.BUY = 'buy';
-	var SELL = exports.SELL = 'sell';
-	var DETAILS = exports.DETAILS = 'details';
+	var GROUPED = exports.GROUPED = $('#grouped-view');
+	var BUY = exports.BUY = $('#buy-view');
+	var SELL = exports.SELL = $('#sell-view');
+	var DETAILS = exports.DETAILS = $('#details-view');
 
 /***/ },
 /* 6 */
@@ -439,9 +521,10 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var GROUPED = exports.GROUPED = $('#grouped-view');
-	var BUY = exports.BUY = $('#buy-view');
-	var SELL = exports.SELL = $('#sell-view');
+	var GROUPED = exports.GROUPED = 'grouped';
+	var BUY = exports.BUY = 'buy';
+	var SELL = exports.SELL = 'sell';
+	var DETAILS = exports.DETAILS = 'details';
 
 /***/ },
 /* 7 */
@@ -455,6 +538,7 @@
 	var GROUPED = exports.GROUPED = $('a[href="#grouped-view"]');
 	var BUY = exports.BUY = $('a[href="#buy-view"]');
 	var SELL = exports.SELL = $('a[href="#sell-view"]');
+	var DETAILS = exports.DETAILS = $('a[href="#details-view"]');
 
 /***/ },
 /* 8 */
@@ -468,6 +552,8 @@
 	/* Modal names */
 	var BUY = exports.BUY = 'buy';
 	var SELL = exports.SELL = 'sell';
+	var DETAILS = exports.DETAILS = 'details';
+	var DELETE = exports.DELETE = 'delete';
 	/* end of Modal names */
 
 /***/ },
@@ -508,13 +594,18 @@
 		function GroupedView() {
 			_classCallCheck(this, GroupedView);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupedView).apply(this, arguments));
+			return _possibleConstructorReturn(this, (GroupedView.__proto__ || Object.getPrototypeOf(GroupedView)).apply(this, arguments));
 		}
 
 		_createClass(GroupedView, [{
+			key: 'show',
+			value: function show(data, element) {
+				_get(GroupedView.prototype.__proto__ || Object.getPrototypeOf(GroupedView.prototype), 'show', this).call(this, data, element);
+			}
+		}, {
 			key: 'listenEvents',
 			value: function listenEvents() {
-				_get(Object.getPrototypeOf(GroupedView.prototype), 'listenEvents', this).call(this);
+				_get(GroupedView.prototype.__proto__ || Object.getPrototypeOf(GroupedView.prototype), 'listenEvents', this).call(this);
 
 				this.listenBasketChangeEvent();
 				this.listenDatatableEvents();
@@ -529,6 +620,8 @@
 		}, {
 			key: 'listenBasketChangeEvent',
 			value: function listenBasketChangeEvent() {
+				var _this3 = this;
+
 				var _this = this;
 				$(document).on('change', 'select[data-name="baskets"]', function () {
 					var selected = $(this).find('option:selected').text();
@@ -537,6 +630,10 @@
 				});
 
 				this.$el.find('span[data-title]').text($('select[data-name="baskets"] > option:selected').text());
+
+				this.$el.on('change', 'input#toggle-sold-stock', function () {
+					_this3.datatable().reload();
+				});
 			}
 		}]);
 
@@ -561,7 +658,7 @@
 
 	var ViewPane = function () {
 		function ViewPane(app, element, anchor, datatableName) {
-			var modal = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+			var modal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
 			_classCallCheck(this, ViewPane);
 
@@ -626,27 +723,27 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var SellView = function (_ViewPane) {
-		_inherits(SellView, _ViewPane);
+	var DetailsView = function (_ViewPane) {
+		_inherits(DetailsView, _ViewPane);
 
-		function SellView() {
-			_classCallCheck(this, SellView);
+		function DetailsView() {
+			_classCallCheck(this, DetailsView);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(SellView).apply(this, arguments));
+			return _possibleConstructorReturn(this, (DetailsView.__proto__ || Object.getPrototypeOf(DetailsView)).apply(this, arguments));
 		}
 
-		_createClass(SellView, [{
+		_createClass(DetailsView, [{
 			key: 'show',
 			value: function show(data) {
 				this.setViewData(data);
 
-				_get(Object.getPrototypeOf(SellView.prototype), 'show', this).call(this);
+				_get(DetailsView.prototype.__proto__ || Object.getPrototypeOf(DetailsView.prototype), 'show', this).call(this);
 			}
 		}, {
 			key: 'setViewData',
 			value: function setViewData(_ref) {
-				var id = _ref.id;
-				var name = _ref.name;
+				var id = _ref.id,
+				    name = _ref.name;
 
 				if (!id || !name) return;
 
@@ -664,15 +761,15 @@
 			key: 'listenDatatableEvents',
 			value: function listenDatatableEvents() {
 				this.datatable().$el.on('processing.dt', function (e, setting, processing) {
-					console.debug('Sell Table Processing:', processing);
+					console.debug('Details Table Processing:', processing);
 				});
 			}
 		}]);
 
-		return SellView;
+		return DetailsView;
 	}(_ViewPane3.default);
 
-	exports.default = SellView;
+	exports.default = DetailsView;
 
 /***/ },
 /* 12 */
@@ -681,8 +778,132 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _ViewPane2 = __webpack_require__(10);
+
+	var _ViewPane3 = _interopRequireDefault(_ViewPane2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SellView = function (_ViewPane) {
+	  _inherits(SellView, _ViewPane);
+
+	  function SellView() {
+	    _classCallCheck(this, SellView);
+
+	    return _possibleConstructorReturn(this, (SellView.__proto__ || Object.getPrototypeOf(SellView)).apply(this, arguments));
+	  }
+
+	  _createClass(SellView, [{
+	    key: 'show',
+	    value: function show(data, element) {
+	      var datatable = this.app.datatables.buy.datatable;
+	      var row = element.closest('tr');
+
+	      this.buy_data = datatable.row(row).data();
+
+	      this.setViewData(this.buy_data);
+	      this.openSellModal();
+
+	      _get(SellView.prototype.__proto__ || Object.getPrototypeOf(SellView.prototype), 'show', this).call(this);
+	    }
+	  }, {
+	    key: 'setViewData',
+	    value: function setViewData(data) {
+	      if (!data || (typeof data === 'undefined' ? 'undefined' : _typeof(data)) != 'object' || !data.id || !data.company_name) return;
+	      this.renderBuyData();
+	      this.datatable().reload();
+	    }
+	  }, {
+	    key: 'renderBuyData',
+	    value: function renderBuyData() {
+	      var data = this.buy_data;
+
+	      if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) != 'object' || !data.id || !data.company_name) return;
+
+	      var data_change = data.profit_loss > 0 ? 'up' : data.profit_loss < 0 ? 'down' : 'neutral';
+
+	      var investment = data.investment ? parseInt(data.investment).toFixed(2) : '0.00';
+	      var buy_rate = '@ ' + parseInt(data.buy_rate || 0).toFixed(2);
+	      var market_value = parseInt(data.market_value || 0).toFixed(2);
+	      var close_price = '@ ' + parseInt(data.close_price || 0).toFixed(2);
+	      var profit_loss = parseInt(data.profit_loss || 0).toFixed(2);
+	      var profit_loss_percent = parseInt((data.market_value - data.investment) * 100 / data.investment || 0).toFixed(2);
+
+	      var quantity = data.sell_quantity + data.remaining_quantity;
+
+	      this.$el.find('input[name=buy_id]').val(data.id);
+	      this.$el.find('span[data-title]').text(data.company_name);
+
+	      this.$el.find('[data-header-investment]').text(investment);
+	      this.$el.find('[data-header-buy-rate]').text(buy_rate);
+
+	      this.$el.find('[data-header-market-value]').text(market_value);
+	      this.$el.find('[data-header-close-price]').text(close_price);
+
+	      this.$el.find('[data-header-change]').html('<span data-change="' + data_change + '">' + profit_loss + '</span>');
+	      this.$el.find('[data-header-change-percent]').html('<span data-change="' + data_change + '">' + profit_loss_percent + '%</span>');
+
+	      //percent change
+	      this.$el.find('[data-header-remaining-quantity]').html(data.remaining_quantity + ' <small>(Remaining)</small>');
+	      this.$el.find('[data-header-quantity]').html(quantity + ' <small>(Buy)</small>');
+	    }
+	  }, {
+	    key: 'getBuyData',
+	    value: function getBuyData() {
+	      console.log(this.buy_data.id, this.app.datatables.buy.datatable.data());
+
+	      return this.buy_data;
+	    }
+	  }, {
+	    key: 'openSellModal',
+	    value: function openSellModal() {
+	      this.app.modals.sell.open();
+	    }
+	  }, {
+	    key: 'listenEvents',
+	    value: function listenEvents() {
+	      this.listenDatatableEvents();
+	    }
+	  }, {
+	    key: 'listenDatatableEvents',
+	    value: function listenDatatableEvents() {
+	      this.datatable().$el.on('processing.dt', function (e, setting, processing) {
+	        console.debug('Sell Table Processing:', processing);
+	      });
+	    }
+	  }]);
+
+	  return SellView;
+	}(_ViewPane3.default);
+
+	exports.default = SellView;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -706,7 +927,7 @@
 		function BuyView() {
 			_classCallCheck(this, BuyView);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(BuyView).apply(this, arguments));
+			return _possibleConstructorReturn(this, (BuyView.__proto__ || Object.getPrototypeOf(BuyView)).apply(this, arguments));
 		}
 
 		_createClass(BuyView, [{
@@ -714,13 +935,13 @@
 			value: function show(data) {
 				this.setViewData(data);
 
-				_get(Object.getPrototypeOf(BuyView.prototype), 'show', this).call(this);
+				_get(BuyView.prototype.__proto__ || Object.getPrototypeOf(BuyView.prototype), 'show', this).call(this);
 			}
 		}, {
 			key: 'setViewData',
 			value: function setViewData(_ref) {
-				var id = _ref.id;
-				var name = _ref.name;
+				var id = _ref.id,
+				    name = _ref.name;
 
 				if (!id || !name) return;
 
@@ -737,8 +958,22 @@
 		}, {
 			key: 'listenDatatableEvents',
 			value: function listenDatatableEvents() {
+				var _this2 = this;
+
 				this.datatable().$el.on('processing.dt', function (e, setting, processing) {
 					console.debug('Buy Table Processing:', processing);
+					var sellView = _this2.app.views.views.sell;
+
+					if (!processing && sellView.buy_data && _typeof(sellView.buy_data) === 'object' && sellView.buy_data.id) {
+						var buy_data = _this2.datatable().find('id', sellView.buy_data.id);
+
+						sellView.buy_data = buy_data;
+						sellView.setViewData(buy_data);
+					}
+				});
+
+				this.$el.on('change', 'input[name="toggle-sold"]', function () {
+					_this2.datatable().reload();
 				});
 			}
 		}]);
@@ -749,7 +984,7 @@
 	exports.default = BuyView;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -781,7 +1016,7 @@
 	  * @param {Object} settings, DataTable settings
 	  */
 		function Datatable(app, element) {
-			var settings = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+			var settings = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 			_classCallCheck(this, Datatable);
 
@@ -851,7 +1086,7 @@
 		}, {
 			key: 'find',
 			value: function find(key, value) {
-				var strict = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+				var strict = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
 				var json = this.json();
 
@@ -875,7 +1110,7 @@
 	exports.default = Datatable;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -906,7 +1141,7 @@
 
 	var Notify = function () {
 		function Notify(app) {
-			var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+			var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 			_classCallCheck(this, Notify);
 
@@ -918,7 +1153,7 @@
 		_createClass(Notify, [{
 			key: "info",
 			value: function info(message) {
-				var title = arguments.length <= 1 || arguments[1] === undefined ? 'Info' : arguments[1];
+				var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Info';
 
 				this.show({ icon: 'fa fa-info', title: title, message: message }, 'info');
 				return this;
@@ -926,7 +1161,7 @@
 		}, {
 			key: "success",
 			value: function success(message) {
-				var title = arguments.length <= 1 || arguments[1] === undefined ? 'Success' : arguments[1];
+				var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Success';
 
 				this.show({ icon: 'fa fa-bell', title: title, message: message }, 'success');
 				return this;
@@ -934,7 +1169,7 @@
 		}, {
 			key: "warning",
 			value: function warning(message) {
-				var title = arguments.length <= 1 || arguments[1] === undefined ? 'Warning' : arguments[1];
+				var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Warning';
 
 				this.show({ icon: 'fa fa-warning', title: title, message: message }, 'warning');
 				return this;
@@ -942,7 +1177,7 @@
 		}, {
 			key: "danger",
 			value: function danger(message) {
-				var title = arguments.length <= 1 || arguments[1] === undefined ? 'Danger' : arguments[1];
+				var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Danger';
 
 				this.show({ icon: 'fa fa-warning', title: title, message: message }, 'danger');
 				return this;
@@ -977,7 +1212,7 @@
 	exports.default = Notify;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -990,7 +1225,7 @@
 	//import StockBuyModal from './modals/stock-buy-modal.js'
 
 
-	var _tabPaneNames = __webpack_require__(5);
+	var _tabPaneNames = __webpack_require__(6);
 
 	var TPN = _interopRequireWildcard(_tabPaneNames);
 
@@ -998,7 +1233,7 @@
 
 	var MN = _interopRequireWildcard(_modalNames);
 
-	var _helpers = __webpack_require__(16);
+	var _helpers = __webpack_require__(17);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1023,10 +1258,12 @@
 		_createClass(Views, [{
 			key: 'show',
 			value: function show(name) {
-				var params = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+				var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+				var element = arguments[2];
 
 				this.current = { name: name, params: params };
-				this.views[name].show(params);
+				console.log(this.views[name]);
+				this.views[name].show(params, element);
 			}
 		}, {
 			key: 'listenEvents',
@@ -1052,15 +1289,19 @@
 
 					switch (target.data('change-view')) {
 						case TPN.GROUPED:
-							_this.show(TPN.GROUPED, params);
+							_this.show(TPN.GROUPED, params, target);
 							break;
 
 						case TPN.BUY:
-							_this.show(TPN.BUY, params);
+							_this.show(TPN.BUY, params, target);
 							break;
 
 						case TPN.SELL:
-							_this.show(TPN.SELL, params);
+							_this.show(TPN.SELL, params, target);
+							break;
+
+						case TPN.DETAILS:
+							_this.show(TPN.DETAILS, params, target);
 							break;
 					}
 				});
@@ -1074,8 +1315,9 @@
 					var target = $(this);
 					var id = target.data('id');
 					var modalName = target.data('modal');
-					console.info('Opening Modal', modalName);
 
+					console.info('Opening Modal', modalName);
+					console.log(_this.app.modals[modalName]);
 					_this.app.modals[modalName].open(id);
 				});
 			}
@@ -1087,7 +1329,7 @@
 	exports.default = Views;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1101,7 +1343,153 @@
 	}
 
 /***/ },
-/* 17 */
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _eventNames = __webpack_require__(19);
+
+	var EN = _interopRequireWildcard(_eventNames);
+
+	var _tabPaneNames = __webpack_require__(6);
+
+	var TPN = _interopRequireWildcard(_tabPaneNames);
+
+	var _dataTableNames = __webpack_require__(2);
+
+	var DTN = _interopRequireWildcard(_dataTableNames);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BUY_CALLBACK = function BUY_CALLBACK(view, datatables, app) {
+		if (view === TPN.BUY || view === TPN.SELL || view === TPN.DETAILS) {
+			datatables[DTN.BUY].reload();
+			datatables[DTN.GROUPED].reload();
+		} else if (view === TPN.GROUPED) {
+			datatables[DTN.GROUPED].reload();
+		}
+	};
+
+	var SELL_CALLBACK = function SELL_CALLBACK(view, datatables, app) {
+		if (view === TPN.SELL) {
+			datatables[DTN.SELL].reload();
+			datatables[DTN.BUY].reload();
+			datatables[DTN.GROUPED].reload();
+			app.views.views.sell.renderBuyData(true);
+		} else if (view === TPN.BUY) {
+			datatables[DTN.BUY].reload();
+			datatables[DTN.GROUPED].reload();
+		} else if (view === TPN.GROUPED) {
+			datatables[DTN.GROUPED].reload();
+		}
+	};
+
+	var DETAILS_CALLBACK = function DETAILS_CALLBACK(view, datatables, app) {
+		datatables[DTN.DETAILS].reload();
+	};
+
+	var Event = function () {
+		function Event(app) {
+			_classCallCheck(this, Event);
+
+			this.app = app;
+			this.triggered = [];
+		}
+
+		_createClass(Event, [{
+			key: 'exists',
+			value: function exists(event) {
+				var eventName = EN[event];
+
+				if (!eventName) {
+					console.warn('%cUnidentified Event Occured: ' + '%c' + event, 'color: red;', 'color: red; padding-left: 10px; font-weight: bold');
+					return false;
+				}
+
+				console.info('%cEvent Occured: ' + '%c' + event, 'color: green;', 'color: green; padding-left: 10px; font-weight: bold');
+
+				return true;
+			}
+		}, {
+			key: 'datatables',
+			value: function datatables() {
+				return this.app.datatables;
+			}
+		}, {
+			key: 'view',
+			value: function view() {
+				return this.app.views.current.name;
+			}
+		}, {
+			key: 'occured',
+			value: function occured(event) {
+				this.triggered.push(event);
+
+				if (!this.exists(event)) return this;
+
+				var CALLBACK = function CALLBACK() {};
+
+				switch (event) {
+					case EN.BUY_CREATED_EVENT:
+					case EN.BUY_UPDATED_EVENT:
+					case EN.BUY_DELETED_EVENT:
+						CALLBACK = BUY_CALLBACK;
+						break;
+					case EN.SELL_CREATED_EVENT:
+					case EN.SELL_UPDATED_EVENT:
+					case EN.SELL_DELETED_EVENT:
+						CALLBACK = SELL_CALLBACK;
+						break;
+					case EN.DETAILS_CREATED_EVENT:
+					case EN.DETAILS_UPDATED_EVENT:
+					case EN.DETAILS_DELETED_EVENT:
+						CALLBACK = DETAILS_CALLBACK;
+						break;
+				}
+
+				CALLBACK(this.app.views.current.name, this.app.datatables, this.app);
+
+				return this;
+			}
+		}]);
+
+		return Event;
+	}();
+
+	exports.default = Event;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var BUY_CREATED_EVENT = exports.BUY_CREATED_EVENT = 'BUY_CREATED_EVENT';
+	var BUY_UPDATED_EVENT = exports.BUY_UPDATED_EVENT = 'BUY_UPDATED_EVENT';
+	var BUY_DELETED_EVENT = exports.BUY_DELETED_EVENT = 'BUY_DELETED_EVENT';
+
+	var SELL_CREATED_EVENT = exports.SELL_CREATED_EVENT = 'SELL_CREATED_EVENT';
+	var SELL_UPDATED_EVENT = exports.SELL_UPDATED_EVENT = 'SELL_UPDATED_EVENT';
+	var SELL_DELETED_EVENT = exports.SELL_DELETED_EVENT = 'SELL_DELETED_EVENT';
+
+	var DETAILS_CREATED_EVENT = exports.DETAILS_CREATED_EVENT = 'DETAILS_CREATED_EVENT';
+	var DETAILS_UPDATED_EVENT = exports.DETAILS_UPDATED_EVENT = 'DETAILS_UPDATED_EVENT';
+	var DETAILS_DELETED_EVENT = exports.DETAILS_DELETED_EVENT = 'DETAILS_DELETED_EVENT';
+
+/***/ },
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1114,17 +1502,17 @@
 
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-	var _Modal2 = __webpack_require__(18);
+	var _Modal2 = __webpack_require__(21);
 
 	var _Modal3 = _interopRequireDefault(_Modal2);
 
-	var _utils = __webpack_require__(19);
+	var _utils = __webpack_require__(22);
 
-	var _templateHtml = __webpack_require__(22);
+	var _templateHtml = __webpack_require__(25);
 
 	var TEMPLATE = _interopRequireWildcard(_templateHtml);
 
-	var _eventNames = __webpack_require__(24);
+	var _eventNames = __webpack_require__(19);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1142,13 +1530,13 @@
 		function BuyModal() {
 			_classCallCheck(this, BuyModal);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(BuyModal).apply(this, arguments));
+			return _possibleConstructorReturn(this, (BuyModal.__proto__ || Object.getPrototypeOf(BuyModal)).apply(this, arguments));
 		}
 
 		_createClass(BuyModal, [{
 			key: 'open',
 			value: function open() {
-				var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+				var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 				id ? this.edit(id) : this.create();
 			}
@@ -1167,7 +1555,7 @@
 
 				this.$el = $(html);
 
-				_get(Object.getPrototypeOf(BuyModal.prototype), 'open', this).call(this, function () {
+				_get(BuyModal.prototype.__proto__ || Object.getPrototypeOf(BuyModal.prototype), 'open', this).call(this, function () {
 					_this2.$el.find('select[name=company]').chosen();
 					//this.$el.find('input[name=buy_date]').datepicker({dateFormat:'yyyy-mm-dd' , lang: 'en'});
 					_this2.ajaxSubmit();
@@ -1205,8 +1593,10 @@
 				this.$el = $(html);
 
 				this.$el.find('select[name=company] option[value=' + data.company_id + ']').prop('selected', true);
+				this.$el.find('select[name=type] option').removeAttr('selected');
+				this.$el.find('select[name=type] option[value=' + data.type_id + ']').prop('selected', true);
 
-				_get(Object.getPrototypeOf(BuyModal.prototype), 'open', this).call(this, function () {
+				_get(BuyModal.prototype.__proto__ || Object.getPrototypeOf(BuyModal.prototype), 'open', this).call(this, function () {
 					_this3.$el.find('select[name=company]').chosen();
 					_this3.ajaxSubmit(id);
 				});
@@ -1216,7 +1606,7 @@
 			value: function ajaxSubmit() {
 				var _this4 = this;
 
-				var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+				var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 				this.form = this.$el.find('form');
 				console.log('Processing Form');
@@ -1234,7 +1624,7 @@
 	exports.default = BuyModal;
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1251,7 +1641,7 @@
 
 	var Modal = function () {
 	    function Modal(app) {
-	        var datatable = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+	        var datatable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 	        _classCallCheck(this, Modal);
 
@@ -1315,7 +1705,7 @@
 	exports.default = Modal;
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1325,7 +1715,7 @@
 	});
 	exports.ajaxForm = ajaxForm;
 
-	var _AjaxForm = __webpack_require__(20);
+	var _AjaxForm = __webpack_require__(23);
 
 	var _AjaxForm2 = _interopRequireDefault(_AjaxForm);
 
@@ -1336,7 +1726,7 @@
 	}
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1347,7 +1737,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _ValidationError = __webpack_require__(21);
+	var _ValidationError = __webpack_require__(24);
 
 	var _ValidationError2 = _interopRequireDefault(_ValidationError);
 
@@ -1357,7 +1747,7 @@
 
 	var AjaxForm = function () {
 	    function AjaxForm(app, form) {
-	        var id = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+	        var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
 	        _classCallCheck(this, AjaxForm);
 
@@ -1416,6 +1806,8 @@
 	            var url = this.form.attr('action');
 	            var method = this.form.find('input[name="_method"]').val();
 
+	            console.log(url);
+
 	            if (this.id) url += '/' + this.id;
 	            if (!method) method = this.form.attr('method');
 
@@ -1467,7 +1859,7 @@
 	exports.default = AjaxForm;
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1478,7 +1870,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _templateHtml = __webpack_require__(22);
+	var _templateHtml = __webpack_require__(25);
 
 	var TEMPLATE = _interopRequireWildcard(_templateHtml);
 
@@ -1574,7 +1966,7 @@
 	exports.default = ValidationError;
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1585,177 +1977,38 @@
 	var CALLOUT = exports.CALLOUT = $('#callout-tmpl').html();
 	var BUY_MODAL = exports.BUY_MODAL = $('#stock-buy-create-update-modal-tmpl').html();
 	var SELL_MODAL = exports.SELL_MODAL = $('#stock-sell-create-update-modal-tmpl').html();
+	var DETAILS_MODAL = exports.DETAILS_MODAL = $('#stock-details-create-update-modal-tmpl').html();
+	var DELETE_MODAL = exports.DELETE_MODAL = $('#delete-modal-tmpl').html();
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _eventNames = __webpack_require__(24);
-
-	var EN = _interopRequireWildcard(_eventNames);
-
-	var _tabPaneNames = __webpack_require__(5);
-
-	var TPN = _interopRequireWildcard(_tabPaneNames);
-
-	var _dataTableNames = __webpack_require__(2);
-
-	var DTN = _interopRequireWildcard(_dataTableNames);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var BUY_CALLBACK = function BUY_CALLBACK(view, datatables) {
-		if (view === TPN.BUY || view === TPN.SELL || view === TPN.DETAILS) {
-			datatables[DTN.BUY].reload();
-			datatables[DTN.GROUPED].reload();
-		} else if (view === TPN.GROUPED) {
-			datatables[DTN.GROUPED].reload();
-		}
-	};
-
-	var SELL_CALLBACK = function SELL_CALLBACK(view, datatables) {
-		if (view === TPN.SELL) {
-			datatables[DTN.SELL].reload();
-			datatables[DTN.BUY].reload();
-			datatables[DTN.GROUPED].reload();
-		} else if (view === TPN.BUY) {
-			datatables[DTN.BUY].reload();
-			datatables[DTN.GROUPED].reload();
-		} else if (view === TPN.GROUPED) {
-			datatables[DTN.GROUPED].reload();
-		}
-	};
-
-	var DETAILS_CALLBACK = function DETAILS_CALLBACK(view, datatables) {
-		datatables[DTN.DETAILS].reload();
-	};
-
-	var Event = function () {
-		function Event(app) {
-			_classCallCheck(this, Event);
-
-			this.app = app;
-			this.triggered = [];
-		}
-
-		_createClass(Event, [{
-			key: 'exists',
-			value: function exists(event) {
-				var eventName = EN[event];
-
-				if (!eventName) {
-					console.warn('%cUnidentified Event Occured: ' + '%c' + event, 'color: red;', 'color: red; padding-left: 10px; font-weight: bold');
-					return false;
-				}
-
-				console.info('%cEvent Occured: ' + '%c' + event, 'color: green;', 'color: green; padding-left: 10px; font-weight: bold');
-
-				return true;
-			}
-		}, {
-			key: 'datatables',
-			value: function datatables() {
-				return this.app.datatables;
-			}
-		}, {
-			key: 'view',
-			value: function view() {
-				return this.app.views.current.name;
-			}
-		}, {
-			key: 'occured',
-			value: function occured(event) {
-				this.triggered.push(event);
-
-				if (!this.exists(event)) return this;
-
-				var CALLBACK = function CALLBACK() {};
-
-				switch (event) {
-					case EN.BUY_CREATED_EVENT:
-					case EN.BUY_UPDATED_EVENT:
-					case EN.BUY_DELETED_EVENT:
-						CALLBACK = BUY_CALLBACK;
-						break;
-					case EN.SELL_CREATED_EVENT:
-					case EN.SELL_UPDATED_EVENT:
-					case EN.SELL_DELETED_EVENT:
-						CALLBACK = SELL_CALLBACK;
-						break;
-					case EN.DETAILS_CREATED_EVENT:
-					case EN.DETAILS_UPDATED_EVENT:
-					case EN.DETAILS_DELETED_EVENT:
-						CALLBACK = DETAILS_CALLBACK;
-						break;
-				}
-
-				CALLBACK(this.app.views.current.name, this.app.datatables);
-
-				return this;
-			}
-		}]);
-
-		return Event;
-	}();
-
-	exports.default = Event;
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var BUY_CREATED_EVENT = exports.BUY_CREATED_EVENT = 'BUY_CREATED_EVENT';
-	var BUY_UPDATED_EVENT = exports.BUY_UPDATED_EVENT = 'BUY_UPDATED_EVENT';
-	var BUY_DELETED_EVENT = exports.BUY_DELETED_EVENT = 'BUY_DELETED_EVENT';
-
-	var SELL_CREATED_EVENT = exports.SELL_CREATED_EVENT = 'SELL_CREATED_EVENT';
-	var SELL_UPDATED_EVENT = exports.SELL_UPDATED_EVENT = 'SELL_UPDATED_EVENT';
-	var SELL_DELETED_EVENT = exports.SELL_DELETED_EVENT = 'SELL_DELETED_EVENT';
-
-	var DETAILS_CREATED_EVENT = exports.DETAILS_CREATED_EVENT = 'DETAILS_CREATED_EVENT';
-	var DETAILS_UPDATED_EVENT = exports.DETAILS_UPDATED_EVENT = 'DETAILS_UPDATED_EVENT';
-	var DETAILS_DELETED_EVENT = exports.DETAILS_DELETED_EVENT = 'DETAILS_DELETED_EVENT';
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-	var _Modal2 = __webpack_require__(18);
+	var _Modal2 = __webpack_require__(21);
 
 	var _Modal3 = _interopRequireDefault(_Modal2);
 
-	var _utils = __webpack_require__(19);
+	var _utils = __webpack_require__(22);
 
-	var _templateHtml = __webpack_require__(22);
+	var _tabPaneElements = __webpack_require__(5);
+
+	var TPE = _interopRequireWildcard(_tabPaneElements);
+
+	var _templateHtml = __webpack_require__(25);
 
 	var TEMPLATE = _interopRequireWildcard(_templateHtml);
 
-	var _eventNames = __webpack_require__(24);
+	var _eventNames = __webpack_require__(19);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1768,18 +2021,169 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var SellModal = function (_Modal) {
-		_inherits(SellModal, _Modal);
+	  _inherits(SellModal, _Modal);
 
-		function SellModal() {
-			_classCallCheck(this, SellModal);
+	  function SellModal() {
+	    _classCallCheck(this, SellModal);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(SellModal).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (SellModal.__proto__ || Object.getPrototypeOf(SellModal)).apply(this, arguments));
+	  }
+
+	  _createClass(SellModal, [{
+	    key: 'open',
+	    value: function open() {
+	      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+	      id ? this.edit(id) : this.create();
+	    }
+	  }, {
+	    key: 'create',
+	    value: function create() {
+	      var _this2 = this;
+
+	      if (this.isOpen || this.$el) return;
+
+	      var html = Mustache.to_html(TEMPLATE.SELL_MODAL, {
+	        title: 'Sell Stock',
+	        basket_id: $('[data-name="baskets"]').val(),
+	        stock_id: TPE.SELL.find('input[name=buy_id]').val(),
+	        btnLabel: '<i class="ion-ios-plus-outline"></i> Add'
+	      });
+
+	      this.$el = $(html);
+
+	      this.renderBuyData();
+
+	      _get(SellModal.prototype.__proto__ || Object.getPrototypeOf(SellModal.prototype), 'open', this).call(this, function () {
+	        console.log(_this2.$el.find('.date'));
+	        //this.$el.find('.date').datetimepicker({format: 'YYYY-MM-DD'});
+	        _this2.ajaxSubmit();
+	      });
+	    }
+	  }, {
+	    key: 'edit',
+	    value: function edit(id) {
+	      var _this3 = this;
+
+	      if (this.isOpen || this.$el || !id) return;
+
+	      var data = this.datatable.find('id', id);
+
+	      if (!data) return;
+
+	      var html = Mustache.to_html(TEMPLATE.SELL_MODAL, {
+	        title: 'Edit Sold Stock',
+	        method: 'put',
+	        basket_id: $('[data-name="baskets"]').val(),
+	        stock_id: TPE.SELL.find('input[name=buy_id]').val(),
+	        btnLabel: '<i class="ion-compose"></i> Update',
+	        sell_date: data.sell_date,
+	        sell_quantity: data.sell_quantity,
+	        sell_rate: data.sell_rate,
+	        sell_commission: data.sell_commission,
+	        sell_tax: data.sell_tax,
+	        sell_note: data.sell_note
+	      });
+
+	      this.$el = $(html);
+
+	      this.renderBuyData();
+
+	      this.$el.find('select[name=company] option[value=' + data.company_id + ']').prop('selected', true);
+
+	      _get(SellModal.prototype.__proto__ || Object.getPrototypeOf(SellModal.prototype), 'open', this).call(this, function () {
+	        _this3.$el.find('select[name=company]').chosen();
+	        _this3.ajaxSubmit(id);
+	      });
+	    }
+	  }, {
+	    key: 'renderBuyData',
+	    value: function renderBuyData() {
+	      var html = this.app.views.views.sell.$el.find('.box-header:eq(1)').html();
+	      var originalHeader = this.$el.find('.modal-header:eq(0)');
+	      var clonedHeader = originalHeader.clone();
+
+	      this.$el.find('.modal-header:eq(1)').remove();
+
+	      clonedHeader.empty().html(html);
+
+	      originalHeader.after(clonedHeader);
+	    }
+	  }, {
+	    key: 'ajaxSubmit',
+	    value: function ajaxSubmit() {
+	      var _this4 = this;
+
+	      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+	      this.form = this.$el.find('form');
+	      console.log('Processing Form');
+
+	      var ajax = (0, _utils.ajaxForm)(this.app, this.form, id).onSuccess(function (response) {
+	        _this4.close();
+	        id ? _this4.app.event.occured(_eventNames.SELL_UPDATED_EVENT) : _this4.app.event.occured(_eventNames.SELL_CREATED_EVENT);
+	      });
+	    }
+	  }]);
+
+	  return SellModal;
+	}(_Modal3.default);
+
+	exports.default = SellModal;
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _Modal2 = __webpack_require__(21);
+
+	var _Modal3 = _interopRequireDefault(_Modal2);
+
+	var _utils = __webpack_require__(22);
+
+	var _templateHtml = __webpack_require__(25);
+
+	var TEMPLATE = _interopRequireWildcard(_templateHtml);
+
+	var _eventNames = __webpack_require__(19);
+
+	var _tabPaneElements = __webpack_require__(5);
+
+	var TPE = _interopRequireWildcard(_tabPaneElements);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DetailsModal = function (_Modal) {
+		_inherits(DetailsModal, _Modal);
+
+		function DetailsModal() {
+			_classCallCheck(this, DetailsModal);
+
+			return _possibleConstructorReturn(this, (DetailsModal.__proto__ || Object.getPrototypeOf(DetailsModal)).apply(this, arguments));
 		}
 
-		_createClass(SellModal, [{
+		_createClass(DetailsModal, [{
 			key: 'open',
 			value: function open() {
-				var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+				var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 				id ? this.edit(id) : this.create();
 			}
@@ -1789,19 +2193,16 @@
 				var _this2 = this;
 
 				if (this.isOpen || this.$el) return;
-
-				var html = Mustache.to_html(TEMPLATE.SELL_MODAL, {
-					title: 'Sell Stock',
+				var html = Mustache.to_html(TEMPLATE.DETAILS_MODAL, {
+					title: 'Add Stock Details',
 					basket_id: $('[data-name="baskets"]').val(),
-					stock_id: $('input[name=buy_id]').val(),
+					stock_id: TPE.DETAILS.find('input[name=buy_id]').val(),
 					btnLabel: '<i class="ion-ios-plus-outline"></i> Add'
 				});
 
 				this.$el = $(html);
 
-				_get(Object.getPrototypeOf(SellModal.prototype), 'open', this).call(this, function () {
-					console.log(_this2.$el.find('.date'));
-					//this.$el.find('.date').datetimepicker({format: 'YYYY-MM-DD'});
+				_get(DetailsModal.prototype.__proto__ || Object.getPrototypeOf(DetailsModal.prototype), 'open', this).call(this, function () {
 					_this2.ajaxSubmit();
 				});
 			}
@@ -1818,26 +2219,26 @@
 
 				if (!data) return;
 
-				var html = Mustache.to_html(TEMPLATE.SELL_MODAL, {
-					title: 'Edit Sold Stock',
+				var html = Mustache.to_html(TEMPLATE.DETAILS_MODAL, {
+					title: 'Edit Stock Details',
 					method: 'put',
 					basket_id: $('[data-name="baskets"]').val(),
-					stock_id: $('input[name=buy_id]').val(),
+					stock_id: TPE.DETAILS.find('input[name=buy_id]').val(),
 					btnLabel: '<i class="ion-compose"></i> Update',
-					sell_date: data.sell_date,
-					sell_quantity: data.sell_quantity,
-					sell_rate: data.sell_rate,
-					sell_commission: data.sell_commission,
-					sell_tax: data.sell_tax,
-					sell_note: data.sell_note
+					details_id: data.id,
+					fiscal_year_id: data.fiscal_year_id,
+					stock_dividend: data.stock_dividend,
+					cash_dividend: data.cash_dividend,
+					right_share: data.right_share,
+					remarks: data.remarks
 				});
 
 				this.$el = $(html);
 
-				this.$el.find('select[name=company] option[value=' + data.company_id + ']').prop('selected', true);
+				this.$el.find('select[name=fiscal_year] option[value=' + data.fiscal_year_id + ']').prop('selected', true);
 
-				_get(Object.getPrototypeOf(SellModal.prototype), 'open', this).call(this, function () {
-					_this3.$el.find('select[name=company]').chosen();
+				_get(DetailsModal.prototype.__proto__ || Object.getPrototypeOf(DetailsModal.prototype), 'open', this).call(this, function () {
+					_this3.$el.find('select[name=fiscal_year]').chosen();
 					_this3.ajaxSubmit(id);
 				});
 			}
@@ -1846,22 +2247,108 @@
 			value: function ajaxSubmit() {
 				var _this4 = this;
 
-				var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+				var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 				this.form = this.$el.find('form');
 				console.log('Processing Form');
 
 				var ajax = (0, _utils.ajaxForm)(this.app, this.form, id).onSuccess(function (response) {
 					_this4.close();
-					id ? _this4.app.event.occured(_eventNames.SELL_UPDATED_EVENT) : _this4.app.event.occured(_eventNames.SELL_CREATED_EVENT);
+					id ? _this4.app.event.occured(_eventNames.DETAILS_UPDATED_EVENT) : _this4.app.event.occured(_eventNames.DETAILS_CREATED_EVENT);
 				});
 			}
 		}]);
 
-		return SellModal;
+		return DetailsModal;
 	}(_Modal3.default);
 
-	exports.default = SellModal;
+	exports.default = DetailsModal;
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _Modal2 = __webpack_require__(21);
+
+	var _Modal3 = _interopRequireDefault(_Modal2);
+
+	var _utils = __webpack_require__(22);
+
+	var _templateHtml = __webpack_require__(25);
+
+	var TEMPLATE = _interopRequireWildcard(_templateHtml);
+
+	var _eventNames = __webpack_require__(19);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DeleteModal = function (_Modal) {
+	  _inherits(DeleteModal, _Modal);
+
+	  function DeleteModal() {
+	    _classCallCheck(this, DeleteModal);
+
+	    return _possibleConstructorReturn(this, (DeleteModal.__proto__ || Object.getPrototypeOf(DeleteModal)).apply(this, arguments));
+	  }
+
+	  _createClass(DeleteModal, [{
+	    key: 'open',
+	    value: function open() {
+	      var _this2 = this;
+
+	      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+	      if (this.isOpen || this.$el || !id) return;
+
+	      var view = this.app.views.current.name;
+
+	      var action = window.routes.del[view].replace(':id', id);
+
+	      var html = Mustache.to_html(TEMPLATE.DELETE_MODAL, {
+	        title: 'Confirm Delete',
+	        btnLabel: '<i class="ion-trash"></i> Delete'
+	      });
+
+	      this.$el = $(html);
+
+	      _get(DeleteModal.prototype.__proto__ || Object.getPrototypeOf(DeleteModal.prototype), 'open', this).call(this, function () {
+	        _this2.form = _this2.$el.find('form');
+
+	        _this2.form.attr('action', action);
+
+	        (0, _utils.ajaxForm)(_this2.app, _this2.form).onSuccess(function (response) {
+	          _this2.close();
+
+	          if (view == 'buy') _this2.app.event.occured(_eventNames.BUY_DELETED_EVENT);
+	          if (view == 'sell') _this2.app.event.occured(_eventNames.SELL_DELETED_EVENT);
+	          if (view == 'details') _this2.app.event.occured(_eventNames.DETAILS_DELETED_EVENT);
+	        });
+	      });
+	    }
+	  }]);
+
+	  return DeleteModal;
+	}(_Modal3.default);
+
+	exports.default = DeleteModal;
 
 /***/ }
 /******/ ]);

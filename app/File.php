@@ -1,9 +1,11 @@
 <?php
 namespace App;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class File
 {
-    public static function upload($file,$location,$newName = null)
+    public static function upload(UploadedFile $file,$location,$newName = null)
     {
         $extension = $file->getClientOriginalExtension(); // getting image extension
 

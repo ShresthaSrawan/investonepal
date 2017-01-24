@@ -139,12 +139,15 @@
                                 <th>Buy Date</th>
                                 <th>Owner</th>
                                 <th>Type</th>
-                                <th>Shareholder No.</th>
-                                <th>Certificate No.</th>
+                                <th>DP Company</th>
+                                <th>Demat ID</th>
                                 <th>Buy Rate</th>
                                 <th>Quantity</th>
+                                <th>Close Price</th>
                                 <th>Commission</th>
                                 <th>Investment</th>
+                                <th>Market Value</th>
+                                <th>Change</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -157,8 +160,11 @@
                                 <th></th>
                                 <th></th>
                                 <th><span id="buy-quantity">Total Quantity</span></th>
+                                <th></th>
                                 <th><span id="buy-commission">Total Commission</span></th>
                                 <th><span id="buy-totalInvestment">Total Investment</span></th>
+                                <th><span id="buy-total-market-value">Total Market Value</span></th>
+                                <th><span id="buy-total-change">Total Change</span></th>
                             </tr>
                             </tfoot>
                             <tbody></tbody>
@@ -450,56 +456,96 @@
             var form = $('#stock-buy-report-form');
             buy_report_table = $('#stock-buy-report-table').DataTable({
                 processing: true,
-                paging: false,
-                serverSide: false,
+                paging: true,
+                serverSide: true,
                 lengthMenu: [[100,200,300],[100,200,300]],
                 dom: '<".row"<"col-xs-6"<"#fa-buy-basket.pull-left">> <".col-xs-6"<"pull-right"f>>><".row"<".col-xs-12"tr>><".row"<".col-xs-12"ip>>',
                 ajax: {
                     url: form.attr('action'),
                     type: 'POST',
-                    data: function(){return form.serialize();}
-                }, columns: [
-                    {data: 'company.name',render:function(data,type,row,meta){
-                        return '<span data-toggle="tooltip" data-placement="down" title="'+row.company.name+'">'+row.company.quote+'</span>';
+                    data: {
+                      basket: function(){
+                        return form.find('[name=basket]').val();
+                      },
+                      from_date: function(){
+                        return form.find('[name=from_date]').val();
+                      },
+                      to_date: function(){
+                        return form.find('[name=to_date]').val();
+                      }
+                    }
+                }, 
+                columns: [
+                    {data: 'quote', name: 'quote', render:function(data,type,row,meta){
+                      return '<a href="/quote/'+data+'" target="_blank"><span data-toggle="tooltip" data-placement="down" title="'+row.company_name+'">'+data+'</span></a>';
                     }},
-                    {data: 'buy_date',name:'buy_date',render:function(data,type,row,meta){
+                    {data: 'buy_date', searchable: false, render:function(data,type,row,meta){
                         return moment(data).format('D/MMM/YY');
                     }},
-                    {data: 'owner',name:'owner',render:function(data,type,row,meta){
+                    {data: 'owner_name', render:function(data,type,row,meta){
                         return (data == null || data == '') ? '--' : data;
                     }},
-                    {data: 'type.name',name:'type.name'},
-                    {data: 'shareholder_number',name:'shareholder_number',render:function(data,type,row,meta){
+                    {data: 'stock_type_name', name: 'am_stock_types.name'},
+                    {data: 'shareholder_number', render:function(data,type,row,meta){
                         return (data == null || data == '') ? '--' : data;
                     }},
-                    {data: 'certificate_number',name:'certificate_number',render:function(data,type,row,meta){
+                    {data: 'certificate_number', render:function(data,type,row,meta){
                         return (data == null || data == '') ? '--' : data;
                     }},
-                    {data: 'buy_rate',name:'buy_rate',render:function(data,type,row,meta){
+                    {data: 'buy_rate_with_commission', searchable: false, render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'quantity',name:'quantity'},
-                    {data: 'commission',name:'commission',render:function(data,type,row,meta){
-                        return parseFloat(data).toFixed(2);
-                    }},
-                    {data: 'investment',name:'investment',render:function(data,type,row,meta){
-                        return parseFloat(data).toFixed(2);
-                    }}
+                    {data: 'quantity', searchable: false},
+                    {data: 'close_price',searchable: false,render:function(data,type,row,meta){
+                      if(!data) return '-NA-';
 
+                      data = parseFloat(data).toFixed(2);
+
+                      return data + ' <small>('+moment(row.close_date).format('Do MMM YY')+')</small>';
+                    }},
+                    {data: 'commission', searchable: false, render:function(data,type,row,meta){
+                        return parseFloat(data).toFixed(2);
+                    }},
+                    {data: 'investment',searchable: false,render:function(data,type,row,meta){
+                        return parseFloat(data).toFixed(2);
+                    }},
+                    {data: 'market_value',searchable: false,render:function(data,type,row,meta){
+                        return parseFloat(data).toFixed(2);
+                    }},
+                    {data: 'profit_loss',searchable: false,render:function(data,type,row,meta){
+                      if (!data) {
+                        return '<span data-change="neutral">0.00 <small>(0.00%)</small></span>';
+                      }
+
+                      var changePercent = Math.abs(parseFloat(100* (row.market_value - row.investment)/(row.investment || row.market_value)).toFixed(2));
+
+                      var dataChange = data > 0 ? 'up' : (data < 0 ? 'down' : 'neutral');
+
+                      return '<span data-change="'+dataChange+'">'+parseFloat(data).toFixed(2)+' <small>('+changePercent+'%)</small></span>';
+                    }},
                 ],
                 footerCallback: function ( row, data, start, end, display) {
-                    var self = this;
-                    this.totalInvest = this.totalQuantity = this.totalCommission = 0;
-                    $.each(data,function(i,row){
-                        self.totalInvest += row.investment;
-                        self.totalQuantity += row.quantity;
-                        self.totalCommission += row.commission;
-                    });
+                  var self = this;
+                  this.totalInvest = this.totalMarketValue = this.totalQuantity = this.totalCommission = this.totalChange = 0;
+                  $.each(data,function(i,row){
+                    self.totalInvest += row.investment;
+                    self.totalQuantity += row.quantity;
+                    self.totalCommission += row.commission;
+                    self.totalMarketValue += row.market_value;
+                    self.totalChange += row.profit_loss;
+                  });
 
-                    // Update footer
-                    $("#buy-quantity").text(self.totalQuantity);
-                    $("#buy-commission").text(parseFloat(self.totalCommission).toFixed(2));
-                    $("#buy-totalInvestment").text(parseFloat(self.totalInvest).toFixed(2));
+                  var dataChange = this.totalChange > 0 ? "up" : (this.totalChange < 0 ? 'down' : 'neutral');
+                  var totalChangePercent = parseFloat(Math.abs((this.totalMarketValue - this.totalInvest) * 100 / (this.totalMarketValue || this.totalInvest))).toFixed(2);
+
+                  // Update footer
+                  $("#buy-quantity").text(self.totalQuantity);
+                  $("#buy-commission").text(parseFloat(self.totalCommission).toFixed(2));
+                  $("#buy-totalInvestment").text(parseFloat(self.totalInvest).toFixed(2));
+                  $("#buy-total-market-value").text(parseFloat(self.totalMarketValue).toFixed(2));
+                  $("#buy-total-change").html(
+                    '<span data-change="'+dataChange+'">'+parseFloat(this.totalChange).toFixed(2)+'  <small>('+totalChangePercent+' %)</small></span>'
+                  );
                 }
             });
             $('#filter-stock-buy-report-btn').click(function(){
@@ -523,41 +569,51 @@
 
             sell_report_table = $('#stock-sell-report-table').DataTable({
                 processing: true,
-                paging: false,
-                serverSide: false,
+                paging: true,
+                serverSide: true,
                 dom: '<".row"<"col-xs-6"<"#fa-sell-basket.pull-left">> <".col-xs-6"<"pull-right"f>>><".row"<".col-xs-12"tr>><".row"<".col-xs-12"ip>>',
                 lengthMenu: [[100,200,300],[100,200,300]],
                 ajax: {
                     url: form.attr('action'),
                     type: 'POST',
-                    data: function(){return form.serialize();}
+                    data: {
+                      basket: function () {
+                        return form.find('[name=basket]').val();
+                      },
+                      sell_from_date: function () {
+                        return form.find('[name=sell_from_date]').val();
+                      },
+                      sell_to_date: function () {
+                        return form.find('[name=sell_to_date]').val();
+                      }
+                    }
                 }, columns: [
-                    {data: 'company_name',name:'company_name',render:function(data,type,row,meta){
+                    {data: 'company_name', render:function(data,type,row,meta){
                         return '<span data-toggle="tooltip" data-placement="down" title="'+row.company_name+'">'+row.company_quote+'</span>';
                     }},
-                    {data: 'sell_date',name:'sell_date',render:function(data,type,row,meta){
+                    {data: 'sell_date',render:function(data,type,row,meta){
                         return moment(data).format('D/MMM/YY');
                     }},
-                    {data: 'sell_quantity',name:'sell_quantity'},
+                    {data: 'sell_quantity'},
                     {data: 'sell_rate',name:'sell_rate',render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'sell_commission',name:'sell_commission',render:function(data,type,row,meta){
+                    {data: 'sell_commission',render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'tax',name:'tax',render:function(data,type,row,meta){
+                    {data: 'tax',render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'buy_rate',name:'buy_rate',render:function(data,type,row,meta){
+                    {data: 'buy_rate',render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'buy_price',name:'buy_price',render:function(data,type,row,meta){
+                    {data: 'buy_price',render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'total_sales',name:'total_sales',render:function(data,type,row,meta){
+                    {data: 'total_sales',render:function(data,type,row,meta){
                         return parseFloat(data).toFixed(2);
                     }},
-                    {data: 'income',name:'income',render:function(data,type,row,meta){
+                    {data: 'income',render:function(data,type,row,meta){
                         this.dataChange = 'neutral';
                         if(data > 0){ this.dataChange = 'up'; }
                         else if(data < 0){ this.dataChange = 'down';}

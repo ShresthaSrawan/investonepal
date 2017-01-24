@@ -1,0 +1,27 @@
+{
+  "name": "InvestoNepal",
+  "version": "0.0.1",
+  "description": "InvestoNepal Web System",
+  "dependencies": {
+    "vue": "^1.0.25",
+    "vue-resource": "^0.8.0",
+    "vue-router": "^0.7.13",
+    "vuex": "^1.0.0-rc.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "babel-plugin-transform-runtime": "^6.1.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.1.2",
+    "babel-runtime": "^5.8.0",
+    "css-loader": "^0.23.0",
+    "style-loader": "^0.13.0",
+    "vue-hot-reload-api": "^1.2.0",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^7.3.0",
+    "webpack": "^1.12.2"
+  },
+  "author": "Roshan Kharel"
+}

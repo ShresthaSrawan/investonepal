@@ -8,6 +8,10 @@
 @endsection
 
 @section('content')
+<style type="text/css">
+  .description-block > span {display: block;}
+  .description-block > .description-text {font-weight: 600;}
+</style>
 <ul class="nav nav-tabs hide">
   <li class="active"><a href="#grouped-view" data-toggle="tab" aria-expanded="true"></a></li>
   <li><a href="#buy-view" data-toggle="tab" aria-expanded="false"></a></li>
@@ -39,36 +43,6 @@
             height: 28px;
         }
     </style>
-    <!-- <style>
-        *{
-            border-radius: 0 !important;;
-        }
-        .tab-pane .form-group{
-            width: 100%;
-            margin-bottom: 5px !important;
-        }
-        .tab-pane .form-group .form-control{
-            width: 100% !important;
-        }
-        .text-left{
-            text-align: left !important;
-        }
-        [data-change]{
-            font-weight: 600;
-        }
-        [data-change="up"]{
-            color: #309A30;
-        }
-        [data-change="up"]:before{
-            content: '+';
-        }
-        [data-change="down"]{
-            color: #F59393;
-        }
-        [data-change="nutral"]{
-            color: #BDBDBD;
-        }
-    </style> -->
 @endsection
 
 @section('endscript')
@@ -95,7 +69,7 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <label for="stockTypeList" class="control-label">Type</label>
-                            {!! Form::select('type',$stockTypes , null, [ 'class'=>'form-control', 'id'=>'stockTypeList', 'data-value'=>'@{{stock}}']) !!}
+                            {!! Form::select('type',$stockTypes , null, [ 'class'=>'form-control', 'id'=>'stockTypeList']) !!}
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <label for="quantity" class="control-label">Quantity (Kitta)</label>
@@ -123,11 +97,11 @@
                             {!! Form::input('text','owner_name','@{{owner_name}}',['class'=>'form-control']) !!}
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <label for="shareholder_number" class="control-label">Shareholder No.</label>
+                            <label for="shareholder_number" class="control-label">DP Company</label>
                             {!! Form::input('text','shareholder_number','@{{shareholder_number}}',['class'=>'form-control']) !!}
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <label for="certificate_number" class="control-label">Certificate No.</label>
+                            <label for="certificate_number" class="control-label">Demat ID</label>
                             {!! Form::input('text','certificate_number','@{{certificate_number}}',['class'=>'form-control']) !!}
                         </div>
                         <span class="clearfix"></span>
@@ -204,6 +178,29 @@
         </div>
     </script>
 
+    <script type="text/html" id="delete-modal-tmpl">
+        <div class="modal animated fadeIn" tabindex="-1" role="dialog" style="animation-duration: 300ms;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    {!! Form::open(['class'=>'form form-horizontal','method'=>'delete']) !!}
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">@{{ title }}</h4>
+                    </div>
+                    <div class="form-errors"></div>
+                    <div class="modal-body" style="padding-top: 0">
+                        <p class="text-red">Are you sure want to delete this resource ?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-success"> @{{{btnLabel}}}</button>
+                    </div>
+                    {!! Form::close()  !!}
+                </div>
+            </div>
+        </div>
+    </script>
+
     <script type="text/html" id="callout-tmpl">
         <div class="alert alert-@{{ type }} alert-dismissable animated" style="animation-duration: 300ms; margin-bottom: 0">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><span aria-hidden="true">&#215;</span></button>
@@ -226,10 +223,15 @@
     <script>
         window.routes = {
             stock: {
-                buy: '{{route("member.stock.store")}}',
-                sell: '{{route("member.stock.sell")}}',
-                details: '{{route("member.stock-details.store")}}',
+              buy: '{{route("member.stock.store")}}',
+              sell: '{{route("member.stock.sell")}}',
+              details: '{{route("member.stock-details.store")}}',
             },
+            del: {
+              buy: '{{route("member.stock.destroy",":id")}}',
+              sell: '{{route("member.stock.sell.delete",":id")}}',
+              details: '{{route("member.stock-details.destroy",":id")}}',
+            }
         };
         
         $(document).ready(function() {

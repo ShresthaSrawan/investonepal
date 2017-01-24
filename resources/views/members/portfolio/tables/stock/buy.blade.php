@@ -11,6 +11,46 @@
             </div>
         </div>
     </div>
+    <div class="box-header">
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-quantity>0</span>
+            <h5 class="description-header">&nbsp;</h5>
+            <span class="description-text">Quantity</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-investment>0.00</span>
+            <h5 class="description-header" data-average-rate>0.00</h5>
+            <span class="description-text">Investment</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-market-value>0.00</span>
+            <h5 class="description-header" data-close-price>0.00</h5>
+            <span class="description-text">Market Value</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-md-3">
+          <div class="description-block border-right">
+            <span class="description-percentage" data-change>0.00</span>
+            <h5 class="description-header" data-change-percent>0.00</h5>
+            <span class="description-text">Change</span>
+          </div>
+          <!-- /.description-block  -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
     <div class="box-body">
         <div class="row">
             <div class="col-xs-12">
@@ -52,7 +92,10 @@
                             <th>Action</th>
                         </tr>
                         <tr>
-                            <th colspan="4">Total</th>
+                            <th>Total</th>
+                            <th><span data-average-rate>Avg. Rate</span></th>
+                            <th><span data-quantity>Quantity</span></th>
+                            <th></th>
                             <th><span data-investment>Investment</span></th>
                             <th><span data-market-value>Market Value</span></th>
                             <th><span data-change>Change</span></th>

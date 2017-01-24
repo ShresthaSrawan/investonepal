@@ -22,22 +22,11 @@ class StockController extends Controller
 {
     public function index()
     {
-        $baskets = Basket::getTabular();
-		$basket = Basket::where('user_id',Auth::user()->id)->get(['id','name'])->lists('name','id')->toArray();
+		    $basket = Basket::where('user_id',Auth::user()->id)->get(['id','name'])->lists('name','id')->toArray();
         $company = Company::orderBy('name','ASC')->get()->lists('name','id')->toArray();
         $stockTypes = StockType::get(['id','name'])->lists('name','id')->toArray();
-		
-        return view('members.basket.index',compact('baskets','basket','company','stockTypes'));
-    }
 
-    public function showNew($id)
-    {
-        $fiscalYear = FiscalYear::orderBy('label','desc')->get()->lists('label','id')->toArray();
-        $baskets = Basket::where('user_id',Auth::user()->id)->get();
-        $company = Company::orderBy('name','ASC')->get()->lists('name','id')->toArray();
-        $stockTypes = StockType::all()->lists('name','id')->toArray();
-
-        return view('members.portfolio.stock-grouped',compact('baskets','company','stockTypes','fiscalYear'))->with('selected',$id);
+        return view('members.basket.index',compact('basket','company','stockTypes'));
     }
     
     public function show($id)
@@ -50,7 +39,7 @@ class StockController extends Controller
         return view('members.portfolio.stock-grouped-new',compact('baskets','company','stockTypes','fiscalYear'))->with('selected',$id);
     }
 	
-	public function fetch(Request $request)
+    public function fetch(Request $request)
     {
         $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
                       , `price`.`close` as `close_price` from `todays_price` as `price`
@@ -95,62 +84,67 @@ class StockController extends Controller
      */
     public function fetchGrouped(Request $request)
     {
-        $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
-                      , `price`.`close` as `close_price` from `todays_price` as `price`
-                      INNER JOIN `last_traded_price` as `ltp`
-                      on `price`.`company_id` = `ltp`.`company_id`
-                      and `price`.`date` = `ltp`.`date`";
+      $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
+                    , `price`.`close` as `close_price` from `todays_price` as `price`
+                    INNER JOIN `last_traded_price` as `ltp`
+                    on `price`.`company_id` = `ltp`.`company_id`
+                    and `price`.`date` = `ltp`.`date`";
 
-        $stockWithLastPrice = \DB::table('am_stocks_buy as stock')
-        ->join('am_stock_basket as basket', 'basket.id', '=', 'stock.basket_id')
-        ->leftJoin('am_stocks_sell as sell', 'sell.buy_id', '=','stock.id')
-        ->leftJoin(\DB::raw('('.$lastPrices.') as latest_price'),'stock.company_id','=','latest_price.cid')
-        ->leftJoin('company', 'company.id', '=', 'stock.company_id')
-        //->leftJoin('am_stock_types as type', 'type.id', '=', 'stock.type_id')
-        ->selectRaw('
-            (ifnull(CAST(sum(sell.quantity) AS SIGNED), 0)) as sell_quantity,
-            (stock.quantity - ifnull(CAST(sum(sell.quantity) AS SIGNED),0)) as remaining_quantity,
-            (stock.commission / stock.quantity) as commission_per_quantity,
-            stock.commission, stock.buy_rate, stock.quantity as buy_quantity,
-            latest_price.close_date, latest_price.close_price, company.quote as company_quote,
-            company.name as company_name,company.id as company_id, stock.id
-            '
-        )
-        ->groupBy('stock.id')
-        ->where('basket_id',$request->get('basket_id'))
-        ->where('basket.user_id',auth()->id());
+      $stockWithLastPrice = \DB::table('am_stocks_buy as stock')
+      ->join('am_stock_basket as basket', 'basket.id', '=', 'stock.basket_id')
+      ->leftJoin('am_stocks_sell as sell', 'sell.buy_id', '=','stock.id')
+      ->leftJoin(\DB::raw('('.$lastPrices.') as latest_price'),'stock.company_id','=','latest_price.cid')
+      ->leftJoin('company', 'company.id', '=', 'stock.company_id')
+      //->leftJoin('am_stock_types as type', 'type.id', '=', 'stock.type_id')
+      ->selectRaw('
+          (ifnull(CAST(sum(sell.quantity) AS SIGNED), 0)) as sell_quantity,
+          (stock.quantity - ifnull(CAST(sum(sell.quantity) AS SIGNED),0)) as remaining_quantity,
+          (stock.commission / stock.quantity) as commission_per_quantity,
+          stock.commission, stock.buy_rate, stock.quantity as buy_quantity,
+          latest_price.close_date, latest_price.close_price, company.quote as company_quote,
+          company.name as company_name,company.id as company_id, stock.id
+          '
+      )
+      ->groupBy('stock.id')
+      ->where('basket_id',$request->get('basket_id'))
+      ->where('basket.user_id',auth()->id());
 
-        $stockWithComputedValues = \DB::table(
-            \DB::raw('('.$stockWithLastPrice->toSql().') as stock')
-        )
-        ->addBinding($stockWithLastPrice->getBindings())
-        ->selectRaw('
-            stock.*,
-            (@investment:= (
-                (stock.remaining_quantity * stock.buy_rate)  + (stock.commission_per_quantity * stock.remaining_quantity)
-            )) as investment,
-            @market_value:= (stock.remaining_quantity * stock.close_price) as market_value,
-            @market_value - @investment as profit_loss
-        ');
+      if($request->show_sold == 0) {
+        $stockWithLastPrice = $stockWithLastPrice->having('remaining_quantity','>',0);
+      }
 
-        $stockGroupedByCompany = \DB::table(
-            \DB::raw('('.$stockWithComputedValues->toSql().') as sc')
-        )
-        ->addBinding($stockWithComputedValues->getBindings())
-        ->selectRaw('
-            sell_quantity, sc.buy_quantity, sc.close_date, sc.close_price, sc.company_quote,
-            sc.company_name, sc.company_id, count(sc.company_id) as total_stocks,
-            sum(sc.investment) as investment, sum(sc.market_value) as market_value, sum(sc.profit_loss) as profit_loss,
-            sum(sc.remaining_quantity) as remaining_quantity, sum(sc.commission) as commission, sum(sc.commission_per_quantity) as commission_per_quantity, avg(sc.buy_rate) as buy_rate
-        ')
-        ->groupBy('sc.company_id');
+      $stockWithComputedValues = \DB::table(
+          \DB::raw('('.$stockWithLastPrice->toSql().') as stock')
+      )
+      ->addBinding($stockWithLastPrice->getBindings())
+      ->selectRaw('
+          stock.*,
+          (@investment:= (
+              (stock.remaining_quantity * stock.buy_rate)  + (stock.commission_per_quantity * stock.remaining_quantity)
+          )) as investment,
+          @market_value:= (stock.remaining_quantity * stock.close_price) as market_value,
+          @market_value - @investment as profit_loss
+      ');
 
-        return $dt = Datatables::of($stockGroupedByCompany)->make(true);
+      $stockGroupedByCompany = \DB::table(
+          \DB::raw('('.$stockWithComputedValues->toSql().') as sc')
+      )
+      ->addBinding($stockWithComputedValues->getBindings())
+      ->selectRaw('
+          sell_quantity, sc.buy_quantity, sc.close_date, sc.close_price, sc.company_quote,
+          sc.company_name, sc.company_id, count(sc.company_id) as total_stocks,
+          sum(sc.investment) as investment, sum(sc.market_value) as market_value, sum(sc.profit_loss) as profit_loss,
+          sum(sc.remaining_quantity) as remaining_quantity, sum(sc.commission) as commission, sum(sc.commission_per_quantity) as commission_per_quantity,
+          (sum(investment)/sum(remaining_quantity)) as buy_rate
+      ')
+      ->groupBy('sc.company_id');
+
+      return $dt = Datatables::of($stockGroupedByCompany)->make(true);
     }
 
     public function fetchGroup(Request $request)
     {
-		$company_id = $request->get('company_id');
+		    $company_id = $request->get('company_id');
 
         $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
                       , `price`.`close` as `close_price` from `todays_price` as `price`
@@ -178,6 +172,10 @@ class StockController extends Controller
         ->where('company.id', $company_id)
         ->where('basket_id',$request->get('basket_id'))
         ->where('basket.user_id',auth()->id());
+
+        if($request->has('show_sold') && $request->get('show_sold') == 0){
+          $stockWithLastPrice = $stockWithLastPrice->having(\DB::raw('remaining_quantity'),'>',0);
+        }
 
         $stockWithComputedValues = \DB::table(
             \DB::raw('('.$stockWithLastPrice->toSql().') as stock')

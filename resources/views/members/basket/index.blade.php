@@ -8,6 +8,11 @@
     {!! HTML::style('vendors/animate/animate.css') !!}
 @endsection
 @section('content')
+<style type="text/css">
+  .description-block > span {
+    display: block;
+  }
+</style>
 <div class="hide" id="stockApp">
     <div class="row">
         <div class="col-md-12">
@@ -19,6 +24,42 @@
                             <button class="btn btn-box-tool" data-toggle="modal" data-target="#addStockModal"><i class="fa fa-plus-circle"></i> Add Stock</button>
                         </div>
                     </div>
+                </div>
+                <div class="box-header">
+                  <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-muted" data-investment>0.00</span>
+                        <span class="description-text">Investment</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6 col-md-3">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-muted" data-market-value>0.00</span>
+                        <span class="description-text">Market Value</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6 col-md-3">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-muted" data-change>0.00</span>
+                        <span class="description-text">Change</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6 col-md-3">
+                      <div class="description-block border-right">
+                        <span class="description-percentage text-muted" data-change-percent>0.00 %</span>
+                        <span class="description-text">Change (%)</span>
+                      </div>
+                      <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                  </div>
                 </div>
                 <div class="box-body">
                     <div v-for="message in messages" class="alert alert-@{{message.type}} alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> <strong><i class="fa @{{message.icon}}"></i></strong>@{{message.text}}</div>
@@ -49,8 +90,7 @@
                                     <th>Basket Name</th>
                                     <th>Investment</th>
                                     <th>Market Value</th>
-                                    <th>Profit/Loss</th>
-                                    <th>Percentage (%)</th>
+                                    <th>Change</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -61,7 +101,6 @@
                                     <th id="totInv"></th>
                                     <th id="totVal"></th>
                                     <th id="totChange"></th>
-                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -168,6 +207,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.9/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
     {!! HTML::script('vendors/mustache/mustache.min.js') !!}
     {!! HTML::script('vendors/bootbox/bootbox.js') !!}
+    {!! HTML::script('vendors/notify/notify.min.js') !!}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.15/vue.min.js" type="text/javascript"></script>
     <script type="text/html" id="update-modal-tmpl">
         <form action="@{{& action }}" class="form-horizontal" method="post" id="update-basket-@{{id}}">
@@ -237,104 +277,113 @@
     var BASKET_URL = '{{route("member.basket.fetch")}}';
     var STOCK_URL = '{{route("member.stock.store")}}';
     var table;
-    var incrementer = 0;
+    var DEFAULT_NOTIFY_OPTIONS = {
+      allow_dismiss: true,
+      newest_on_top: true,
+      placement: {
+        from: "bottom",
+        align: "right"
+      },
+        offset: 20,
+        spacing: 10,
+        z_index: 9999,
+        delay: 5000,
+        timer: 1000,
+        type: 'info',
+        mouse_over: 'pause'
+    };
 
     $(document).ready(function(){
-        table = $('#baskets-table').DataTable({
-            processing: true,
-            paging: true,
-            serverSide: false,
-            "aLengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
-            "iDisplayLength": 50,
-            ajax: {
-                url: BASKET_URL,
-                type: 'POST'
-            },
-            drawCallback : function() {
-                incrementer = 0;
-            },
-            columns: [
-                {data: 'id',name:'id',searchable:false, render: function(){
-                    return ++incrementer;
-                }},
-                {data: 'name',name:'name',render:function(data,type,row,meta){
-                    return '<a href="'+'{{route("member.stock.index")}}'+'/'+row.id+'" class="link">'+data+'</a>';
-                }},
-                {data: 'Investment', name:'name',render:function(data,type,row,meta){
-                    row.dataChange = 'neutral';
-                    row.investment = 0;
-                    row.value = 0;
-                    $.each(row.stock_buy,function(i,stock){
-                        stock.calc_rate = stock.buy_rate + (parseFloat(stock.commission).toFixed(2)/stock.quantity);
-                        stock.calc_quantity = stock.quantity;
-                        $.each(stock.sell,function(j,sell){
-                            stock.calc_quantity -= sell.quantity;
-                        });
-                        row.value += stock.calc_quantity * stock.close_price;
-                        row.investment += stock.calc_quantity * stock.calc_rate;
-                    });
+      table = $('#baskets-table').DataTable({
+        processing: true,
+        paging: true,
+        serverSide: true,
+        aLengthMenu: [[50, 100, 150, 200], [50, 100, 150, 200]],
+        iDisplayLength: 50,
+        ajax: {
+          url: BASKET_URL,
+          type: 'POST'
+        },
+        columns: [
+          {data: 'id',name: 'id',orderable:false, searchable:false, render: function(data,type,row,meta){
+            return meta.row + 1;
+          }},
+          {data: 'name',name:'name',render:function(data,type,row,meta){
+            return '<a href="'+'{{route("member.stock.index")}}'+'/'+row.id+'" class="link">'+data+'</a>';
+          }},
+          {data: 'investment', name:'investment',render:function(data,type,row,meta){
+            return parseFloat(data || 0).toFixed(2);
+          }},
+          {data: 'market_value',name:'market_value',render:function(data,type,row,meta){
+            return parseFloat(data || 0).toFixed(2);
+          }},
+          {data: 'profit_loss',name:'profit_loss',render:function(data,type,row,meta){
+            var dataChange = data > 0 ? 'up' : (data < 0 ? 'down' : 'neutral');
+            var change = parseFloat(data || 0).toFixed(2);
+            var changePercent =  parseFloat(
+                ( (row.market_value - row.investment) / (row.market_value || row.investment) ) || 0
+              ).toFixed(2);
 
-                    if(row.value > row.investment){
-                        row.dataChange = 'up';
-                    }else if(row.value < row.investment){
-                        row.dataChange = 'down';
-                    }
-
-                    return parseFloat(row.investment).toFixed(2);
-                }},
-                {data: 'Value',name:'name',render:function(data,type,row,meta){
-                    return parseFloat(row.value).toFixed(2);
-                }},
-                {data: 'Profit/Loss',name:'name',render:function(data,type,row,meta){
-                    row.profit_loss = (row.investment == 0) ? 0 : (row.value - row.investment);
-                    return '<span data-change="'+row.dataChange+'">'+parseFloat(row.profit_loss).toFixed(2)+'</span>';
-
-                }},
-                {data: 'Percentage',name:'name',render:function(data,type,row,meta){
-                    row.percentage = (row.investment == 0) ? 0 : parseFloat((row.value - row.investment) * 100 / row.investment).toFixed(2);
-                    return '<span data-change="'+row.dataChange+'">'+row.percentage+'<small style="font-size:0.8em">%</small></span>';
-                }},
-                {
-                    data: 'Action',
-                    name:'id',
-                    searchable:false,
-                    orderable:false,
-                    render:function(id,type,row,meta){
-                        return Mustache.to_html($('#btn-group-tmpl').html(), {
-                            id:row.id, name:row.name,
-                            url:'{{route("member.basket.update",":id")}}'.replace(':id',row.id)}
-                        )
-                    }
-                }
-            ],
-            footerCallback: function ( row, data, start, end, display) {
-                var self = this;
-
-                this.totInv = 0;
-                this.totVal = 0;
-                $.each(data,function(i,row){
-                    $.each(row.stock_buy,function(i,stock){
-                        stock.calc_rate = stock.buy_rate + (parseFloat(stock.commission).toFixed(2)/stock.quantity);
-                        stock.calc_quantity = stock.quantity;
-                        $.each(stock.sell,function(j,sell){
-                            stock.calc_quantity -= sell.quantity;
-                        });
-                        self.totVal += stock.calc_quantity * stock.close_price;
-                        self.totInv += stock.calc_quantity * stock.calc_rate;
-                    });
-                });
-
-                this.change = this.totVal - this.totInv
-                this.dataChange = 'neutral';
-                if(this.change > 0){ this.dataChange = 'up'; }
-                else if(this.change < 0){ this.dataChange = 'down'; }
-
-                // Update footer
-                $("#totInv").text(parseFloat(this.totInv).toFixed(2));
-                $("#totVal").text(parseFloat(this.totVal).toFixed(2));
-                $("#totChange").html('<span data-change="'+this.dataChange+'">'+parseFloat(this.change).toFixed(2)+'</span>');
+            return '<span data-change="'+dataChange+'">'+change+' <small> ('+changePercent+'%)</small></span>';
+          }},
+          {
+            data: 'id',
+            name:'id',
+            searchable:false,
+            orderable:false,
+            render:function(id,type,row,meta){
+                return Mustache.to_html($('#btn-group-tmpl').html(), {
+                    id:row.id, name:row.name,
+                    url:'{{route("member.basket.update",":id")}}'.replace(':id',row.id)}
+                )
             }
-        });
+          }
+        ],
+        order: [[1, 'asc']],
+        footerCallback: function ( row, data, start, end, display) {
+            var self = this;
+
+            this.totInv = this.totVal = this.changeAmount = this.changePercent = 0;
+
+            $.each(data,function(i,row){
+              self.totVal += row.market_value || 0;
+              self.totInv += row.investment || 0;
+              self.changeAmount += row.profit_loss || 0;
+            });
+
+            this.dataChange = 'neutral';
+            if(this.changeAmount > 0){ this.dataChange = 'up'; }
+            else if(this.changeAmount < 0){ this.dataChange = 'down'; }
+
+            this.changePercent = parseFloat(
+              ( (this.totVal - this.totInv) / (this.totVal || this.totInv) ) || 0
+            ).toFixed(2);
+
+            this.totVal = parseFloat(this.totVal || 0).toFixed(2);
+            this.totInv = parseFloat(this.totInv || 0).toFixed(2);
+            this.changeAmount = parseFloat(this.changeAmount || 0).toFixed(2);  
+
+            // Update footer
+            $("#totInv").text(this.totInv);
+            $("[data-investment]").text(this.totInv);
+            $("#totVal").text(this.totVal);
+            $("[data-market-value]").text(this.totVal);
+            $("#totChange").html('<span data-change="'+this.dataChange+'">'+this.changeAmount+' <small>('+this.changePercent+'%)</small></span>');
+            $(".box-header [data-change]").html('<span data-change="'+this.dataChange+'">'+this.changeAmount+'</span>');
+            $(".box-header [data-change-percent]").html('<span data-change="'+this.dataChange+'">'+this.changePercent+'%</span>');
+        },
+        createdRow ( row, data, dataIndex ) {
+          var start = $( row ).find('td:eq(1)').get(0);
+          var end = $( row ).find('td:last-child').get(0);
+          var url = '{{route("member.stock.show",":stock")}}'
+          $(start)
+            .nextUntil(end)
+              .on('click', function () {
+                var row = table.row($(this).closest('tr')).data();
+                window.location = url.replace(':stock', row.id);
+              })
+        },
+      });
     });
 
     $(document).on('click','.editBasket',function(){
@@ -371,7 +420,21 @@
         this.data = $(this.form).serialize();
         this.dismiss = $(this).prev();
         $.post($(self.form).attr('action'),self.data,function(response){
-            self.dismiss.click();
+          self.dismiss.click();
+
+          if(response.error) {
+            $.notify({
+              icon: 'fa fa-warning', 
+              title: 'Warning', 
+              message: response.message
+            }, DEFAULT_NOTIFY_OPTIONS).update('type','pastel-warning');
+          }else {
+            $.notify({
+              icon: 'fa fa-check-circle', 
+              title: 'Success', 
+              message: response.message
+            }, DEFAULT_NOTIFY_OPTIONS).update('type','pastel-success');
+          }
         });
 
         table.ajax.reload();
@@ -397,7 +460,6 @@
         },
         methods:{
             submit: function(){
-                console.log('click');
                 $.post(STOCK_URL,this.stock)
                 .success(function(response){
                     this.reset();

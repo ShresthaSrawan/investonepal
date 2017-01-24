@@ -12,7 +12,7 @@ class Basket extends Model
 
     public function stockBuy()
     {
-		$lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
+		  $lastPrices = "select `price`.`company_id` as `cid`, `price`.`date` as `close_date`
                       , `price`.`close` as `close_price` from `todays_price` as `price`
                       INNER JOIN `last_traded_price` as `ltp`
                       on `price`.`company_id` = `ltp`.`company_id`
